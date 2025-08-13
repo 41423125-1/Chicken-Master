@@ -1,0 +1,233 @@
+<!DOCTYPE html><html>
+        <head>
+        <title>cp2025</title>
+        <meta charset="utf-8">
+<meta property="head" content="H3">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/magnific-popup.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/jquery-ui.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/flaticon/font/flaticon.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/aos.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/style.css">
+        <link rel="shortcut icon" href="./../cmsimde/static/favicons.png">
+        
+        <style type='text/css'>
+            .site-section {
+            background-color: #FFFF;
+            padding: 40px 40px;
+            }
+            body > div > div.dropdown.open {
+                display: block;
+            }
+        </style>
+    
+        <!-- <script src="./../cmsimde/static/jquery.js"></script> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/normalize.min.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch_set.js"></script>
+        <script src="tipuesearch_content.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/tipuesearch.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch.js"></script>
+        <!-- for Wink3 客製化關閉 -->
+        <!--
+        <link rel="stylesheet" type="text/css" href="./../cmsimde/static/winkPlayer.css" />
+        <script type="text/javascript" src="./../cmsimde/static/winkPlayer.js"></script>
+        -->
+        <script>
+            /* original tipuesearch
+            $(document).ready(function() {
+                 $('#tipue_search_input').tipuesearch();
+            });
+            */
+            // customed doSearch
+            function doSearch() {
+                $('#tipue_search_input').tipuesearch({
+                    newWindow: true, 
+                    minimumLength: 2,
+                    wholeWords: false, // for search 中文
+                });
+            }
+            $(document).ready(doSearch);
+        </script>
+        
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shCore.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushBash.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDiff.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJScript.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJava.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPython.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushSql.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushHaxe.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushXml.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPhp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushLua.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushMojo.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushWbt.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCpp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCss.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCSharp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDart.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushRust.js"></script>
+<link type="text/css" rel="stylesheet" href="./../cmsimde/static/syntaxhighlighter/css/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 暫時不用
+<script src="./../cmsimde/static/fengari-web.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/Cango-13v08-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/CangoAxes-4v01-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/gearUtils-05.js"></script>
+-->
+<!-- for Brython 暫時不用
+<script src="https://scrum-3.github.io/web/brython/brython.js"></script>
+<script src="https://scrum-3.github.io/web/brython/brython_stdlib.js"></script>
+-->
+<style>
+img.add_border {
+    border: 3px solid blue;
+}
+</style>
+
+</head>
+<body>
+<div class='container'><nav>
+        
+    <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+            <header class="site-navbar py-4 bg-white" role="banner">
+              <div class="container">
+                <div class="row align-items-center">
+                <h1>cp2025 計算機程式</h1>
+                <div class="pl-4">
+                    <form>
+                    <input type="text" placeholder="Search" name="q" id="tipue_search_input" pattern=".{2,}" title="At least 2 characters" required>
+                    </form>
+                </div>
+                  <!-- <div class="col-11 col-xl-2">
+                    <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">cp2025 計算機程式</a></h1> 
+                  </div>
+                  -->
+                  <div class="col-12 col-md-10 d-none d-xl-block">
+                    <nav class="site-navigation position-relative text-right" role="navigation">
+    <ul class='site-menu js-clone-nav mr-auto d-none d-lg-block'>
+                        <li class="active has-children"><a href="index.html">Home</a>
+                        <ul class="dropdown">
+                            <li><a href="sitemap.html">SMap</a></li>
+                            <li><a href="./../reveal/index.html">reveal</a></li>
+                            <li><a href="./../blog/index.html">blog</a></li>
+                        </ul>
+                      </li>
+                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='cs101.html'>cs101</a><li class='has-children'><a href='Computer.html'>Computer</a><ul class='dropdown'><li><a href='llama.html'>llama</a><li><a href='nginx.html'>nginx</a></li></ul><li><a href='Homework.html'>Homework</a></li></ul><li class='has-children'><a href='Topics.html'>Topics</a><ul class='dropdown'><li class='has-children'><a href='Git.html'>Git</a><ul class='dropdown'><li><a href='Git_ex1.html'>Git_ex1</a><li><a href='Git_ex2.html'>Git_ex2</a></li></ul><li class='has-children'><a href='Python.html'>Python</a><ul class='dropdown'><li><a href='Python_ex1.html'>Python_ex1</a></li></ul><li class='has-children'><a href='Javascript.html'>Javascript</a><ul class='dropdown'><li><a href='HTML and CSS.html'>HTML and CSS</a></li></ul><li class='has-children'><a href='Project.html'>Project</a><ul class='dropdown'><li><a href='Waitress.html'>Waitress</a><li><a href='API.html'>API</a></li></li></ul></ul><li class='has-children'><a href='Brython.html'>Brython</a><ul class='dropdown'><li><a href='Brython_ex.html'>Brython_ex</a><li class='has-children'><a href='Brython1.html'>Brython1</a><ul class='dropdown'><li><a href='Robot_ex.html'>Robot_ex</a></li></ul><li><a href='Brython2.html'>Brython2</a><li><a href='Brython3.html'>Brython3</a></li></ul><li class='has-children'><a href='Ref.html'>Ref</a><ul class='dropdown'><li class='has-children'><a href='Reeborg.html'>Reeborg</a><ul class='dropdown'><li><a href='ex1.html'>ex1</a><li><a href='Otto_ninja.html'>Otto_ninja</a></li></ul><li><a href='Pyodide.html'>Pyodide</a><li><a href='Pyodide_ex.html'>Pyodide_ex</a><li class='has-children'><a href='Pyodide2.html'>Pyodide2</a><ul class='dropdown'><li><a href='robot.py.html'>robot.py</a><li><a href='Example2.html'>Example2</a></li></ul><li class='has-children'><a href='Pyodide3.html'>Pyodide3</a><ul class='dropdown'><li><a href='png_files.html'>png_files</a><li><a href='Harvest.html'>Harvest</a></li>
+                      </ul>
+                </nav>
+              </div>
+              <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+              </div>
+
+            </div>
+          </div>
+          
+        </header>
+    <div id="tipue_search_content">Brython1 << <a href='Brython1.html'>Previous</a> <a href='Brython2.html'>Next</a> >> Brython2<br /><h1>Robot_ex</h1>
+<p>在 Brython 環境事先導入 <a href="https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot.py">brython_robot.py</a> 後, 可以利用下列範例學習 Python 程式語法:</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex1.py">基本變數與數值操作</a> (1)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex2.py">字串與輸出</a> (2)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex3.py">基本邏輯與條件判斷</a> (3)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex4.py">函式定義與呼叫</a> (4)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex5.py">函式參數與重複使用</a> (5)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex6.py">for 迴圈基礎</a> (6)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex7.py">while 迴圈</a> (7)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex8.py">List 基礎</a> (8)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex9.py">Dict 應用</a> (9)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex10.py">邏輯運算子(and, or, not)</a> (10)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex11.py">錯誤處理(try / except)</a> (11)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex12.py">多維清單(List of List)</a> (12)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex13.py">自訂類別與物件屬性</a> (13)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex14.py">類別繼承與方法覆寫</a> (14)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex15.py">Tuple 與不可變資料</a> (15)</p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex16.py">條件運算式(ternary if)</a> (16)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex17.py">匿名函式(lambda)</a> (17)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex18.py">enumerate() 搭配清單</a> (18)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex19.py">yield 與 Generator 動作序列控制</a> (19)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex20.py">函式參數：*args</a> (20)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex21.py">列表推導式(計算指令長度)</a> (21)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex22.py">使用 zip() 交錯步數與轉向</a> (22)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex23.py">使用 map() 與 lambda</a> (23)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex24.py">類別屬性(Class variable)</a> (24)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex25.py">屬性封裝與方法鏈</a> (25)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex26.py">多層巢狀資料結構應用</a> (26)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex27.py">函式回傳函式(Closure)</a> (27)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex28.py">集合(Set)與推導式</a> (28)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex29.py">字典推導式(Dict Comprehension)</a> (29)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex30.py">自訂例外</a> (30)</span></p>
+<p><span class="pl-c"><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex31.py">類別方法與靜態方法</a> (31)</span></p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex32.py">使用 enumerate() 實用技巧</a> (32)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex33.py">生成器 yield 動作序列控制</a> (33)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex34.py">用 filter() 篩選動作</a> (34)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex35.py"><span class="pl-c">利用 sorted() 排序步驟</span></a> (35)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex36.py">初探裝飾器(Decorator)</a> (36)</p>
+<p><a href="https://mde.tw/cp2025/content/Brython1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex37.py">使用 next() 和迭代器控制流程</a> (37)</p><br />Brython1 << <a href='Brython1.html'>Previous</a> <a href='Brython2.html'>Next</a> >> Brython2</div>
+        
+    <!-- footer -->
+      <div class="container">
+        <div class="row pt-3 mx-auto">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+        </div>
+      </div>
+    <!-- for footer -->
+    
+        </div> <!-- for site wrap -->
+            <!-- <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script> -->
+            <script src="../cmsimde/static/chimper/js/jquery-migrate-3.0.1.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery-ui.js"></script>
+            <script src="../cmsimde/static/chimper/js/popper.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/owl.carousel.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.stellar.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.countdown.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.magnific-popup.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap-datepicker.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/aos.js"></script>
+            <!--
+            <script src="../cmsimde/static/chimper/js/typed.js"></script>
+                    <script>
+                    var typed = new Typed('.typed-words', {
+                    strings: ["Web Apps"," WordPress"," Mobile Apps"],
+                    typeSpeed: 80,
+                    backSpeed: 80,
+                    backDelay: 4000,
+                    startDelay: 1000,
+                    loop: true,
+                    showCursor: true
+                    });
+                    </script>
+            -->
+            <script src="../cmsimde/static/chimper/js/main.js"></script>
+        
+<!-- 啟用 LaTeX equations 編輯 -->
+  <!-- <script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\(', '\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
+    </body></html>
+        
