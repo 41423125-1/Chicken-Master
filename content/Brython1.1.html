@@ -144,6 +144,37 @@ img.add_border {
         </header>
     <div id="tipue_search_content">Robot_ex << <a href='Robot_ex.html'>Previous</a> <a href='Brython2.html'>Next</a> >> Brython2<br /><h1>Brython1.1</h1>
 <p><a href="https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/97673a5dad110b8c443ffc41a1c1b69e0f2cde1a/brython_robot_extended.py">brython_robot_extended.py</a> 放入 downloads\py 目錄中，可以執行 <a href="https://mde.tw/cp2025/content/Brython1.1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/97673a5dad110b8c443ffc41a1c1b69e0f2cde1a/brython_robot_extended_ex1.py">brython_robot_extended_ex1.py</a>。</p>
+<p>程式設計要求:</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">'''
+已知robot 只會左轉, 以及往前進, 請根據以下程式架構, 
+讓三個 robot 分別從起始位置 (1,1), (1,2), (1,3) 出發, 
+在彼此不會互撞的情況下, 分別以最快方式, 
+三個 robot 同時開始啟動, 以協力的方式, 
+讓每一格都正好有一個 robot 走過, 
+完成後請各 robot 停在最後的位置:
+'''
+import brython_robot_extended as robot
+from browser import timer
+
+# 建立世界與三台 robot
+w = robot.World(10, 10)
+r1 = robot.AnimatedRobot(w, 1, 1)
+r2 = robot.AnimatedRobot(w, 1, 2)
+r3 = robot.AnimatedRobot(w, 1, 3)
+
+# r1 移動 1 步，然後左轉
+r1.move(1)
+r1.turn_left()
+
+# r2 移動 1 步，然後左轉
+r2.move(1)
+r2.turn_left()
+
+# r3 移動 1 步，然後左轉
+r3.move(1) 
+r3.turn_left()</pre>
+<p><a href="https://mde.tw/cp2025/content/Brython1.1.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/3c4c994253f8f6f97e7122b5d942845ebac76764/3robot_go_through_10by10.py">10x10 three robots</a></p>
+<p>請修改上列程式，可以讓三個 robot 快速通過 20x20 的模擬世界中的每一格。</p>
 <p><button id="add1to100">1 add to 100</button><button id="robot1">機器人巡邏</button><button id="free_walk">自由行</button></p>
 <!-- 導入 brython 程式庫 -->
 <p>
