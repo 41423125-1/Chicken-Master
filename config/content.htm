@@ -293,7 +293,7 @@ pause
 <hr/>
 <h4>計算機程式課程主題總覽</h4>
 <h4>課程簡介</h4>
-<p>本課程以實作為導向，循序漸進學習 <strong>Python</strong>、<strong>JavaScript</strong>、<strong>HTML</strong>、<strong>CSS</strong> 等現代網頁與程式語言，最終應用於 <strong>Reeborg 機器人程式開發</strong>。內容設計結合理論與實作，強調程式邏輯、問題解決與跨語言應用能力。</p>
+<p>本課程以實作為導向，循序漸進學習 <strong>Python</strong>、<strong>JavaScript</strong>、<strong>HTML</strong>、<strong>CSS</strong> 等現代網頁與程式語言，最終應用於類 <strong><a href="https://mde.tw/reeborg">Reeborg</a> 機器人程式開發</strong>。內容設計結合理論與實作，強調程式邏輯、問題解決與跨語言應用能力。</p>
 <ul>
 <li>從零基礎學習程式語言的基本結構與語法</li>
 <li>掌握網頁技術，為互動式機器人程式設計打下基礎</li>
@@ -355,8 +355,7 @@ pause
 <li>推薦學習網站：<a href="https://reeborg.ca/" target="_blank">Reeborg’s World</a>、<a href="https://www.w3schools.com/" target="_blank">W3Schools</a>、<a href="https://developer.mozilla.org/zh-TW/" target="_blank">MDN Web Docs</a></li>
 <li>建議每週規劃自主練習與小專案，培養實作與解決問題能力</li>
 <li>記錄學習歷程，定期回顧與修正</li>
-</ul>
-<h2>Git</h2>
+</ul><h2>Git</h2>
 <p>假如您還沒有 Github 帳號，請馬上<a href="https://github.com/signup">建立一個</a>。</p>
 <p><span style="background-color: #ffff00;">為何計算機程式課程要使用 Git 與 Github?</span></p>
 <p>計算機程式課程（軟體開發）使用 Git 與 GitHub 主要有以下幾個原因：</p>
@@ -893,7 +892,271 @@ git push</pre>
 <p style="padding-left: 30px;"><a href="https://medium.com/analytics-vidhya/genetic-algorithm-494ac5be18bb">https://medium.com/analytics-vidhya/genetic-algorithm-494ac5be18bb</a></p>
 <p style="padding-left: 30px;"><a href="https://medium.com/@LeonFedden/evolving-solutions-with-genetic-algorithms-e3122473a35f">https://medium.com/@LeonFedden/evolving-solutions-with-genetic-algorithms-e3122473a35f</a></p>
 <p style="padding-left: 30px;">Apply GA to <a href="https://github.com/mdecycu/cs101">https://github.com/mdecycu/cs101</a></p>
-<h3>Python_ex1</h3>
+<h3>SE</h3>
+<p>順序控制 (Sequential Execution)</p>
+<p>最基本的程式執行方式，命令依序執行。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：向前走三步
+move()
+move()
+move()
+
+# 範例 2：走一步後左轉
+move()
+turn_left()
+
+# 範例 3：走一步、撿物品、左轉
+move()
+take()
+turn_left()</pre><h3>CL</h3>
+<p>條件判斷（Conditional Logic)</p>
+<p>根據環境狀況做出不同的動作。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：如果前方有牆就左轉
+if wall_in_front():
+    turn_left()
+
+# 範例 2：如果有物品就撿起來
+if object_here():
+    take()
+
+# 範例 3：如果前方沒牆就前進，否則左轉
+if not wall_in_front():
+    move()
+else:
+    turn_left()</pre>
+<p></p><h3>Loops</h3>
+<p>迴圈（Loops）<br/>重複執行某些動作直到條件不成立。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：走到牆前
+while not wall_in_front():
+    move()
+
+# 範例 2：撿起所有物品
+while object_here():
+    take()
+
+# 範例 3：走到底並每格放一個物品
+while not wall_in_front():
+    put()
+    move()</pre>
+<h3>Recursion</h3>
+<p>遞迴（Recursion）<br/>用函式自己呼叫自己來處理重複任務。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：走到底（遞迴版）
+def walk():
+    if not wall_in_front():
+        move()
+        walk()
+
+walk()
+
+# 範例 2：撿起所有物品（遞迴版）
+def pick_all():
+    if object_here():
+        take()
+        pick_all()
+
+pick_all()
+
+# 範例 3：探索迷宮（簡化遞迴）
+def explore():
+    if not wall_in_front():
+        move()
+        explore()
+    else:
+        turn_left()
+        explore()
+
+explore()</pre>
+<h3>SA</h3>
+<p>搜尋演算法（Search Algorithms）<br/>用 DFS 或 BFS 的邏輯探索迷宮。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：DFS 探索（深度優先）
+def dfs():
+    for i in range(4):
+        if not wall_in_front():
+            move()
+            dfs()
+            turn_left()
+            turn_left()
+            move()
+            turn_left()
+            turn_left()
+        turn_left()
+
+dfs()
+
+# 範例 2：BFS 模擬（需額外結構支援）
+# Reeborg 不支援 queue，但可模擬 BFS 的層級探索
+
+# 範例 3：探索直到找到物品
+def search():
+    if object_here():
+        take()
+        return
+    for i in range(4):
+        if not wall_in_front():
+            move()
+            search()
+            turn_left()
+            turn_left()
+            move()
+            turn_left()
+            turn_left()
+        turn_left()
+
+search()</pre>
+<p>深入探討 BFS（廣度優先搜尋）在 Reeborg 世界的模擬方式！雖然 Reeborg 不支援真正的 queue 結構，但我們可以透過層級探索的邏輯來模擬 BFS 的行為。以下是三個範例，每個都展示如何在 Reeborg 的限制下模擬 BFS 的層級探索：</p>
+<p>範例 1：探索四個方向（模擬 BFS 的鄰接節點）<br/>這個範例模擬 BFS 的「一層一層探索」概念，先嘗試所有方向再深入。</p>
+<p>這段程式碼會嘗試探索機器人周圍的四個方向，每次都回到原點，模擬 BFS 的「同層探索」。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">def explore_level():
+    for i in range(4):  # 嘗試四個方向
+        if not wall_in_front():
+            move()
+            # 模擬記錄節點（可加上 take() 或其他動作）
+            turn_left()
+            turn_left()
+            move()  # 回到原點
+            turn_left()
+            turn_left()
+        turn_left()
+
+explore_level()</pre>
+<p>範例 2：探索並記錄層級（模擬 BFS 的層級記憶）<br/>這個範例加入層級變數，模擬 BFS 的層級控制。</p>
+<p>這段程式碼會探索所有第一層的方向，然後對每個方向再探索下一層，模擬 BFS 的層級展開。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">def bfs_level(depth):
+    if depth == 0:
+        return
+    for i in range(4):
+        if not wall_in_front():
+            move()
+            bfs_level(depth - 1)  # 探索下一層
+            turn_left()
+            turn_left()
+            move()  # 回到原點
+            turn_left()
+            turn_left()
+        turn_left()
+
+bfs_level(2)  # 探索兩層深度</pre>
+<p>範例 3：尋找物品（模擬 BFS 的目標搜尋）<br/>這個範例模擬 BFS 尋找目標（例如物品），並在找到後停止。</p>
+<p>這段程式碼模擬 BFS 尋找物品的過程，並在找到目標後停止探索。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">found = False
+
+def bfs_search(depth):
+    global found
+    if depth == 0 or found:
+        return
+    for i in range(4):
+        if not wall_in_front():
+            move()
+            if object_here():
+                take()
+                found = True
+                return
+            bfs_search(depth - 1)
+            if not found:
+                turn_left()
+                turn_left()
+                move()
+                turn_left()
+                turn_left()
+        turn_left()
+
+bfs_search(3)  # 最多探索三層深度</pre>
+<p>以上這些範例雖然不是真正的 BFS（因為缺乏 queue 與 visited 記錄），但已經能在 Reeborg 的限制下模擬「層級探索」的核心概念。</p><h3>SST</h3>
+<p>模擬與狀態追蹤（Simulation &amp; State Tracking）<br/>追蹤機器人狀態或環境變化。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：記錄走過的格子數
+steps = 0
+while not wall_in_front():
+    move()
+    steps += 1
+
+# 範例 2：模擬方向轉動
+def turn_right():
+    for _ in range(3):
+        turn_left()
+
+# 範例 3：模擬狀態機（簡化）
+state = "searching"
+while state != "done":
+    if object_here():
+        take()
+        state = "done"
+    else:
+        move()</pre>
+<h3>Maze</h3>
+<p>解迷宮（探索與回溯）<br/>用回溯法探索並回到起點。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：探索並回溯
+def solve():
+    for i in range(4):
+        if not wall_in_front():
+            move()
+            solve()
+            turn_left()
+            turn_left()
+            move()
+            turn_left()
+            turn_left()
+        turn_left()
+
+solve()</pre>
+<h3>Collect</h3>
+<p>收集物品並排序（模擬排序演算法）<br/>雖然 Reeborg 不支援陣列，但可模擬排序邏輯。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：模擬選擇排序（假設物品代表數值）
+# 這部分需創造任務場景，例如物品代表大小
+
+# 範例 2：依序撿起並放置（模擬排序）
+while object_here():
+    take()
+    move()
+    put()
+
+# 範例 3：模擬交換位置
+# 假設兩格有物品，交換位置
+take()
+move()
+take()
+turn_left()
+turn_left()
+move()
+put()
+turn_left()
+turn_left()
+move()
+put()</pre>
+<h3>GT</h3>
+<p>Graph Theory</p>
+<p>建構地圖或路徑（圖論基礎）<br/>模擬圖的節點與邊，探索所有可能路徑。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：探索所有方向（模擬圖的鄰接節點）
+for i in range(4):
+    if not wall_in_front():
+        move()
+        # 模擬記錄節點
+        turn_left()
+        turn_left()
+        move()
+        turn_left()
+        turn_left()
+    turn_left()
+
+# 範例 2：記錄路徑（用清單模擬）
+path = []
+while not wall_in_front():
+    move()
+    path.append("forward")
+
+# 範例 3：模擬圖的 DFS
+def dfs_graph():
+    for i in range(4):
+        if not wall_in_front():
+            move()
+            dfs_graph()
+            turn_left()
+            turn_left()
+            move()
+            turn_left()
+            turn_left()
+        turn_left()
+
+dfs_graph()</pre>
+<p></p><h3>Python_ex1</h3>
 <h4>Python 初學者學習指引</h4>
 <h4>一、學習步驟建議</h4>
 <ol>
@@ -1158,8 +1421,7 @@ turn_right()
 <li>多練習、多觀察、多修正。</li>
 <li>培養拆解問題、設計函式的能力。</li>
 <li>主動探索更多應用與進階技巧。</li>
-</ol>
-<h2>Javascript</h2>
+</ol><h2>Javascript</h2>
 <h4>JavaScript 初學者完整學習指引</h4>
 <h4>一、為什麼學 JavaScript？</h4>
 <ul>

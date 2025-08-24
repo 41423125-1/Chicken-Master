@@ -2,6 +2,7 @@
         <head>
         <title>cp2025</title>
         <meta charset="utf-8">
+<meta property="head" content="H3">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
@@ -141,40 +142,22 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content"> <a href='cs101.html'>Next</a> >> cs101<br /><h1>About</h1>
-<p>課程名稱: Introduction to Computer Programming (計算機程式)</p>
-<p>Github 倉儲: <a href="https://github.com/mdecycu/cp2025">https://github.com/mdecycu/cp2025</a></p>
-<p>課程網頁: <a href="https://mde.tw/cp2025">https://mde.tw/cp2025</a></p>
-<p>可攜程式套件:</p>
-<p style="padding-left: 30px;"><a href="http://229.cycu.org/portable_2026.7z">portable_2026.7z</a> (387MB)</p>
-<p style="padding-left: 60px;">解開壓縮後，雙點擊 start_miniconda3.bat 啟動可攜系統，雙點擊 stop.bat 關閉可攜系統。</p>
-<p style="padding-left: 60px;">可攜系統啟動後，在命令列執行 conda activate y:\envs\cmsimde 可進入能執行 CMSiMDE 的環境。</p>
-<p style="padding-left: 60px;">若希望可攜系統啟動直接進入 cmsimde 環境，可將 start_miniconda3.bat 檔案中第 98 行: call "%CONDA_ROOT%\Scripts\activate.bat" %ENV_NAME% 更換為 call "%CONDA_ROOT%\Scripts\activate.bat" %Disk%:\envs\cmsimde。</p>
-<p>課程內容:</p>
-<p style="padding-left: 30px;">如何維持教室整齊清潔?</p>
-<p style="padding-left: 60px;">學員定期打掃 (由助教安排) </p>
-<p style="padding-left: 60px;">學員自律</p>
-<p style="padding-left: 30px;">如何善用教室與工作站室硬體?</p>
-<p style="padding-left: 60px;">電腦設定</p>
-<p style="padding-left: 60px;">網路連線</p>
-<p style="padding-left: 60px;">課餘時間預約 (由助教安排) </p>
-<p style="padding-left: 30px;">Python 與 Javascript 程式語法在 <a href="https://mde.tw/cp2025/reeborg">Reeborg</a> 機器人系統上的應用。</p>
-<p style="padding-left: 60px;"><a href="https://github.com/mdecycu/python_2025/blob/main/%E7%AC%AC01%E8%AA%B2%EF%BC%9A%E5%88%9D%E8%AD%98Python.md">Python 程式教材</a></p>
-<p style="padding-left: 30px;">利用 Git 與 Github 建立分組網站。</p>
-<p>Teams 線上教學:</p>
-<p style="padding-left: 30px;">以 "學號@nfu.edu.tw" 登入<span> </span><a href="https://login.microsoftonline.com/">https://login.microsoftonline.com/</a><span> </span>Office 365</p>
-<p style="padding-left: 30px;">MS Teams 團隊代碼: w87x8do  </p>
-<p>課程評分:</p>
-<p style="padding-left: 30px;"><span style="background-color: #ffff00;">作業報告 (60%)</span> - MS Teams 線上參與，6人一組每三週發表學習心得。</p>
-<p style="padding-left: 60px;">w3、w7、w10、w14、w17、w18</p>
-<p style="padding-left: 30px;"><span style="background-color: #ffff00;">個人與分組網站維護 (40%)</span> - 每週至少兩次推送與課程進度相關的學習內容與心得。</p>
-<p style="padding-left: 60px;">w9 期中自評、w18 期末自評</p>
-<p>行事曆</p>
-<p style="padding-left: 30px;">1a 上課時段: 每週三 13:20 - 16:10</p>
-<p style="padding-left: 30px;">1b 上課時段: 每週四 09:10 - 12:00 (w17 1/1 放假)</p>
-<p><a href="https://calendar.google.com/calendar/embed?src=mde.nfu.edu.tw_3439313938333136353439%40resource.calendar.google.com&amp;ctz=Asia%2FTaipei&amp;mode=week&amp;src=mde.nfu.edu.tw_35303530373431313438%40resource.calendar.google.com&amp;ctz=Asia%2FTaipei&amp;src=yen%40gm.nfu.edu.tw&amp;ctz=Asia%2FTaipei"> 全頁檢視 </a></p>
-<p><iframe height="600" src="https://calendar.google.com/calendar/embed?src=mde.nfu.edu.tw_3439313938333136353439%40resource.calendar.google.com&amp;ctz=Asia%2FTaipei&amp;mode=week&amp;src=mde.nfu.edu.tw_35303530373431313438%40resource.calendar.google.com&amp;ctz=Asia%2FTaipei&amp;src=yen%40gm.nfu.edu.tw&amp;ctz=Asia%2FTaipei" width="800"></iframe></p>
-<br /> <a href='cs101.html'>Next</a> >> cs101</div>
+    <div id="tipue_search_content">Python << <a href='Python.html'>Previous</a> <a href='CL.html'>Next</a> >> CL<br /><h1>SE</h1>
+<p>順序控制 (Sequential Execution)</p>
+<p>最基本的程式執行方式，命令依序執行。</p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># 範例 1：向前走三步
+move()
+move()
+move()
+
+# 範例 2：走一步後左轉
+move()
+turn_left()
+
+# 範例 3：走一步、撿物品、左轉
+move()
+take()
+turn_left()</pre><br />Python << <a href='Python.html'>Previous</a> <a href='CL.html'>Next</a> >> CL</div>
         
     <!-- footer -->
       <div class="container">
