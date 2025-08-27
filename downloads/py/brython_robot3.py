@@ -368,6 +368,56 @@ class SmartRobot:
         cell = self.world.objects.get(coord, {})
         return obj_name in cell and cell[obj_name] > 0
 
+    def put_carrot(self):
+        if self.carrots_collected <= 0:
+            print("沒有胡蘿蔔可以放置！")
+            return
+        coord = f"{self.x + 1},{self.y + 1}"
+        cell = self.world.objects.get(coord, {})
+        cell.setdefault("carrot", 0)
+        cell["carrot"] += 1
+        self.carrots_collected -= 1
+        self.world.objects[coord] = cell
+        self.world.draw_objects()
+        self._draw_robot()
+        print(f"放置胡蘿蔔成功！目前總數: {self.carrots_collected}")
+
+    def put(self, obj_name="carrot"):
+        """在目前格子放置一個物件（預設為胡蘿蔔）"""
+        if obj_name == "carrot":
+            self.put_carrot()
+        else:
+            print(f"目前不支援放置物件：{obj_name}")
+
+    def wall_in_front(self):
+        """檢查前方是否有牆"""
+        dx, dy = 0, 0
+        facing_dir = None
+        if self.facing == "E":
+            dx, facing_dir = 1, "east"
+        elif self.facing == "W":
+            dx, facing_dir = -1, "west"
+        elif self.facing == "N":
+            dy, facing_dir = 1, "north"
+        elif self.facing == "S":
+            dy, facing_dir = -1, "south"
+        next_x, next_y = self.x + dx, self.y + dy
+        # 邊界檢查
+        if not (0 <= next_x < self.world.width and 0 <= next_y < self.world.height):
+            return True
+        # 牆壁檢查
+        current_coord = f"{self.x + 1},{self.y + 1}"
+        next_coord = f"{next_x + 1},{next_y + 1}"
+        opposite = {"north": "south", "south": "north", "east": "west", "west": "east"}
+        # 檢查目前位置或下一個位置是否有阻擋的牆
+        walls_here = self.world.walls.get(current_coord, [])
+        walls_next = self.world.walls.get(next_coord, [])
+        return facing_dir in walls_here or opposite[facing_dir] in walls_next
+
+    def front_is_clear(self):
+        """檢查前方是否沒有牆"""
+        return not self.wall_in_front()
+
 def load_scene_from_url(url, callback):
     def on_complete(req):
         if req.status == 200:
