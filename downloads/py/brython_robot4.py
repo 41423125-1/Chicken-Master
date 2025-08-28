@@ -1,3 +1,69 @@
+'''
+from brython_robot4 import init, load_scene_from_url, get_url_parameter
+from browser import aio
+
+# 機器人行為腳本
+async def robot_actions(robot):
+    print("開始執行機器人程式，探索並採收所有胡蘿蔔。")
+    # 新增旗標來控制回溯
+    exploration_done = False
+    
+    async def explore_and_collect():
+        nonlocal exploration_done
+
+        # 在當前格子採收所有胡蘿蔔，直到該格清空
+        while robot.background_is("pale_grass"):
+            robot.pick_carrot()
+
+        # 將當前格子標記為已走過
+        robot.visited.add((robot.base.x, robot.base.y))
+
+        # 定義四個方向，依序檢查
+        for _ in range(4):
+            # 檢查前方是否暢通且未走過
+            if robot.front_is_clear() and not robot.front_is_visited():
+                await robot.move(1)
+                # 遞迴呼叫，繼續探索新的格子
+                await explore_and_collect()
+                
+                # 如果探索已完成，就直接返回，不執行回溯
+                if exploration_done:
+                    return
+                    
+                # 遞迴結束後，回溯一步
+                await robot.move_backward()
+            
+            # 如果前方不符合條件，就左轉，檢查下一個方向
+            await robot.turn_left()
+
+        # 當所有方向都探索完畢，標記探索完成
+        exploration_done = True
+        return
+    
+    # 執行探索函式
+    await explore_and_collect()
+    
+    # 所有的探索和回溯動作都結束後，才會執行這裡的程式碼
+    print("所有可達格子都已探索完畢。")
+    print(f"程式執行完畢。總共採收了 {robot.carrots_collected} 個胡蘿蔔。")
+
+# 程式啟動點
+async def main():
+    world_url = get_url_parameter('world')
+    if world_url:
+        scene_data = await load_scene_from_url(world_url)
+        # 設定機器人容量上限為 50
+        world, robot = init(scene_data, robot_config={"max_carrots": 50})
+    else:
+        # 預設場景也設定容量上限
+        world, robot = init(robot_config={"max_carrots": 50})
+
+    if robot:
+        await robot_actions(robot)
+
+# 啟動主程式
+aio.run(main())
+'''
 from browser import document, html, timer, window, ajax, aio
 import json
 
@@ -47,7 +113,7 @@ class World:
         self._draw_grid()
         self._draw_walls()
         self._draw_background()
-        
+
     def _create_layers(self):
         return {
             "grid": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE),
@@ -57,7 +123,7 @@ class World:
             "objects": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE),
             "robots": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE),
         }
-        
+
     def _init_html(self):
         container = html.DIV(style={
             "position": "relative",
@@ -74,7 +140,7 @@ class World:
             container <= canvas
         document["brython_div1"].clear()
         document["brython_div1"] <= container
-        
+
     def _draw_grid(self):
         ctx = self.layers["grid"].getContext("2d")
         ctx.strokeStyle = "#cccccc"
@@ -88,7 +154,7 @@ class World:
             ctx.moveTo(0, j * CELL_SIZE)
             ctx.lineTo(self.width * CELL_SIZE, j * CELL_SIZE)
             ctx.stroke()
-            
+
     def _draw_image(self, ctx, src, x, y, w, h, offset_x=0, offset_y=0):
         img = html.IMG()
         img.src = src
@@ -97,7 +163,7 @@ class World:
             py = (self.height - 1 - y) * CELL_SIZE + offset_y
             ctx.drawImage(img, px, py, w, h)
         img.bind("load", onload)
-        
+
     def _draw_background(self):
         ctx = self.layers["background"].getContext("2d")
         ctx.clearRect(0, 0, self.width * CELL_SIZE, self.height * CELL_SIZE)
@@ -117,7 +183,7 @@ class World:
                         ctx.drawImage(img, px, py, CELL_SIZE, CELL_SIZE)
                     img.bind("load", onload)
                 draw()
-                
+
     def _draw_walls(self):
         ctx = self.layers["walls"].getContext("2d")
         for x in range(self.width):
@@ -139,7 +205,7 @@ class World:
                 elif d == "east":
                     self._draw_image(ctx, IMG_PATH + "east.png", x - 1, y - 1,
                                      WALL_THICKNESS, CELL_SIZE, offset_x=CELL_SIZE - WALL_THICKNESS)
-                                     
+
     def draw_objects(self):
         ctx = self.layers["objects"].getContext("2d")
         ctx.clearRect(0, 0, self.width * CELL_SIZE, self.height * CELL_SIZE)
@@ -159,6 +225,12 @@ class World:
                             offset_y=CELL_SIZE - 22
                         )
                         
+    def object_at_coord(self, x, y, obj_name="carrot"):
+        """檢查指定座標是否有指定物件。"""
+        coord = f"{x},{y}"
+        cell = self.objects.get(coord, {})
+        return obj_name in cell and cell[obj_name] > 0
+
 class AnimatedRobot:
     def __init__(self, world, x, y, orientation=0):
         self.world = world
@@ -169,7 +241,7 @@ class AnimatedRobot:
         self.robot_ctx = world.layers["robots"].getContext("2d")
         self.trace_ctx = world.layers["traces"].getContext("2d")
         self._draw_robot()
-    
+
     def _robot_image(self):
         return {
             "E": "blue_robot_e.png",
@@ -177,12 +249,12 @@ class AnimatedRobot:
             "W": "blue_robot_w.png",
             "S": "blue_robot_s.png"
         }[self.facing]
-    
+
     def _draw_robot(self):
         self.robot_ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
         self.world._draw_image(self.robot_ctx, IMG_PATH + self._robot_image(),
                                self.x, self.y, CELL_SIZE, CELL_SIZE)
-                               
+
     def _draw_trace(self, from_x, from_y, to_x, to_y):
         ctx = self.trace_ctx
         ctx.strokeStyle = "#d33"
@@ -195,7 +267,7 @@ class AnimatedRobot:
         ctx.moveTo(fx, fy)
         ctx.lineTo(tx, ty)
         ctx.stroke()
-        
+
     async def move(self, steps=1):
         for _ in range(steps):
             from_x, from_y = self.x, self.y
@@ -229,80 +301,145 @@ class AnimatedRobot:
             if opposite[facing_dir] in walls_next:
                 print(f"已經撞牆，停止移動！（{next_coord} 有 {opposite[facing_dir]} 牆）")
                 return
-            
+
             self.x, self.y = next_x, next_y
             self._draw_trace(from_x, from_y, self.x, self.y)
             self._draw_robot()
-            await aio.sleep(0.2)
-            
+            await aio.sleep(0.05)
+        self._draw_robot()
+
     async def turn_left(self):
         idx = self.facing_order.index(self.facing)
         self.facing = self.facing_order[(idx + 1) % 4]
         self._draw_robot()
-        await aio.sleep(0.3)
-        
+        await aio.sleep(0.05)
+
 class SmartRobot:
-    def __init__(self, base_robot):
+    def __init__(self, base_robot, max_carrots=25):
         self.base = base_robot
         self.world = base_robot.world
         self.carrots_collected = 0
-        
+        self.visited = set()
+        self.visited.add((self.base.x, self.base.y))
+        self.max_carrots = max_carrots
+        self.BOX_SIZE = 5
+
     async def move(self, steps=1):
-        await self.base.move(steps)
-        self._sync_state()
+        for _ in range(steps):
+            if self.front_is_clear():
+                await self.base.move(1)
+                self.visited.add((self.base.x, self.base.y))
+            else:
+                break
         self._draw_robot()
-        
-    async def move_backward(self):
-        await self.base.turn_left()
-        await self.base.turn_left()
-        await self.base.move(1)
-        await self.base.turn_left()
-        await self.base.turn_left()
-        self._sync_state()
-        self._draw_robot()
-        
-    async def turn_left(self):
-        await self.base.turn_left()
-        self._sync_state()
-        self._draw_robot()
-        
-    async def turn_right(self):
-        await self.turn_left()
-        await self.turn_left()
-        await self.turn_left()
-        
-    def _sync_state(self):
-        self.x = self.base.x
-        self.y = self.base.y
-        self.facing = self.base.facing
+
+    async def move_backward(self, speedup=False):
+        if speedup:
+            self.base.facing = self.base.facing_order[(self.base.facing_order.index(self.base.facing) + 2) % 4]
+            self.base.x, self.base.y = self._get_next_coord()
+            self._draw_robot()
+        else:
+            await self.turn_left()
+            await self.turn_left()
+            await self.move(1)
+            await self.turn_left()
+            await self.turn_left()
+
+    async def turn_left(self, speedup=False):
+        self.base.facing = self.base.facing_order[(self.base.facing_order.index(self.base.facing) + 1) % 4]
+        self.base._draw_robot()
+        if not speedup:
+            await aio.sleep(0.05)
+
+    async def turn_right(self, speedup=False):
+        await self.turn_left(speedup=True)
+        await self.turn_left(speedup=True)
+        await self.turn_left(speedup=speedup)
+
+    def _get_next_coord(self):
+        dx, dy = 0, 0
+        if self.base.facing == "E":
+            dx = 1
+        elif self.base.facing == "W":
+            dx = -1
+        elif self.base.facing == "N":
+            dy = 1
+        elif self.base.facing == "S":
+            dy = -1
+        return self.base.x + dx, self.base.y + dy
         
     def _draw_robot(self):
         ctx = self.base.robot_ctx
         ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
         self.world._draw_image(ctx, IMG_PATH + self.base._robot_image(),
-                               self.x, self.y, CELL_SIZE, CELL_SIZE)
-        boxes = min(self.carrots_collected // 5, 5)
-        remaining = self.carrots_collected % 5
-        if boxes > 0:
-            box_img = f"{boxes}_t.png"
-            offset_x = CELL_SIZE - 47
-            offset_y = CELL_SIZE - 37
-            self.world._draw_image(ctx, IMG_PATH + box_img,
-                                   self.x, self.y, 20, 20,
-                                   offset_x=offset_x, offset_y=offset_y)
-        if remaining > 0:
-            carrot_img = f"{remaining}_t.png"
-            offset_x = CELL_SIZE - 15
-            offset_y = CELL_SIZE - 37
-            self.world._draw_image(ctx, IMG_PATH + carrot_img,
-                                   self.x, self.y, 20, 20,
-                                   offset_x=offset_x, offset_y=offset_y)
-                                   
+                               self.base.x, self.base.y, CELL_SIZE, CELL_SIZE)
+
+        if self.max_carrots > 0:
+            boxes_filled = self.carrots_collected // self.BOX_SIZE
+            remaining = self.carrots_collected % self.BOX_SIZE
+            
+            # 當總數超過 25 根時，只顯示總數
+            if self.carrots_collected > 25:
+                self._draw_text(ctx, str(self.carrots_collected), self.base.x, self.base.y)
+            # 否則，顯示盒子和剩餘胡蘿蔔
+            else:
+                if boxes_filled > 0:
+                    box_img = f"{boxes_filled}_t.png"
+                    offset_x = CELL_SIZE - 47
+                    offset_y = CELL_SIZE - 37
+                    self.world._draw_image(ctx, IMG_PATH + box_img,
+                                           self.base.x, self.base.y, 20, 20,
+                                           offset_x=offset_x, offset_y=offset_y)
+                
+                if remaining > 0:
+                    carrot_img = f"carrot_{remaining}_t.png"
+                    offset_x = CELL_SIZE - 15
+                    offset_y = CELL_SIZE - 37
+                    self.world._draw_image(ctx, IMG_PATH + carrot_img,
+                                           self.base.x, self.base.y, 20, 20,
+                                           offset_x=offset_x, offset_y=offset_y)
+
+    def _draw_text(self, ctx, text, x, y):
+        ctx.font = "12px Arial"
+        ctx.fillStyle = "black"
+        ctx.textAlign = "right"
+        ctx.textBaseline = "bottom"
+        px = x * CELL_SIZE + CELL_SIZE - 5
+        py = (self.world.height - 1 - y) * CELL_SIZE + CELL_SIZE - 5
+        ctx.fillText(text, px, py)
+        
+    def background_is(self, background_type):
+        coord = f"{self.base.x + 1},{self.base.y + 1}"
+        has_carrot = "carrot" in self.world.objects.get(coord, {})
+
+        if background_type == "pale_grass":
+            return has_carrot
+        elif background_type == "grass":
+            return not has_carrot
+        else:
+            return False
+            
+    def is_visited(self):
+        return (self.base.x, self.base.y) in self.visited
+
+    def front_is_visited(self):
+        dx, dy = 0, 0
+        if self.base.facing == "E":
+            dx = 1
+        elif self.base.facing == "W":
+            dx = -1
+        elif self.base.facing == "N":
+            dy = 1
+        elif self.base.facing == "S":
+            dy = -1
+        next_x, next_y = self.base.x + dx, self.base.y + dy
+        return (next_x, next_y) in self.visited
+
     def pick_carrot(self):
-        if self.carrots_collected >= 25:
+        if self.carrots_collected >= self.max_carrots:
             print("容量已滿，無法再採收更多農作物！")
             return
-        coord = f"{self.x + 1},{self.y + 1}"
+        coord = f"{self.base.x + 1},{self.base.y + 1}"
         cell = self.world.objects.get(coord, {})
         count = cell.get("carrot", 0)
         if isinstance(count, int) and count > 0:
@@ -312,20 +449,21 @@ class SmartRobot:
             self.carrots_collected += 1
             self.world.draw_objects()
             self._draw_robot()
-            print(f"採收成功！目前總數: {self.carrots_collected}（盒數：{self.carrots_collected // 5}）")
+            
+            # 新增的輸出語句，計算並列印盒數
+            boxes = self.carrots_collected // self.BOX_SIZE
+            print(f"採收成功！目前總數: {self.carrots_collected}（盒數：{boxes}）")
         else:
             print("這裡沒有胡蘿蔔！")
-            
+
     def object_here(self, obj_name="carrot"):
-        coord = f"{self.x + 1},{self.y + 1}"
-        cell = self.world.objects.get(coord, {})
-        return obj_name in cell and cell[obj_name] > 0
+        return self.world.object_at_coord(self.base.x + 1, self.base.y + 1, obj_name)
 
     def put_carrot(self):
         if self.carrots_collected <= 0:
             print("沒有胡蘿蔔可以放置！")
             return
-        coord = f"{self.x + 1},{self.y + 1}"
+        coord = f"{self.base.x + 1},{self.base.y + 1}"
         cell = self.world.objects.get(coord, {})
         cell.setdefault("carrot", 0)
         cell["carrot"] += 1
@@ -344,18 +482,18 @@ class SmartRobot:
     def wall_in_front(self):
         dx, dy = 0, 0
         facing_dir = None
-        if self.facing == "E":
+        if self.base.facing == "E":
             dx, facing_dir = 1, "east"
-        elif self.facing == "W":
+        elif self.base.facing == "W":
             dx, facing_dir = -1, "west"
-        elif self.facing == "N":
+        elif self.base.facing == "N":
             dy, facing_dir = 1, "north"
-        elif self.facing == "S":
+        elif self.base.facing == "S":
             dy, facing_dir = -1, "south"
-        next_x, next_y = self.x + dx, self.y + dy
+        next_x, next_y = self.base.x + dx, self.base.y + dy
         if not (0 <= next_x < self.world.width and 0 <= next_y < self.world.height):
             return True
-        current_coord = f"{self.x + 1},{self.y + 1}"
+        current_coord = f"{self.base.x + 1},{self.base.y + 1}"
         next_coord = f"{next_x + 1},{next_y + 1}"
         opposite = {"north": "south", "south": "north", "east": "west", "west": "east"}
         walls_here = self.world.walls.get(current_coord, [])
@@ -364,7 +502,8 @@ class SmartRobot:
 
     def front_is_clear(self):
         return not self.wall_in_front()
-        
+
+
 async def load_scene_from_url(url):
     future = aio.Future()
     def on_complete(req):
@@ -445,7 +584,7 @@ def on_key(robot, evt):
     elif evt.key == "p":
         robot.pick_carrot()
 
-def init(scene=None, enable_ui=True):
+def init(scene=None, enable_ui=True, robot_config=None):
     if scene is None:
         scene = DEFAULT_SCENE
     robots = scene.get("robots", [])
@@ -467,7 +606,11 @@ def init(scene=None, enable_ui=True):
     if robots:
         rdata = robots[0]
         base_robot = AnimatedRobot(world, rdata["x"], rdata["y"], rdata.get("orientation", 0))
-        smart_robot = SmartRobot(base_robot)
+        
+        final_robot_config = robot_config if robot_config else {}
+        max_carrots = final_robot_config.get("max_carrots", 25)
+        
+        smart_robot = SmartRobot(base_robot, max_carrots)
         if enable_ui:
             create_buttons(smart_robot)
             document.bind("keydown", lambda evt: on_key(smart_robot, evt))
