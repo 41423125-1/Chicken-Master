@@ -122,6 +122,7 @@ class World:
             "walls": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE),
             "objects": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE),
             "robots": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE),
+            "info": html.CANVAS(width=self.width * CELL_SIZE, height=self.height * CELL_SIZE)
         }
 
     def _init_html(self):
@@ -323,6 +324,7 @@ class SmartRobot:
         self.visited.add((self.base.x, self.base.y))
         self.max_carrots = max_carrots
         self.BOX_SIZE = 5
+        self.info_ctx = self.world.layers["info"].getContext("2d")
 
     async def move(self, steps=1):
         for _ in range(steps):
@@ -332,12 +334,14 @@ class SmartRobot:
             else:
                 break
         self._draw_robot()
+        self._draw_info()
 
     async def move_backward(self, speedup=False):
         if speedup:
             self.base.facing = self.base.facing_order[(self.base.facing_order.index(self.base.facing) + 2) % 4]
             self.base.x, self.base.y = self._get_next_coord()
             self._draw_robot()
+            self._draw_info()
         else:
             await self.turn_left()
             await self.turn_left()
@@ -348,6 +352,7 @@ class SmartRobot:
     async def turn_left(self, speedup=False):
         self.base.facing = self.base.facing_order[(self.base.facing_order.index(self.base.facing) + 1) % 4]
         self.base._draw_robot()
+        self._draw_info()
         if not speedup:
             await aio.sleep(0.05)
 
@@ -367,46 +372,50 @@ class SmartRobot:
         elif self.base.facing == "S":
             dy = -1
         return self.base.x + dx, self.base.y + dy
-        
+
     def _draw_robot(self):
         ctx = self.base.robot_ctx
         ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
         self.world._draw_image(ctx, IMG_PATH + self.base._robot_image(),
                                self.base.x, self.base.y, CELL_SIZE, CELL_SIZE)
-
+        '''
+        準備刪除
         if self.max_carrots > 0:
             boxes_filled = self.carrots_collected // self.BOX_SIZE
             remaining = self.carrots_collected % self.BOX_SIZE
+            #顯示盒子和剩餘胡蘿蔔
+            if boxes_filled > 0:
+                # 繪製盒數圖示，調整位置往左上角移動
+                print("盒數", boxes_filled)
+                print("self.base.x", self.base.x)
+                self._draw_text(ctx, str(boxes_filled), self.base.x, self.base.y, CELL_SIZE-33, CELL_SIZE)
             
-            # 當總數超過 25 根時，只顯示總數
-            if self.carrots_collected > 25:
-                self._draw_text(ctx, str(self.carrots_collected), self.base.x, self.base.y)
-            # 否則，顯示盒子和剩餘胡蘿蔔
-            else:
-                if boxes_filled > 0:
-                    box_img = f"{boxes_filled}_t.png"
-                    offset_x = CELL_SIZE - 47
-                    offset_y = CELL_SIZE - 37
-                    self.world._draw_image(ctx, IMG_PATH + box_img,
-                                           self.base.x, self.base.y, 20, 20,
-                                           offset_x=offset_x, offset_y=offset_y)
-                
-                if remaining > 0:
-                    carrot_img = f"carrot_{remaining}_t.png"
-                    offset_x = CELL_SIZE - 15
-                    offset_y = CELL_SIZE - 37
-                    self.world._draw_image(ctx, IMG_PATH + carrot_img,
-                                           self.base.x, self.base.y, 20, 20,
-                                           offset_x=offset_x, offset_y=offset_y)
-
-    def _draw_text(self, ctx, text, x, y):
+            if remaining > 0:
+                # 繪製剩餘胡蘿蔔數圖示，調整位置往右上角移動
+                print("剩餘", remaining)
+                self._draw_text(ctx, str(remaining), self.base.x, self.base.y, CELL_SIZE, CELL_SIZE)
+        '''
+    def _draw_text(self, ctx, text, x, y, offset_x, offset_y):
         ctx.font = "12px Arial"
         ctx.fillStyle = "black"
         ctx.textAlign = "right"
         ctx.textBaseline = "bottom"
-        px = x * CELL_SIZE + CELL_SIZE - 5
-        py = (self.world.height - 1 - y) * CELL_SIZE + CELL_SIZE - 5
+        px = x * CELL_SIZE + offset_x
+        py = (self.world.height - 1 - y) * CELL_SIZE + offset_y
         ctx.fillText(text, px, py)
+
+    def _draw_info(self):
+        self.info_ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
+
+        boxes_filled = self.carrots_collected // self.BOX_SIZE
+        remaining = self.carrots_collected % self.BOX_SIZE
+
+        # 使用 self.info_ctx 繪製文字
+        if boxes_filled > 0:
+            self._draw_text(self.info_ctx, str(boxes_filled), self.base.x, self.base.y, CELL_SIZE-33, CELL_SIZE)
+
+        if remaining > 0:
+            self._draw_text(self.info_ctx, str(remaining), self.base.x, self.base.y, CELL_SIZE, CELL_SIZE)
         
     def background_is(self, background_type):
         coord = f"{self.base.x + 1},{self.base.y + 1}"
@@ -449,6 +458,7 @@ class SmartRobot:
             self.carrots_collected += 1
             self.world.draw_objects()
             self._draw_robot()
+            self._draw_info()  # 繪製獨立的資訊圖層
             
             # 新增的輸出語句，計算並列印盒數
             boxes = self.carrots_collected // self.BOX_SIZE
