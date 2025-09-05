@@ -2,7 +2,7 @@
         <head>
         <title>cp2025</title>
         <meta charset="utf-8">
-<meta property="head" content="H2">
+<meta property="head" content="H3">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
         <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
@@ -142,230 +142,34 @@ img.add_border {
           </div>
           
         </header>
-    <div id="tipue_search_content">Pyodide_ex << <a href='Pyodide_ex.html'>Previous</a> <a href='robot.py.html'>Next</a> >> robot.py<br /><h1>Pyodide2</h1>
-<p>Pyodide2 在頁面中導入 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/ff833d14181c7e270d37432aa8589f5ecf00e383/robot.py">robot.py</a> (註解版: <a href="./../downloads/pyodide_robot_commented.py">pyodide_robot_commented.py</a>) 後，可以直接在頁面編輯器中，直接利用 walk() 與 turn_left() 兩個方法，引導<a href="https://mde.tw/cp2025/content/Pyodide2.html?src=https%3A%2F%2Fgist.githubusercontent.com%2Fmdecycu%2Fec4bb35dd0769e7a83d2a9fa57878a67%2Fraw%2Fff833d14181c7e270d37432aa8589f5ecf00e383%2Fpyodide_walk_around2.py">機器人前行與左轉</a>。也可以在編輯器中自行<a href="https://mde.tw/cp2025/content/Pyodide2.html?src=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/8ac3ce859d6aec327b7859e091168270d6a951f7/pyodide2_turn_right.py">定義右轉方法</a>，賦予機器人更多功能。</p>
-<p>
-<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
-</p>
-<p><button id="version">version</button> <button id="hello_button">hello</button> <button id="add1to100">1 add to 100</button> <button id="robot1">機器人巡邏</button> <button id="free_walk">自由行</button> <button id="numpy_ode">numpy_ode</button></p>
-<!-- Ace Editor Scripts -->
-<p>
-<script src="./../cmsimde/static/ace/FileSaver.min.js"></script>
-<script src="./../cmsimde/static/ace/filereader.js"></script>
-<script src="./../cmsimde/static/ace/ace.js"></script>
-<script src="./../cmsimde/static/ace/ext-language_tools.js"></script>
-<script src="./../cmsimde/static/ace/mode-python.js"></script>
-<script src="./../cmsimde/static/ace/snippets/python.js"></script>
-</p>
-<!-- Editor 1 -->
-<div id="kw_editor1" style="width: 600px; height: 300px;"></div>
-<p><button id="kw_run1">Run</button> <button id="kw_output1">Output</button> <button id="kw_clear_console1">清除輸出區</button> <button onclick="location.reload()">Reload</button></p>
-<p><textarea id="kw_console1"></textarea></p>
-<div id="pyodide_div1"></div>
-<div id="mpl_output1"></div>
-<div id="brython_div1"></div>
-<hr/>
-<p>從 1 累加到 100 part2:</p>
-<p><button id="add1to100part2">1 add to 100</button></p>
-<!-- Editor 2 -->
-<div id="kw_editor2" style="width: 600px; height: 300px;"></div>
-<p><button id="kw_run2">Run</button> <button id="kw_output2">Output</button> <button id="kw_clear_console2">清除輸出區</button> <button onclick="location.reload()">Reload</button></p>
-<p><textarea id="kw_console2"></textarea></p>
-<div id="pyodide_div2"></div>
-<div id="mpl_output2"></div>
-<div id="brython_div2"></div>
-<p>
-<script>
-function getUrlParam(key) {
-  return new URLSearchParams(window.location.search).get(key);
-}
-function updateUrlParam(key, value) {
-  const url = new URL(window.location);
-  url.searchParams.set(key, value);
-  window.history.replaceState({}, "", url);
-}
-
-let pyodide, editor1, editor2;
-
-// 新增：把 robot.py 寫入 pyodide FS
-async function loadRobotModule() {
-  const robotUrl = "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/4b94533a86b41ed8905cbb2d2bcae4e21a3e7410/robot.py";
-  const r = await fetch(robotUrl);
-  if (!r.ok) throw new Error(`載入 robot.py 失敗: ${r.status}`);
-  const code = await r.text();
-  pyodide.FS.writeFile("/robot.py", code);
-  pyodide.runPython(`import sys; sys.path.append("/")`);  // 加入根目錄到 sys.path
-}
-
-document.addEventListener("DOMContentLoaded", async () => {
-  editor1 = ace.edit("kw_editor1");
-  editor1.setTheme("ace/theme/chrome");
-  editor1.session.setMode("ace/mode/python");
-
-  editor2 = ace.edit("kw_editor2");
-  editor2.setTheme("ace/theme/chrome");
-  editor2.session.setMode("ace/mode/python");
-
-  pyodide = await loadPyodide();
-  await pyodide.loadPackage(["numpy", "scipy", "matplotlib", "micropip"]);
-
-  // 預先載入 robot.py
-  await loadRobotModule();
-
-  // 你現有的 hello() 定義
-  const code = `
-def hello():
-    print("Hello from custom module!")
-`;
-  pyodide.runPython(code);
-
-  // 這是你之前其他按鈕用的 Gist 連結
-  const GIST_ADD1TO100 =
-    "https://gist.githubusercontent.com/mdecourse/0229a8a017091476a79700b8a190f185/raw/" +
-    "c48e37714f055c3a0027cbfef59e442a6ef659b9/from_1_add_to_100_1.py";
-  const NUMPY_ODE =
-    "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/" +
-    "98d582539545b3c9fbfa35dd3e605c506367618e/pyodide_ode_ex1.py";
-  const PYODIDE_ROBOT_ANIMATION =
-    "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/" +
-    "ff833d14181c7e270d37432aa8589f5ecf00e383/pyodide_walk_around2.py";
-  const FREE_WALK = 
-    "https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/" + "2a66dceb4a1dbdd0c384d4d17453f1e4f03f2493/pyodide_free_walk2.py"
-
-  // 預設載入 GIST_ADD1TO100（或 URL 參數決定）
-  const src = getUrlParam("src");
-  if (src === PYODIDE_ROBOT_ANIMATION) {
-    const robotCode = await fetchCode(PYODIDE_ROBOT_ANIMATION);
-    editor1.setValue(robotCode, -1);
-    updateUrlParam("src", PYODIDE_ROBOT_ANIMATION);
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  } else {
-    const initialCode = await fetchCode(src || GIST_ADD1TO100);
-    editor1.setValue(initialCode, -1);
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  }
-
-  editor2.setValue("", -1);
-
-  // 按鈕事件
-  document.getElementById("version").onclick = () => {
-    const vcode = `
-import pyodide
-import sys
-import matplotlib
-import numpy
-import scipy
-print("Pyodide version:", pyodide.__version__)
-print("Python version :", sys.version)
-print("matplotlib version:", matplotlib.__version__)
-print("numpy version:", numpy.__version__)
-print("scipy version:", scipy.__version__)
-`;
-    editor1.setValue(vcode, -1);
-    updateUrlParam("src", "inline_version");
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  };
-
-  document.getElementById("hello_button").onclick = () => {
-    editor1.setValue("hello()", -1);
-    updateUrlParam("src", "inline_hello");
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  };
-
-  document.getElementById("add1to100").onclick = async () => {
-    const c = await fetchCode(GIST_ADD1TO100);
-    editor1.setValue(c, -1);
-    updateUrlParam("src", GIST_ADD1TO100);
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  };
-
-  document.getElementById("numpy_ode").onclick = async () => {
-    const c = await fetchCode(NUMPY_ODE);
-    editor1.setValue(c, -1);
-    updateUrlParam("src", NUMPY_ODE);
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  };
-
-  document.getElementById("robot1").onclick = async () => {
-    const rc = await fetchCode(PYODIDE_ROBOT_ANIMATION);
-    editor1.setValue(rc, -1);
-    updateUrlParam("src", PYODIDE_ROBOT_ANIMATION);
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  };
-
-  document.getElementById("free_walk").onclick = async () => {
-    const rc = await fetchCode(FREE_WALK);
-    editor1.setValue(rc, -1);
-    updateUrlParam("src", FREE_WALK);
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  };
-
-  document.getElementById("add1to100part2").onclick = async () => {
-    const c = await fetchCode(GIST_ADD1TO100);
-    editor2.setValue(c, -1);
-    runPyodide(editor2, "kw_console2", "brython_div2");
-  };
-
-  document.getElementById("kw_run1").onclick = () =>
-    runPyodide(editor1, "kw_console1", "brython_div1");
-  document.getElementById("kw_run2").onclick = () =>
-    runPyodide(editor2, "kw_console2", "brython_div2");
-  document.getElementById("kw_clear_console1").onclick = () =>
-    clearOutput("kw_console1", "brython_div1");
-  document.getElementById("kw_clear_console2").onclick = () =>
-    clearOutput("kw_console2", "brython_div2");
-});
-
-// 調整 output textarea 行數
-document.getElementById("kw_output1").onclick = () => {
-  const ta = document.getElementById("kw_console1");
-  ta.rows = "15";
-  ta.cols = "70";
-  ta.scrollTop = 0;
-};
-document.getElementById("kw_output2").onclick = () => {
-  const ta = document.getElementById("kw_console2");
-  ta.rows = "15";
-  ta.cols = "70";
-  ta.scrollTop = 0;
-};
-
-async function fetchCode(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`載入失敗 ${r.status}`);
-  return await r.text();
-}
-
-function clearOutput(consoleId, divId) {
-  document.getElementById(consoleId).value = "";
-  document.getElementById(divId).innerHTML = "";
-}
-
-async function runPyodide(editor, consoleId, divId) {
-  document.getElementById(consoleId).value = "";
-  document.getElementById(divId).innerHTML = "";
-
-  await pyodide.runPythonAsync(`
-import sys
-class JsWriter:
-  def write(self, s):
-    from js import document
-    ta = document.getElementById("${consoleId}")
-    ta.value += s
-    ta.scrollTop = ta.scrollHeight
-sys.stdout = JsWriter()
-sys.stderr = JsWriter()
-`);
-
-  try {
-    await pyodide.runPythonAsync(editor.getValue());
-  } catch (e) {
-    document.getElementById(consoleId).value += "\\n錯誤：" + e.toString();
-  }
-}
-</script>
-</p>
-<br />Pyodide_ex << <a href='Pyodide_ex.html'>Previous</a> <a href='robot.py.html'>Next</a> >> robot.py</div>
+    <div id="tipue_search_content">AI << <a href='AI.html'>Previous</a> <a href='Homework.html'>Next</a> >> Homework<br /><h1>QandA</h1>
+<p>什麼是 Git？</p>
+<p style="padding-left: 30px;">Git 是一套 版本控制工具，可以用來追蹤檔案的修改歷史，讓你可以回到過去的版本、比較變更、多人協同創作。</p>
+<p style="padding-left: 30px;">適用：純文字檔案（程式碼、筆記、Markdown、論文等）</p>
+<p style="padding-left: 30px;">也可以用在 binary data（圖片、影片等），但效率差、不建議</p>
+<p style="padding-left: 30px;">因為無法有效比較或壓縮 binary 的差異</p>
+<p>什麼是 GitHub？</p>
+<p style="padding-left: 30px;">GitHub 是一個線上平台，用來儲存 Git 專案、分享程式碼、團隊協同創作。</p>
+<p style="padding-left: 30px;">適用：開發專案、筆記、個人網站、報告等</p>
+<p style="padding-left: 30px;">支援 Git 的功能（如歷史紀錄、分支、協作）</p>
+<p style="padding-left: 30px;">支援上傳 binary，但有大小限制（單檔 100MB、整體推薦 &lt;1GB）</p>
+<p style="padding-left: 30px;">大型檔案可搭配 Git LFS（進階用法）</p>
+<p>什麼是 Gist？</p>
+<p style="padding-left: 30px;">Gist 是 GitHub 的一個功能，用來快速分享小段程式碼或純文字內容（像筆記、代碼片段）。</p>
+<p style="padding-left: 30px;">適用：分享小段 code、設定檔、筆記、Markdown</p>
+<p style="padding-left: 30px;">不支援上傳 binary 檔案</p>
+<p style="padding-left: 30px;">本質上仍是用 Git 管理的</p>
+<p>如何透過 git 使用 Gist?</p>
+<p style="padding-left: 30px;">僅讀取 gist 檔案資料，並無權限維護:</p>
+<p style="padding-left: 30px;"><span style="background-color: #ccffcc;">git clone https://gist.github.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de ex</span></p>
+<p style="padding-left: 30px;">以上指令表示要將位於 mdecycu 帳號下 Gist ID 為 71ff1c69dd233e6a5a83dd60997950de 的倉儲內容取下，且放入 ex 目錄中。</p>
+<p style="padding-left: 30px;">假如具備維護 gist 檔案資料的權限，則可以利用 Putty 中的 puttygen.exe 建立 OpenSSH 格式的 public key，並將其放入 Github 帳號下 Settings - SSH and GPG keys 中的 new SSH keys 欄位中，然後將格式為 Putty private key (ppk) 的私鑰存放在個人電腦或隨身碟中。然後利用 putty.exe 建立一個能以 Connection - Data - Auto-login Username 為 git，且 Host Name 為 gist.github.com 的 Session。並將此 Session 的 Connection - SSH - Auth - Credential 私鑰欄位填上 private key .ppk 的位置，即可完成此專用於連線到 Gist 的 Session 設定。假設此 Gist Session 名稱設為 "gist"。</p>
+<p style="padding-left: 30px;">則可用於後續維護 Gist 檔案內容的 git clone 指令為 (以下的 gist 代表 Putty 中所設定專用於 Gist 的 Session 名稱):</p>
+<p style="padding-left: 30px;"><span style="background-color: #ccffcc;">git clone git@gist:71ff1c69dd233e6a5a83dd60997950de.git ex2</span></p>
+<p style="padding-left: 30px;">一旦 ex2 目錄中各檔案維護告一段落後，可以進入 ex2 目錄，利用 git add .，git commit -m "提交訊息" 與 git push 將修改後的近端內容新增提交推送至 Gist 伺服器。</p>
+<p style="padding-left: 30px;">若希望直接在近端取得目前最新版本的檔案版本號，可以在 ex2 目錄中利用 git log -1 查詢最後一次提交的版本號，然後以下列 URL 取得 Gist 中 brython_robot.py 檔案的最新內容:</p>
+<p style="padding-left: 30px;">https://<span style="background-color: #ccffcc;">gist.githubusercontent.com</span>/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/27541a79c916e42c1f32509aa3a1c6e086923d47/brython_robot.py</p>
+<p style="padding-left: 30px;">其中 71ff1c69dd233e6a5a83dd60997950de 為 Gist ID，而 27541a79c916e42c1f32509aa3a1c6e086923d47 就是透過 git log -1 取得的最新版本號。</p><br />AI << <a href='AI.html'>Previous</a> <a href='Homework.html'>Next</a> >> Homework</div>
         
     <!-- footer -->
       <div class="container">
