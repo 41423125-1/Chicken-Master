@@ -306,7 +306,8 @@ pause
 <p style="padding-left: 30px;">一旦 ex2 目錄中各檔案維護告一段落後，可以進入 ex2 目錄，利用 git add .，git commit -m "提交訊息" 與 git push 將修改後的近端內容新增提交推送至 Gist 伺服器。</p>
 <p style="padding-left: 30px;">若希望直接在近端取得目前最新版本的檔案版本號，可以在 ex2 目錄中利用 git log -1 查詢最後一次提交的版本號，然後以下列 URL 取得 Gist 中 brython_robot.py 檔案的最新內容:</p>
 <p style="padding-left: 30px;">https://<span style="background-color: #ccffcc;">gist.githubusercontent.com</span>/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/27541a79c916e42c1f32509aa3a1c6e086923d47/brython_robot.py</p>
-<p style="padding-left: 30px;">其中 71ff1c69dd233e6a5a83dd60997950de 為 Gist ID，而 27541a79c916e42c1f32509aa3a1c6e086923d47 就是透過 git log -1 取得的最新版本號。</p><h2>Homework</h2>
+<p style="padding-left: 30px;">其中 71ff1c69dd233e6a5a83dd60997950de 為 Gist ID，而 27541a79c916e42c1f32509aa3a1c6e086923d47 就是透過 git log -1 取得的最新版本號。</p>
+<p style="padding-left: 30px;">另外，若已經利用 Github 帳號下的 Settings - Developer Settings - Tokens (classic) 建立可以 Create gists 的 token，可以利用 PyGithub 模組，利用 <a href="/downloads/generate_gist.py">generate_gist.py</a> 建立 Gist 倉儲，待取得所建立 Gist 的 ID 之後，就可以將此 Gist clone 至近端維護後，再提交推送回對應帳號下的 Gist 倉儲。</p><h2>Homework</h2>
 <p>HW1:</p>
 <p style="padding-left: 30px;">請將程式碼存放在個人作業倉儲中的 python 目錄後，利用程式連結完成下列任務:</p>
 <p style="padding-left: 60px;"><a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround1.json">around1</a>, <a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround2.json">around2</a>, <a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround3.json">around3</a>, <a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround4.json">around4</a></p>
@@ -2743,6 +2744,8 @@ for i in range(3):
 <h3>Otto_ninja</h3>
 <p><a href="https://www.printables.com/model/231580-otto-ninja-starter-robot/files">https://www.printables.com/model/231580-otto-ninja-starter-robot/files</a> </p>
 <p><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/NDIwhuxQPN8?si=ED_FAObUkAVFT5L-" title="YouTube video player" width="560"></iframe></p>
+<h2>tkinter</h2>
+<p><a href="/downloads/tkinter_robot.7z">tkinter_robot.7z</a></p>
 <h2>Pyodide</h2>
 <p><a href="https://pyodide.org">Pyodide</a> 是一個將 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 解譯器和常用科學套件 (例如: <a href="https://numpy.org/">numpy</a>、<a href="https://scipy.org/">scipy</a>、<a href="https://matplotlib.org/">matplotlib</a> 等) 編譯成 <a href="https://webassembly.org/">WebAssembly</a>，可在瀏覽器中執行 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 程式的專案。</p>
 <p><a href="https://pyodide.org">Pyodide</a> 是將 <a href="https://github.com/python/cpython">CPython</a> 編譯為 <a href="https://webassembly.org/">WebAssembly</a>，可在瀏覽器或其他 <a href="https://webassembly.org/">WebAssembly</a> 環境中執行；而 <a href="https://github.com/python/cpython">CPython</a> 是標準的原生 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 解譯器，運行在作業系統上。換言之，<a href="https://pyodide.org">Pyodide</a> 是為在瀏覽器中執行 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 而設計的 <a href="https://github.com/python/cpython">CPython</a> 移植版本。<a href="https://pyodide.org">Pyodide</a> 可與 <a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript">JavaScript</a> 雙向互動，讓 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 程式能呼叫 <a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript">JavaScript</a> 函數並操作網頁元素，也能被 <a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript">JavaScript</a> 呼叫執行 <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> 程式碼。</p>
@@ -2950,8 +2953,7 @@ sys.stderr = JsWriter()
   }
 }
 </script>
-</p>
-<h2>Pyodide_ex</h2>
+</p><h2>Pyodide_ex</h2>
 <p><a href="https://mde.tw/cp2025/content/Pyodide.html?src=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/f3d75d08f2b90f4470342e91ee1e5c36b5f950bf/pyodide_robot_ex1.py">Pyodide 機器人巡邏</a> - 由於網頁載入場景圍牆與 Pyodide 執行機器人行走模擬的速度差異，機器人巡邏畫面的圍牆無法及時顯示。</p>
 <p>經過場景圍牆多次 (目前為 3 次) 載入 (必須配合瀏覽器 Client 端執行速度與網路傳輸速度進行調整)，<a href="https://mde.tw/cp2025/content/Pyodide.html?src=https%3A%2F%2Fgist.githubusercontent.com%2Fmdecycu%2Fec4bb35dd0769e7a83d2a9fa57878a67%2Fraw%2Ff3d75d08f2b90f4470342e91ee1e5c36b5f950bf%2Fpyodide_robot_ex1.py">Pyodide 機器人巡邏2</a> 可以正確載入圍牆圖檔。</p>
 <p>Pyodide 導入客製化模組:</p>

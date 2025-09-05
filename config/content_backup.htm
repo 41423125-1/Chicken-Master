@@ -301,12 +301,13 @@ pause
 <p style="padding-left: 30px;"><span style="background-color: #ccffcc;">git clone https://gist.github.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de ex</span></p>
 <p style="padding-left: 30px;">以上指令表示要將位於 mdecycu 帳號下 Gist ID 為 71ff1c69dd233e6a5a83dd60997950de 的倉儲內容取下，且放入 ex 目錄中。</p>
 <p style="padding-left: 30px;">假如具備維護 gist 檔案資料的權限，則可以利用 Putty 中的 puttygen.exe 建立 OpenSSH 格式的 public key，並將其放入 Github 帳號下 Settings - SSH and GPG keys 中的 new SSH keys 欄位中，然後將格式為 Putty private key (ppk) 的私鑰存放在個人電腦或隨身碟中。然後利用 putty.exe 建立一個能以 Connection - Data - Auto-login Username 為 git，且 Host Name 為 gist.github.com 的 Session。並將此 Session 的 Connection - SSH - Auth - Credential 私鑰欄位填上 private key .ppk 的位置，即可完成此專用於連線到 Gist 的 Session 設定。假設此 Gist Session 名稱設為 "gist"。</p>
-<p style="padding-left: 30px;">則可用於後續維護 Gist 檔案內容的 git clone 指令為 (以下的 gist 代表 Putty 中所設定的 Session 名稱):</p>
+<p style="padding-left: 30px;">則可用於後續維護 Gist 檔案內容的 git clone 指令為 (以下的 gist 代表 Putty 中所設定專用於 Gist 的 Session 名稱):</p>
 <p style="padding-left: 30px;"><span style="background-color: #ccffcc;">git clone git@gist:71ff1c69dd233e6a5a83dd60997950de.git ex2</span></p>
 <p style="padding-left: 30px;">一旦 ex2 目錄中各檔案維護告一段落後，可以進入 ex2 目錄，利用 git add .，git commit -m "提交訊息" 與 git push 將修改後的近端內容新增提交推送至 Gist 伺服器。</p>
 <p style="padding-left: 30px;">若希望直接在近端取得目前最新版本的檔案版本號，可以在 ex2 目錄中利用 git log -1 查詢最後一次提交的版本號，然後以下列 URL 取得 Gist 中 brython_robot.py 檔案的最新內容:</p>
 <p style="padding-left: 30px;">https://<span style="background-color: #ccffcc;">gist.githubusercontent.com</span>/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/27541a79c916e42c1f32509aa3a1c6e086923d47/brython_robot.py</p>
-<p style="padding-left: 30px;">其中 71ff1c69dd233e6a5a83dd60997950de 為 Gist ID，而 27541a79c916e42c1f32509aa3a1c6e086923d47 就是透過 git log -1 取得的最新版本號。</p><h2>Homework</h2>
+<p style="padding-left: 30px;">其中 71ff1c69dd233e6a5a83dd60997950de 為 Gist ID，而 27541a79c916e42c1f32509aa3a1c6e086923d47 就是透過 git log -1 取得的最新版本號。</p>
+<p style="padding-left: 30px;">另外，若已經利用 Github 帳號下的 Settings - Developer Settings - Tokens (classic) 建立可以 Create gists 的 token，可以利用 PyGithub 模組，利用 <a href="/downloads/generate_gist.py">generate_gist.py</a> 建立 Gist 倉儲，待取得所建立 Gist 的 ID 之後，就可以將此 Gist clone 至近端維護後，再提交推送回對應帳號下的 Gist 倉儲。</p><h2>Homework</h2>
 <p>HW1:</p>
 <p style="padding-left: 30px;">請將程式碼存放在個人作業倉儲中的 python 目錄後，利用程式連結完成下列任務:</p>
 <p style="padding-left: 60px;"><a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround1.json">around1</a>, <a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround2.json">around2</a>, <a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround3.json">around3</a>, <a href="https://mde.tw/cp2025/reeborg/?lang=en&amp;mode=python&amp;menu=worlds%2Fmenus%2Fselect_collection_en.json&amp;name=Alone&amp;url=worlds%2Ftutorial_en%2Faround4.json">around4</a></p>
