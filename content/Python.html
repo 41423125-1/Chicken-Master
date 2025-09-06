@@ -143,6 +143,17 @@ img.add_border {
           
         </header>
     <div id="tipue_search_content">Git_ex2 << <a href='Git_ex2.html'>Previous</a> <a href='SE.html'>Next</a> >> SE<br /><h1>Python</h1>
+<p>可攜程式套件:</p>
+<p style="padding-left: 30px;"><a href="http://229.cycu.org/portable_2026.7z">portable_2026.7z</a> (387MB)</p>
+<p style="padding-left: 60px;">解開壓縮後，雙點擊 start_miniconda3.bat 啟動可攜系統，雙點擊 stop.bat 關閉可攜系統。</p>
+<p style="padding-left: 60px;">可攜系統啟動後，在命令列執行 <span style="background-color: #ccffcc;">conda activate y:\envs\cmsimde</span> 可進入能執行 CMSiMDE 的環境。</p>
+<p style="padding-left: 60px;">若希望可攜系統啟動直接進入 cmsimde 環境，可將 start_miniconda3.bat 檔案中第 98 行: call "%CONDA_ROOT%\Scripts\activate.bat" %ENV_NAME% 更換為 call "%CONDA_ROOT%\Scripts\activate.bat" %Disk%:\envs\cmsimde。</p>
+<p>cmsimde 虛擬環境是採下列方式建立:</p>
+<p style="padding-left: 30px;"><span style="background-color: #ccffcc;">conda create -p ./envs/cmsimde python=3.13</span> (指定使用 Python 3.13 建立位於 ./envs/cmsimde 的虛擬環境)</p>
+<p style="padding-left: 30px;"><span style="background-color: #ccffcc;">conda activate y:\envs\cmsimde</span> (利用 conda 指令切換到 cmsimde 虛擬環境)</p>
+<p style="padding-left: 30px;"><span style="background-color: #ccffcc;">conda install -c conda-forge flask flask_cors bs4 lxml pelican markdown gevent</span> (安裝使用 cmsimde 所需要的 Python 模組)</p>
+<p style="padding-left: 30px;">之後就可以 cd tmp/your_hw_repository 後，以 cms 批次檔案指令啟動網頁編輯。</p>
+<hr/>
 <p>Learn Python with <a href="https://mde.tw/reeborg">Reeborg</a></p>
 <p style="padding-left: 30px;"><a href="https://reeborg.ca/docs/en/">https://reeborg.ca/docs/en/</a></p>
 <p style="padding-left: 30px;"><a href="https://aroberge.gitbooks.io/reeborg-s-world-advanced-world-creation/content/">https://aroberge.gitbooks.io/reeborg-s-world-advanced-world-creation/content/</a></p>
@@ -160,8 +171,7 @@ img.add_border {
 <p style="padding-left: 30px;"><a href="./../downloads/GA/ga_1.py">ga_1.py</a> (from <a href="https://www.geeksforgeeks.org/genetic-algorithms/">https://www.geeksforgeeks.org/genetic-algorithms/</a>)</p>
 <p style="padding-left: 30px;"><a href="https://medium.com/analytics-vidhya/genetic-algorithm-494ac5be18bb">https://medium.com/analytics-vidhya/genetic-algorithm-494ac5be18bb</a></p>
 <p style="padding-left: 30px;"><a href="https://medium.com/@LeonFedden/evolving-solutions-with-genetic-algorithms-e3122473a35f">https://medium.com/@LeonFedden/evolving-solutions-with-genetic-algorithms-e3122473a35f</a></p>
-<p style="padding-left: 30px;">Apply GA to <a href="https://github.com/mdecycu/cs101">https://github.com/mdecycu/cs101</a></p>
-<br />Git_ex2 << <a href='Git_ex2.html'>Previous</a> <a href='SE.html'>Next</a> >> SE</div>
+<p style="padding-left: 30px;">Apply GA to <a href="https://github.com/mdecycu/cs101">https://github.com/mdecycu/cs101</a></p><br />Git_ex2 << <a href='Git_ex2.html'>Previous</a> <a href='SE.html'>Next</a> >> SE</div>
         
     <!-- footer -->
       <div class="container">

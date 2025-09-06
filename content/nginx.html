@@ -181,7 +181,7 @@ img.add_border {
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
-<p>nginx.conf 中對應的 server 設定:<br/><br/></p>
+<p>nginx.conf 中對應的 server 設定:</p>
 <pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">server {
     listen 80;
     server_name your.domain.com;
@@ -214,7 +214,7 @@ img.add_border {
   &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;h2&gt;🧠 Chat with LLaMA + Upload Image/Text&lt;/h2&gt;
+  &lt;h2&gt;Chat with LLaMA + Upload Image/Text&lt;/h2&gt;
   
   &lt;div class="chatbox" id="chatlog"&gt;&lt;/div&gt;
 
@@ -248,13 +248,13 @@ img.add_border {
           const text = await file.text();
           fullPrompt += `\n\n[以下為文件內容：]\n${text}`;
         } else {
-          appendChat("❌ Unsupported file type.");
+          appendChat("Unsupported file type.");
           return;
         }
       }
 
-      appendChat("🧑‍💻 You:\n" + userMessage);
-      appendChat("🤖 LLaMA is thinking...");
+      appendChat("You:\n" + userMessage);
+      appendChat("LLaMA is thinking...");
 
       const res = await fetch("/api/generate", {
         method: "POST",
@@ -267,7 +267,7 @@ img.add_border {
       });
 
       const result = await res.json();
-      updateLastBotReply("🤖 LLaMA:\n" + result.response);
+      updateLastBotReply("LLaMA:\n" + result.response);
     }
 
     function appendChat(text) {
@@ -294,8 +294,7 @@ img.add_border {
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</pre>
-<p>或直接將 ollama 結合 <a href="https://www.openwebui.com/">https://www.openwebui.com/</a> 提供 Web based 對話進階功能。</p>
-<br />llama << <a href='llama.html'>Previous</a> <a href='AI.html'>Next</a> >> AI</div>
+<p>或直接將 ollama 結合 <a href="https://www.openwebui.com/">https://www.openwebui.com/</a> 提供 Web based 對話進階功能。</p><br />llama << <a href='llama.html'>Previous</a> <a href='AI.html'>Next</a> >> AI</div>
         
     <!-- footer -->
       <div class="container">
