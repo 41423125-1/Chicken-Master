@@ -387,7 +387,19 @@ pause
 <p style="padding-left: 30px;"></p>
 <h1>Topics</h1>
 <p><a href="https://mde.tw/w1">https://mde.tw/w1</a> for 1a </p>
+<p style="padding-left: 30px;">利用 Codespaces 維護 Github Pages 網站內容</p>
+<p style="padding-left: 30px;">利用 portable_2026 可攜系統維護 Github Pages 網站內容</p>
+<p style="padding-left: 60px;">透過 Token 取得維護權限</p>
+<p style="padding-left: 60px;">y:\home_ipv6\.gitconfig 中設定</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">[http "https://github.com"]
+    sslVerify = false</pre>
+<p style="padding-left: 60px;">表示當採 https 連線到 github.com 時，停用 SSL 憑證驗證，雖然方便，但若透過公眾網路上網，將會暴露在中間人攻擊(<a href="https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB">MITM</a>)的風險。</p>
+<p style="padding-left: 60px;">或者</p>
+<p style="padding-left: 60px;">git config --global http.sslCAInfo "y:\PortableGit\usr\ssl\certs\ca-bundle.crt"</p>
+<p style="padding-left: 60px;">啟用 SSL 憑證驗證。</p>
 <p><a href="https://41423299.github.io/w1">https://41423299.github.io/w1</a> for 1b</p>
+<p style="padding-left: 30px;">利用 Codespaces 維護 Github Pages 網站內容</p>
+<p style="padding-left: 30px;">Take Home 問題: 近端維護 Github Pages 網站時，有哪兩種管理權限驗證方式?</p>
 <p>電腦輔助設計室電腦硬體與網路使用介紹</p>
 <p style="padding-left: 30px;">C: 為 SSD，網路協定可以自行決定使用 IPv4 或 IPv6 (若使用純 IPv6 則必須設定 Proxy 才能連結到 github.com 以及僅支援 IPv4 協定的網站) </p>
 <p>Teams 線上教學:</p>

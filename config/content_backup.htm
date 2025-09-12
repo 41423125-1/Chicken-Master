@@ -386,6 +386,21 @@ pause
 <p></p>
 <p style="padding-left: 30px;"></p>
 <h1>Topics</h1>
+<p><a href="https://mde.tw/w1">https://mde.tw/w1</a> for 1a </p>
+<p style="padding-left: 30px;">利用 Codespaces 維護 Github Pages 網站內容</p>
+<p style="padding-left: 30px;">利用 portable_2026 可攜系統維護 Github Pages 網站內容</p>
+<p style="padding-left: 60px;">透過 Token 取得維護權限</p>
+<p style="padding-left: 60px;">y:\home_ipv6\.gitconfig 中設定</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">[http "https://github.com"]
+    sslVerify = false</pre>
+<p style="padding-left: 60px;">表示當採 https 連線到 github.com 時，停用 SSL 憑證驗證，雖然方便，但若透過公眾網路上網，將會暴露在中間人攻擊(<a href="https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB">MITM</a>)的風險。</p>
+<p style="padding-left: 60px;">或者</p>
+<p style="padding-left: 60px;">git config --global http.sslCAInfo "y:\PortableGit\usr\ssl\certs\ca-bundle.crt"</p>
+<p style="padding-left: 60px;">啟用 SSL 憑證驗證。</p>
+<p><a href="https://41423299.github.io/w1">https://41423299.github.io/w1</a> for 1b</p>
+<p style="padding-left: 30px;">利用 Codespaces 維護 Github Pages 網站內容</p>
+<p style="padding-left: 30px;">Take Home 問題: 近端維護 Github Pages 網站時，有哪兩種管理權限驗證方式?</p>
+<p style="padding-left: 30px;"></p>
 <p>電腦輔助設計室電腦硬體與網路使用介紹</p>
 <p style="padding-left: 30px;">C: 為 SSD，網路協定可以自行決定使用 IPv4 或 IPv6 (若使用純 IPv6 則必須設定 Proxy 才能連結到 github.com 以及僅支援 IPv4 協定的網站) </p>
 <p>Teams 線上教學:</p>
@@ -472,8 +487,7 @@ pause
 <li>推薦學習網站：<a href="https://reeborg.ca/" target="_blank">Reeborg’s World</a>、<a href="https://www.w3schools.com/" target="_blank">W3Schools</a>、<a href="https://developer.mozilla.org/zh-TW/" target="_blank">MDN Web Docs</a></li>
 <li>建議每週規劃自主練習與小專案，培養實作與解決問題能力</li>
 <li>記錄學習歷程，定期回顧與修正</li>
-</ul>
-<h2>Git</h2>
+</ul><h2>Git</h2>
 <p>假如您還沒有 Github 帳號，請馬上<a href="https://github.com/signup">建立一個</a>。</p>
 <p><span style="background-color: #ffff00;">為何計算機程式課程要使用 Git 與 Github?</span></p>
 <p>計算機程式課程（軟體開發）使用 Git 與 GitHub 主要有以下幾個原因：</p>
@@ -2551,7 +2565,7 @@ doc["add1to100"].bind('click', add)
 <div style="width: 100%; height: 100%;"><textarea autocomplete="off" id="kw_console1"></textarea></div>
 <p><!-- Brython 程式執行的結果, 都以 brython_div1 作為切入位置 --></p>
 <div id="brython_div1"></div>
-<!-- editor1 結束 --><hr/><!-- ########################################## -->
+<!-- editor1 結束 --><hr><!-- ########################################## -->
 <p>從 1 累加到 100 part2:</p>
 <p><button id="add1to100part2">1 add to 100</button><button id="cango_three_gears">cango_three_gears</button><button id="bsnake">BSnake</button><button id="aitetris">AI Tetris</button></p>
 <p><!-- 請注意, 這裡使用 Javascript 將 localStorage["kw_py_src2"] 中存在近端瀏覽器的程式碼, 由使用者決定存檔名稱--></p>
@@ -2841,7 +2855,7 @@ for i in range(3):
 <div id="pyodide_div1"></div>
 <div id="mpl_output1"></div>
 <div id="brython_div1"></div>
-<hr/>
+<hr>
 <p>從 1 累加到 100 part2:</p>
 <p><button id="add1to100part2">1 add to 100</button></p>
 <!-- Editor 2 -->
@@ -3870,4 +3884,4 @@ sys.stderr = JsWriter()
 <p><a href="https://mde.tw/cp2025/content/Pyodide3.html">Pyodide3</a> 在頁面中導入 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/robot_w_world.py">robot_w_world.py</a> 後，可以透過 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/a1de47ae2a2c941d6abe945bd58ae79ba38be8c6/pyodide3_harvest_ex1.py">pyodide3_harvest_ex1.py</a> 繼承 robot 物件，加入農作物採收功能。</p>
 <p>但因為 <a href="https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/robot_w_world.py">robot_w_world.py</a> 版本中的 trace 繪製圖層並未獨立，除了採收農作物之後的座標背景會從 pale_grass.png 置換為 grass.png 外，農作物採收後的座標畫面刷新會一併將之前的機器人行走路徑刪除，因此後續版本必須將所有不同屬性的圖像，以各自的獨立圖層進行繪製，才不會互相影響下，產生錯誤的機器人農作物採收模擬。</p>
 <p>在 Pyodide3 執行 <a href="/downloads/pyodide3_harvest_ex1.py">pyodide3_harvest_ex1.py</a>，執行<a href="https://mde.tw/cp2025/content/Pyodide3.html?src=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/f1663c2de7f7f7a7fe24723c196810642865822f/pyodide3_harvest_ex1.py&amp;world=https://gist.githubusercontent.com/mdecycu/ec4bb35dd0769e7a83d2a9fa57878a67/raw/9f43571ec070ea3e24b083525ee27275a96efcc8/harvest3.json">結果</a>。</p>
-<p></p>
+<p></p></hr></hr>
