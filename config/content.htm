@@ -445,8 +445,59 @@ pause
 <p style="padding-left: 30px;">電腦輔助機械設計套件的本質是透過電腦建模與模擬技術，把機械工程師的設計概念數位化，並透過虛擬工具進行驗證與最佳化。</p>
 <p style="padding-left: 30px;">這些結合數學幾何模型與計算機程式的工具，讓工程師能夠 1) 在虛擬空間中繪製零件與組件 2) 模擬材料與力學行為 3) 取得最佳化設計參數 4) 快速修改與試驗不同方案 5) 避免昂貴的實體原型開發與測試。</p>
 <p style="padding-left: 30px;">設計案例: <a href="https://mde.tw/cad_demo/content/Plotter.html">Plotter</a>，<a href="https://mde.tw/cad_demo/content/Openduck.html">Openduck</a></p>
-<p style="padding-left: 30px;"><a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">機器人行走模擬程式</a>，存為程式庫之後，利用向量運算<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/f354f7b128bcbb8c41aa059d2749d92d89ebb8bb/w4_vector_control_robot.py">控制機器人行進方向</a></p>
+<p style="padding-left: 30px;"><a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">機器人行走模擬程式</a>，存為程式模組之後，利用向量運算<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/f354f7b128bcbb8c41aa059d2749d92d89ebb8bb/w4_vector_control_robot.py">控制機器人行進方向</a></p>
 <p style="padding-left: 30px;">若直接在瀏覽器中執行<a href="https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/26e0aa0ac5ee0b5cfdceb559a4bd2bd5e4c382b8/w4_A_star_searching.py">較密集運算</a>時，瀏覽器回覆執行速度過慢時，該如何處理?</p>
+<p>w5-w12: 深入理解<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">機器人行走模擬程式</a>中的所有 Python 與 Brython 程式用法。</p>
+<p style="padding-left: 30px;">接著將<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">機器人行走模擬程式</a>存為程式模組之後，利用向量運算<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/f354f7b128bcbb8c41aa059d2749d92d89ebb8bb/w4_vector_control_robot.py">控制機器人行進方向</a>，或進行其他應用。</p>
+<p style="padding-left: 30px;">後續應用 Prompt:</p>
+<p style="padding-left: 60px;">利用以下的 Brython 機器人在格點中行走的模擬程式作為模組, 存為 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">robot_lib.py</a> 之後, 請利用 import robot_lib 作為開端，舉八個可以用來學習演算法的典型範例，請注意這是 Brython, 因此可能無法進行密集的運算，因此另外再舉五個可以結合此 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">robot_lib.py</a> 作為模組 import，但是卻利用與遠端 Flask 程式結合運算的案例，讓 Brython 負責前端的動態模擬，較為複雜的運算則透過 ajax 或其他方法，將運算送到 Server 運算後，有 Brython 前端程式負責模擬: (接著將 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/e2502768ea4e0d13b33da0976b656a337e51ad42/cp_w4_robot_animation.py">robot_lib.py</a> 程式碼貼上)</p>
+<p style="padding-left: 30px;">十個學習演算法的典型範例:</p>
+<p style="padding-left: 30px;">一、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/989580879f409f41551759e82345c4feeea3e363/random_walk.py">隨機漫遊</a> (Random Walk)</p>
+<p style="padding-left: 60px;">讓機器人進行隨機行走，學習如何實現隨機選擇方向，並處理邊界條件。</p>
+<p style="padding-left: 30px;">二、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/419b5683116435127e814098329c67ab5d04d0ca/maze_solution.py">迷宮尋路</a> (Maze Solving)</p>
+<p style="padding-left: 60px;">讓機器人在一個包含牆壁的地圖中尋找最短路徑，可以使用 A* 算法或深度優先搜尋 (DFS) 算法。</p>
+<p style="padding-left: 30px;">三、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/d922db84457110c7e1c0d405199349ff09431499/shorted_path.py">最短路徑搜尋</a> (Shortest Path Search)</p>
+<p style="padding-left: 60px;">給定一個有障礙物的地圖，讓機器人找到從起點到終點的最短路徑。可以學習使用 Dijkstra 演算法或 A* 演算法。</p>
+<p style="padding-left: 30px;">四、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/c51b4c7a90e062a597dc587a28a9e976d0e52715/patrolling.py">巡邏模式</a> (Patrolling)</p>
+<p style="padding-left: 60px;">讓機器人自動巡邏一個指定區域，並根據一定規則改變方向，學習簡單的自動化模式。</p>
+<p style="padding-left: 30px;">五、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/510c60404a01829e9842b3a705d5d4a94fb17011/pick_and_place.py">物品拾取與放置</a> (Pickup and Place)</p>
+<p style="padding-left: 60px;">讓機器人在地圖中尋找物品並將其放置到指定位置，學習如何控制機器人的移動與狀態轉換。</p>
+<p style="padding-left: 30px;">六、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/3e85051af7791d38f3f2991397f658711166e9b6/obstacle_avoidance.py">避障</a> (Obstacle Avoidance)</p>
+<p style="padding-left: 60px;">讓機器人避開障礙物，學習如何根據傳感器數據進行即時決策，避免碰撞。</p>
+<p style="padding-left: 30px;">七、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/35212484a494d48eca0a95cd8a2562c9f6373c5f/object_circling.py">圍繞物體行走</a> (Object Circling)</p>
+<p style="padding-left: 60px;">讓機器人圍繞地圖中的某個物體行走，學習如何調整其行為以保持固定的圓形路徑。</p>
+<p style="padding-left: 30px;">八、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/281d59aae380be6c627413166596ce98cd31dee9/boundary_exploration.py">邊界探索</a> (Boundary Exploration)</p>
+<p style="padding-left: 60px;">讓機器人沿著邊界走，並學習如何使用循環條件處理邊界情況。(<a href="https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/be404af67b7b10cc48e7bb734ac70a356f3674cf/boundary_exploration_and_stop.py">探索一圈後停止</a>)</p>
+<p style="padding-left: 30px;">五個結合 Flask 程式的運算案例:</p>
+<p style="padding-left: 30px;">Brython 的運算能力有限，複雜的計算可交給後端 Flask 處理，前端用於動態顯示模擬。以下是五個結合 Flask 與 Brython 的範例：</p>
+<p style="padding-left: 30px;">一、迷宮生成與尋路</p>
+<p style="padding-left: 60px;">描述: 在 Flask 後端生成一個隨機迷宮，並使用 <a href="https://zh.wikipedia.org/zh-tw/A*%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95">A*</a> 或 <a href="https://zh.wikipedia.org/zh-tw/%E6%88%B4%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95">Dijkstra</a> 算法尋找最短路徑。前端使用 Brython 顯示迷宮與路徑。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">使用 Flask 生成迷宮並計算最短路徑。</p>
+<p style="padding-left: 90px;">Flask 將結果回傳給前端。</p>
+<p style="padding-left: 90px;">Brython 使用動畫展示機器人如何行走。</p>
+<p style="padding-left: 30px;">二、多機器人協作 (Multi-Robot Collaboration)</p>
+<p style="padding-left: 60px;">描述: 使用 Flask 後端控制多個機器人的協作，並根據任務分配給各個機器人。在 Brython 前端展示機器人的動態協作。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">前端傳送多個機器人的初始位置和任務。</p>
+<p style="padding-left: 90px;">Flask 計算每個機器人的路徑和協作策略。</p>
+<p style="padding-left: 90px;">Brython 以動畫形式展示機器人的動態協作。</p>
+<p style="padding-left: 30px;">三、物品搜尋與物品移動</p>
+<p style="padding-left: 60px;">描述: 機器人在地圖中搜尋物品，並將其搬移到指定位置。所有搜尋演算法（如深度優先搜尋、廣度優先搜尋）在 Flask 後端運算。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">Flask 計算搜尋路徑與搬移策略。</p>
+<p style="padding-left: 90px;">Brython 顯示動態模擬，並控制機器人移動。</p>
+<p style="padding-left: 30px;">四、機器人學習與自適應控制</p>
+<p style="padding-left: 60px;">描述: 在 Flask 後端實現強化學習或 Q-learning 演算法，讓機器人學習如何在環境中尋找最優策略。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">機器人根據前端操作回傳其行為與環境狀態。</p>
+<p style="padding-left: 90px;">Flask 訓練機器人並返回最優行為。</p>
+<p style="padding-left: 90px;">Brython 實時更新機器人的動作。</p>
+<p style="padding-left: 30px;">五、環境變化中的最優路徑規劃</p>
+<p style="padding-left: 60px;">描述: 當地圖中有障礙物或其他變化時，機器人需要動態調整路徑。所有路徑規劃的計算在 Flask 後端完成，前端展示機器人的調整過程。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">Flask 接收環境變化訊息，重新計算最優路徑。</p>
+<p style="padding-left: 90px;">Brython 以動畫方式展示機器人根據新的路徑進行調整。</p>
 <hr/>
 <p>電腦輔助設計室電腦硬體與網路使用介紹</p>
 <p style="padding-left: 30px;">C: 為 SSD，網路協定可以自行決定使用 IPv4 或 IPv6 (若使用純 IPv6 則必須設定 Proxy 才能連結到 github.com 以及僅支援 IPv4 協定的網站) </p>
