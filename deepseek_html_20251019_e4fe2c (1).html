@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>烤雞溫測控制面板</title>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #162447;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        .panel {
+            display: flex;
+            height: 600px;
+        }
+        
+        .left-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #2d4059;
+        }
+        
+        .right-section {
+            flex: 1.3;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .status-bar {
+            background-color: #0f3460;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2d4059;
+        }
+        
+        .app-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #e43f5a;
+        }
+        
+        .current-time {
+            font-size: 1.1rem;
+            color: #b8b8b8;
+        }
+        
+        .input-section {
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #e6e6e6;
+            font-size: 1rem;
+        }
+        
+        input[type="number"] {
+            padding: 12px;
+            border: 2px solid #2d4059;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #0f3460;
+            color: #e6e6e6;
+        }
+        
+        .calculate-btn {
+            background-color: #e43f5a;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .history-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .back-btn {
+            background-color: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .temp-display {
+            padding: 20px;
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .temp-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .temp-readings {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .temp-item {
+            text-align: center;
+            flex: 1;
+            padding: 0 8px;
+        }
+        
+        .temp-label {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            margin-bottom: 5px;
+        }
+        
+        .temp-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .temp-unit {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+        }
+        
+        .temp-chart {
+            height: 180px;
+            background-color: #1a1a2e;
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+            margin-top: 10px;
+            flex: 1;
+        }
+        
+        /* 图表网格线样式 */
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+        
+        .grid-line {
+            border-top: 1px solid #2d4059;
+            width: 100%;
+        }
+        
+        /* Y轴标签样式 */
+        .y-axis-labels {
+            position: absolute;
+            left: 5px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #b8b8b8;
+        }
+        
+        .chart-data {
+            position: absolute;
+            bottom: 15px;
+            left: 35px;
+            right: 10px;
+            height: 140px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+        }
+        
+        .data-point {
+            flex: 1;
+            background-color: #e43f5a;
+            border-radius: 2px 2px 0 0;
+            transition: height 0.5s ease;
+            min-height: 5px;
+        }
+        
+        /* X轴标签样式 */
+        .x-axis-labels {
+            position: absolute;
+            bottom: 0;
+            left: 35px;
+            right: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: #b8b8b8;
+            padding: 0 5px;
+        }
+        
+        .x-axis-title {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: #b8b8b8;
+        }
+        
+        .y-axis-title {
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 0.7rem;
+            color: #b8b8b8;
+        }
+        
+        .results {
+            padding: 15px 20px;
+            background-color: #1f4068;
+            border-top: 2px solid #2d4059;
+            flex: 0.8;
+            overflow-y: auto;
+        }
+        
+        .results h2 {
+            color: #e43f5a;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: #0f3460;
+            border-radius: 8px;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #e43f5a;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .result-value {
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .control-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
+            border-top: 2px solid #2d4059;
+        }
+        
+        .control-btn {
+            background-color: #0f3460;
+            border: none;
+            border-radius: 8px;
+            padding: 15px;
+            color: #e6e6e6;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+        
+        .btn-icon {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #0f3460;
+            padding: 15px 0;
+            border-top: 2px solid #2d4059;
+        }
+        
+        .nav-item {
+            text-align: center;
+            color: #b8b8b8;
+            font-size: 0.9rem;
+            flex: 1;
+            padding: 8px;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #e43f5a;
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            margin-top: 10px;
+            display: none;
+            background-color: #0f3460;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .marinade-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .marinade-item {
+            background-color: #1a1a2e;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .marinade-name {
+            font-size: 0.7rem;
+            color: #b8b8b8;
+        }
+        
+        .marinade-amount {
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .instructions-box {
+            background-color: #1a1a2e;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 8px;
+        }
+        
+        .instructions-content {
+            font-size: 0.75rem;
+            line-height: 1.3;
+            white-space: pre-line;
+        }
+        
+        .history-section {
+            display: none;
+            padding: 15px 20px;
+            background-color: #1f4068;
+            border-top: 2px solid #2d4059;
+            flex: 0.8;
+            overflow-y: auto;
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            background-color: #0f3460;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .history-date {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 0.8rem;
+        }
+        
+        .history-weight {
+            color: #e6e6e6;
+            font-size: 0.9rem;
+        }
+        
+        .no-history {
+            text-align: center;
+            color: #b8b8b8;
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body onload="brython()">
+    <div class="container">
+        <div class="panel">
+            <div class="left-section">
+                <div class="status-bar">
+                    <div class="app-title">烤雞溫測控制面板</div>
+                    <div class="current-time" id="current-time">22:10</div>
+                </div>
+                
+                <div class="input-section">
+                    <div class="input-group">
+                        <label for="chicken-weight">雞的重量 (公克):</label>
+                        <input type="number" id="chicken-weight" min="500" max="5000" step="100" value="1500">
+                    </div>
+                    
+                    <button class="calculate-btn" id="calculate-btn">計算烘烤參數</button>
+                    <button class="history-btn" id="history-btn">查看歷史記錄</button>
+                    <button class="back-btn" id="back-btn">返回主畫面</button>
+                    <div id="error-message" class="error">請輸入有效的雞重量 (500-5000公克)</div>
+                </div>
+                
+                <div class="control-buttons">
+                    <button class="control-btn" id="start-btn">
+                        <div class="btn-icon">🔥</div>
+                        <div>開始烘烤</div>
+                    </button>
+                    <button class="control-btn" id="temp-btn">
+                        <div class="btn-icon">🌡️</div>
+                        <div>調整溫度</div>
+                    </button>
+                    <button class="control-btn" id="timer-btn">
+                        <div class="btn-icon">⏱️</div>
+                        <div>設定計時器</div>
+                    </button>
+                    <button class="control-btn" id="recipe-btn">
+                        <div class="btn-icon">📋</div>
+                        <div>查看食譜</div>
+                    </button>
+                </div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item active" id="nav-monitor">監控</div>
+                    <div class="nav-item" id="nav-recipes">食譜</div>
+                    <div class="nav-item" id="nav-history">歷史</div>
+                    <div class="nav-item" id="nav-settings">設定</div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="temp-display">
+                    <div class="temp-title">烘烤溫度與時間監控</div>
+                    
+                    <div class="temp-readings">
+                        <div class="temp-item">
+                            <div class="temp-label">目前烤箱溫度</div>
+                            <div class="temp-value" id="oven-temp">25</div>
+                            <div class="temp-unit">°C</div>
+                        </div>
+                        <div class="temp-item">
+                            <div class="temp-label">目標溫度</div>
+                            <div class="temp-value" id="target-temp">--</div>
+                            <div class="temp-unit">°C</div>
+                        </div>
+                        <div class="temp-item">
+                            <div class="temp-label">剩餘時間</div>
+                            <div class="temp-value" id="time-left">--</div>
+                            <div class="temp-unit">分鐘</div>
+                        </div>
+                    </div>
+                    
+                    <div class="temp-chart">
+                        <!-- Y轴标题 -->
+                        <div class="y-axis-title">溫度 (°C)</div>
+                        <!-- X轴标题 -->
+                        <div class="x-axis-title">時間</div>
+                        <!-- 图表网格线 -->
+                        <div class="chart-grid" id="chart-grid">
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                        </div>
+                        <!-- Y轴标签 -->
+                        <div class="y-axis-labels" id="y-axis-labels">
+                            <div>250</div>
+                            <div>200</div>
+                            <div>150</div>
+                            <div>100</div>
+                            <div>50</div>
+                            <div>0</div>
+                        </div>
+                        <!-- 图表数据区域 -->
+                        <div class="chart-data" id="chart-data"></div>
+                        <!-- X轴标签 -->
+                        <div class="x-axis-labels" id="x-axis-labels">
+                            <div>10:00</div>
+                            <div>10:15</div>
+                            <div>10:30</div>
+                            <div>10:45</div>
+                            <div>11:00</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="results" class="results">
+                    <h2>烘烤計算結果</h2>
+                    <div class="result-item">
+                        <div class="result-title">醃料配方與用量</div>
+                        <div id="marinade-result" class="result-value">輸入雞的重量並點擊計算以查看醃料建議</div>
+                        <div class="marinade-details" id="marinade-details"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-title">烘烤說明</div>
+                        <div class="instructions-box">
+                            <div id="instructions-result" class="instructions-content">計算後將顯示說明，包含溫度設定、時間和準備步驟。</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="history-section" class="history-section">
+                    <h2>烘烤歷史記錄</h2>
+                    <div class="history-list" id="history-list">
+                        <div class="no-history" id="no-history">尚無烘烤歷史記錄。請先計算您的第一個烘烤參數！</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/python">
+        # 導入 Brython 模組
+        from browser import document, timer, window
+        import math
+        import random
+        from datetime import datetime, timedelta
+        
+        # 獲取 DOM 元素引用
+        oven_temp = document["oven-temp"]
+        target_temp = document["target-temp"]
+        time_left = document["time-left"]
+        current_time = document["current-time"]
+        chart_data = document["chart-data"]
+        y_axis_labels = document["y-axis-labels"]
+        x_axis_labels = document["x-axis-labels"]
+        chicken_weight_input = document["chicken-weight"]
+        calculate_btn = document["calculate-btn"]
+        history_btn = document["history-btn"]
+        back_btn = document["back-btn"]
+        error_message = document["error-message"]
+        results_div = document["results"]
+        history_section = document["history-section"]
+        history_list = document["history-list"]
+        no_history = document["no-history"]
+        marinade_result = document["marinade-result"]
+        marinade_details = document["marinade-details"]
+        instructions_result = document["instructions-result"]
+        
+        # 導航元素
+        nav_monitor = document["nav-monitor"]
+        nav_recipes = document["nav-recipes"]
+        nav_history = document["nav-history"]
+        nav_settings = document["nav-settings"]
+        
+        # 初始化溫度變數
+        oven_current = 25
+        target_current = 0
+        time_remaining = 0
+        is_roasting = False
+        
+        # 歷史記錄存儲
+        roasting_history = []
+        
+        # 時間數據點（用於X軸標籤）
+        time_points = []
+        
+        def initialize_time_points():
+            """初始化時間數據點"""
+            global time_points
+            now = datetime.now()
+            time_points = []
+            for i in range(5):
+                time_point = now + timedelta(minutes=i*15)
+                time_points.append(time_point.strftime("%H:%M"))
+        
+        def update_chart_axes():
+            """更新圖表座標軸標籤"""
+            # 更新Y軸標籤（溫度）
+            y_labels = ["250", "200", "150", "100", "50", "0"]
+            y_axis_labels.clear()
+            for label in y_labels:
+                label_element = document.createElement("div")
+                label_element.text = label
+                y_axis_labels <= label_element
+            
+            # 更新X軸標籤（時間）
+            initialize_time_points()
+            x_axis_labels.clear()
+            for time_point in time_points:
+                time_element = document.createElement("div")
+                time_element.text = time_point
+                x_axis_labels <= time_element
+        
+        def generate_chart_data():
+            """生成溫度圖表的數據點"""
+            chart_data.clear()
+            
+            # 根據目前溫度生成數據點
+            for i in range(5):
+                data_point = document.createElement("div")
+                data_point.className = "data-point"
+                
+                if target_current > 0 and is_roasting:
+                    # 模擬烘烤過程中的溫度變化
+                    if i == 0:  # 最新數據點
+                        height = (oven_current / 250) * 100
+                    else:
+                        # 歷史數據點，模擬溫度上升趨勢
+                        progress = (4 - i) / 4  # 從舊到新的進度
+                        base_temp = 25 + (target_current - 25) * progress
+                        height = (base_temp / 250) * 100
+                else:
+                    # 未開始烘烤時的默認數據
+                    height = 10 + (i * 5)
+                
+                # 限制高度在合理範圍內
+                height = max(5, min(95, height))
+                data_point.style.height = f"{height}%"
+                
+                # 添加懸停提示
+                data_point.title = f"溫度: {int((height/100)*250)}°C"
+                
+                chart_data <= data_point
+        
+        def update_time():
+            """更新目前時間顯示"""
+            now = datetime.now()
+            current_time.text = now.strftime("%H:%M")
+            
+            # 每5分鐘更新一次時間標籤
+            if now.minute % 5 == 0:
+                update_chart_axes()
+        
+        def update_temperatures():
+            """更新溫度顯示和模擬溫度變化"""
+            global oven_current, time_remaining
+            
+            if is_roasting and target_current > 0:
+                # 模擬溫度上升（逐漸接近目標溫度）
+                if oven_current < target_current:
+                    oven_current += (target_current - oven_current) * 0.1
+                    oven_current = min(oven_current, target_current)
+                
+                # 更新剩餘時間
+                if time_remaining > 0:
+                    time_remaining -= 1
+                
+                # 更新顯示
+                oven_temp.text = f"{int(oven_current)}"
+                target_temp.text = f"{int(target_current)}"
+                
+                if time_remaining > 0:
+                    hours = time_remaining // 60
+                    minutes = time_remaining % 60
+                    if hours > 0:
+                        time_left.text = f"{hours}時{minutes}分"
+                    else:
+                        time_left.text = f"{minutes}分"
+                else:
+                    time_left.text = "完成！"
+                    if oven_current <= 25:
+                        reset_roasting()
+            
+            # 更新圖表
+            generate_chart_data()
+        
+        def reset_roasting():
+            """重置烘烤狀態"""
+            global is_roasting, target_current, time_remaining
+            is_roasting = False
+            target_current = 0
+            time_remaining = 0
+            oven_temp.text = "25"
+            target_temp.text = "--"
+            time_left.text = "--"
+        
+        def calculate_marinade(weight):
+            """根據雞的重量計算醃料配比"""
+            salt = round(weight * 0.015, 1)
+            pepper = round(weight * 0.005, 1)
+            garlic = math.ceil(weight / 500)
+            olive_oil = round(weight * 0.02, 1)
+            herbs = math.ceil(weight / 1000)
+            
+            return {
+                "salt": salt,
+                "pepper": pepper,
+                "garlic": garlic,
+                "olive_oil": olive_oil,
+                "herbs": herbs
+            }
+        
+        def calculate_roasting_temperature(weight):
+            """根據重量計算烘烤溫度"""
+            if weight <= 1000:
+                return 200
+            elif weight <= 2000:
+                return 190
+            else:
+                return 180
+        
+        def calculate_roasting_time(weight):
+            """根據重量計算烘烤時間"""
+            base_time = 30
+            additional_time = (weight / 500) * 25
+            return round(base_time + additional_time)
+        
+        def create_marinade_details(marinade_data):
+            """創建醃料詳情的網格顯示"""
+            marinade_details.clear()
+            
+            for ingredient, amount in marinade_data.items():
+                item = document.createElement("div")
+                item.className = "marinade-item"
+                
+                name = document.createElement("div")
+                name.className = "marinade-name"
+                name.text = ingredient.replace("_", " ").title()
+                
+                value = document.createElement("div")
+                value.className = "marinade-amount"
+                
+                if ingredient == "garlic":
+                    value.text = f"{amount} 瓣"
+                elif ingredient == "olive_oil":
+                    value.text = f"{amount} 毫升"
+                elif ingredient == "herbs":
+                    value.text = f"{amount} 茶匙"
+                else:
+                    value.text = f"{amount} 克"
+                
+                item <= name
+                item <= value
+                marinade_details <= item
+        
+        def save_to_history(weight, temperature, time, marinade_data):
+            """保存計算結果到歷史記錄"""
+            history_entry = {
+                "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "weight": weight,
+                "temperature": temperature,
+                "time": time,
+                "marinade": marinade_data
+            }
+            roasting_history.append(history_entry)
+            
+            # 保存到 localStorage
+            window.localStorage.setItem("roastingHistory", JSON.stringify(roasting_history))
+        
+        def load_from_history():
+            """從 localStorage 加載歷史記錄"""
+            global roasting_history
+            try:
+                stored_history = window.localStorage.getItem("roastingHistory")
+                if stored_history:
+                    roasting_history = JSON.parse(stored_history)
+            except:
+                roasting_history = []
+        
+        def display_history():
+            """顯示歷史記錄"""
+            history_list.clear()
+            
+            if len(roasting_history) == 0:
+                no_history.style.display = "block"
+                history_list <= no_history
+            else:
+                no_history.style.display = "none"
+                for entry in reversed(roasting_history):
+                    history_item = document.createElement("div")
+                    history_item.className = "history-item"
+                    
+                    header = document.createElement("div")
+                    header.className = "history-header"
+                    
+                    date = document.createElement("div")
+                    date.className = "history-date"
+                    date.text = entry["date"]
+                    
+                    weight = document.createElement("div")
+                    weight.className = "history-weight"
+                    weight.text = f"{entry['weight']}克 雞肉"
+                    
+                    header <= date
+                    header <= weight
+                    history_item <= header
+                    
+                    # 添加詳細信息
+                    details = document.createElement("div")
+                    details.style.fontSize = "0.8rem"
+                    details.style.marginTop = "5px"
+                    details.text = f"溫度: {entry['temperature']}°C, 時間: {entry['time']}分鐘"
+                    history_item <= details
+                    
+                    history_list <= history_item
+        
+        def show_main_view():
+            """顯示主畫面"""
+            results_div.style.display = "block"
+            history_section.style.display = "none"
+            history_btn.style.display = "block"
+            back_btn.style.display = "none"
+            nav_monitor.classList.add("active")
+            nav_history.classList.remove("active")
+        
+        def show_history_view():
+            """顯示歷史記錄畫面"""
+            results_div.style.display = "none"
+            history_section.style.display = "block"
+            history_btn.style.display = "none"
+            back_btn.style.display = "block"
+            display_history()
+            nav_monitor.classList.remove("active")
+            nav_history.classList.add("active")
+        
+        def calculate_handler(evt):
+            """處理計算按鈕點擊"""
+            global target_current, time_remaining
+            
+            try:
+                weight = float(chicken_weight_input.value)
+                
+                if weight < 500 or weight > 5000:
+                    error_message.style.display = "block"
+                    return
+                
+                error_message.style.display = "none"
+                
+                # 計算結果
+                marinade_data = calculate_marinade(weight)
+                temperature = calculate_roasting_temperature(weight)
+                time = calculate_roasting_time(weight)
+                
+                # 設定目標值
+                target_current = temperature
+                time_remaining = time
+                
+                # 更新顯示
+                target_temp.text = f"{target_current}"
+                time_left.text = f"{time_remaining}"
+                
+                # 顯示結果
+                marinade_result.text = f"對於 {weight}克 的雞肉，使用以下配料："
+                create_marinade_details(marinade_data)
+                
+                instructions = f"1. 準備醃料\n2. 醃製至少2小時\n3. 預熱烤箱至 {temperature}°C\n4. 烘烤 {time} 分鐘\n5. 檢查內部溫度達到74°C\n6. 靜置10分鐘後享用"
+                instructions_result.text = instructions
+                
+                # 保存歷史
+                save_to_history(weight, temperature, time, marinade_data)
+                
+                # 更新圖表
+                generate_chart_data()
+                update_chart_axes()
+                
+            except ValueError:
+                error_message.style.display = "block"
+        
+        # 按鈕事件處理
+        def start_handler(evt):
+            global is_roasting
+            if target_current > 0:
+                is_roasting = True
+                window.alert("開始烘烤！烤箱加熱中...")
+        
+        def temp_handler(evt):
+            window.alert("溫度調整面板")
+        
+        def timer_handler(evt):
+            window.alert("計時器設定")
+        
+        def recipe_handler(evt):
+            window.alert("食譜查看")
+        
+        def history_handler(evt):
+            show_history_view()
+        
+        def back_handler(evt):
+            show_main_view()
+        
+        # 綁定事件
+        calculate_btn.bind("click", calculate_handler)
+        document["start-btn"].bind("click", start_handler)
+        document["temp-btn"].bind("click", temp_handler)
+        document["timer-btn"].bind("click", timer_handler)
+        document["recipe-btn"].bind("click", recipe_handler)
+        history_btn.bind("click", history_handler)
+        back_btn.bind("click", back_handler)
+        
+        # 導航事件
+        nav_monitor.bind("click", lambda e: show_main_view())
+        nav_history.bind("click", lambda e: show_history_view())
+        nav_recipes.bind("click", lambda e: window.alert("食譜功能"))
+        nav_settings.bind("click", lambda e: window.alert("設定功能"))
+        
+        # 初始化應用
+        def initialize():
+            generate_chart_data()
+            update_chart_axes()
+            update_time()
+            load_from_history()
+            timer.set_interval(update_temperatures, 1000)
+            timer.set_interval(update_time, 30000)
+        
+        initialize()
+    </script>
+</body>
+</html>
