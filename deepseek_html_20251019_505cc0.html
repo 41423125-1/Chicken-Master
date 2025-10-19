@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roast Chicken Monitor</title>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            line-height: 1.6;
+            padding: 2.54cm; /* 25.4mm = 1 inch */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .panel {
+            width: 100%;
+            max-width: 1200px;
+            height: 700px;
+            background-color: #162447;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            display: flex;
+        }
+        
+        .left-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #2d4059;
+        }
+        
+        .right-section {
+            flex: 1.3;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .status-bar {
+            background-color: #0f3460;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2d4059;
+        }
+        
+        .printer-status {
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+        
+        .current-time {
+            font-size: 1.6rem;
+        }
+        
+        .input-section {
+            padding: 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 35px;
+        }
+        
+        label {
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #e6e6e6;
+            font-size: 1.3rem;
+        }
+        
+        input[type="number"] {
+            padding: 18px;
+            border: 2px solid #2d4059;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            background-color: #0f3460;
+            color: #e6e6e6;
+        }
+        
+        input[type="number"]:focus {
+            border-color: #e43f5a;
+            outline: none;
+        }
+        
+        .calculate-btn {
+            background-color: #e43f5a;
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn:hover {
+            background-color: #d32f4e;
+        }
+        
+        .temp-display {
+            padding: 35px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .temp-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: #e6e6e6;
+        }
+        
+        .temp-readings {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 35px;
+        }
+        
+        .temp-item {
+            text-align: center;
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .temp-label {
+            font-size: 1.2rem;
+            color: #b8b8b8;
+            margin-bottom: 10px;
+        }
+        
+        .temp-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e6e6e6;
+        }
+        
+        .temp-unit {
+            font-size: 1.3rem;
+            color: #b8b8b8;
+        }
+        
+        .temp-chart {
+            height: 200px;
+            background-color: #1a1a2e;
+            border-radius: 15px;
+            padding: 15px;
+            position: relative;
+            margin-top: 20px;
+            flex: 1;
+        }
+        
+        .chart-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .grid-line {
+            border-top: 2px solid #2d4059;
+            width: 100%;
+        }
+        
+        .y-axis-labels {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 1rem;
+            color: #b8b8b8;
+        }
+        
+        .chart-data {
+            position: absolute;
+            bottom: 15px;
+            left: 60px;
+            right: 15px;
+            height: 170px;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .data-point {
+            flex: 1;
+            background-color: #e43f5a;
+            margin: 0 3px;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.5s;
+        }
+        
+        .x-axis-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 0 15px;
+            font-size: 1rem;
+            color: #b8b8b8;
+        }
+        
+        .results {
+            padding: 30px;
+            background-color: #1f4068;
+            border-top: 2px solid #2d4059;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .results h2 {
+            color: #e43f5a;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        .result-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #0f3460;
+            border-radius: 12px;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #e43f5a;
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+        
+        .result-value {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .control-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 30px;
+            border-top: 2px solid #2d4059;
+        }
+        
+        .control-btn {
+            background-color: #0f3460;
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            color: #e6e6e6;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90px;
+        }
+        
+        .control-btn:hover {
+            background-color: #1f4068;
+        }
+        
+        .control-btn:active {
+            background-color: #2d4059;
+        }
+        
+        .btn-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #0f3460;
+            padding: 20px 0;
+            border-top: 2px solid #2d4059;
+        }
+        
+        .nav-item {
+            text-align: center;
+            color: #b8b8b8;
+            font-size: 1.1rem;
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .nav-item.active {
+            color: #e43f5a;
+            font-weight: bold;
+            background-color: #1f4068;
+            border-radius: 8px;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            margin-top: 15px;
+            display: none;
+            background-color: #0f3460;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .marinade-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .marinade-item {
+            background-color: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .marinade-name {
+            font-size: 1rem;
+            color: #b8b8b8;
+            margin-bottom: 5px;
+        }
+        
+        .marinade-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e6e6e6;
+        }
+        
+        .instructions-box {
+            background-color: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border-left: 4px solid #e43f5a;
+        }
+        
+        .instructions-title {
+            font-weight: bold;
+            color: #e43f5a;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .instructions-content {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body onload="brython()">
+    <div class="panel">
+        <div class="left-section">
+            <div class="status-bar">
+                <div class="printer-status">Roast Chicken Monitor</div>
+                <div class="current-time" id="current-time">22:10</div>
+            </div>
+            
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="chicken-weight">Chicken Weight (grams):</label>
+                    <input type="number" id="chicken-weight" min="500" max="5000" step="100" placeholder="e.g., 1500" value="1500">
+                </div>
+                
+                <button class="calculate-btn" id="calculate-btn">Calculate Roasting Parameters</button>
+                <div id="error-message" class="error">Please enter a valid chicken weight (500-5000 grams)</div>
+            </div>
+            
+            <div class="control-buttons">
+                <button class="control-btn" id="start-btn">
+                    <div class="btn-icon">🔥</div>
+                    <div>Start Roasting</div>
+                </button>
+                <button class="control-btn" id="temp-btn">
+                    <div class="btn-icon">🌡️</div>
+                    <div>Adjust Temperature</div>
+                </button>
+                <button class="control-btn" id="timer-btn">
+                    <div class="btn-icon">⏱️</div>
+                    <div>Set Timer</div>
+                </button>
+                <button class="control-btn" id="recipe-btn">
+                    <div class="btn-icon">📋</div>
+                    <div>View Recipes</div>
+                </button>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item active">Monitor</div>
+                <div class="nav-item">Recipes</div>
+                <div class="nav-item">History</div>
+                <div class="nav-item">Settings</div>
+            </div>
+        </div>
+        
+        <div class="right-section">
+            <div class="temp-display">
+                <div class="temp-title">Roasting Temperature & Time Monitoring</div>
+                
+                <div class="temp-readings">
+                    <div class="temp-item">
+                        <div class="temp-label">Current Oven Temperature</div>
+                        <div class="temp-value" id="oven-temp">25</div>
+                        <div class="temp-unit">°C</div>
+                    </div>
+                    <div class="temp-item">
+                        <div class="temp-label">Target Temperature</div>
+                        <div class="temp-value" id="target-temp">--</div>
+                        <div class="temp-unit">°C</div>
+                    </div>
+                    <div class="temp-item">
+                        <div class="temp-label">Remaining Time</div>
+                        <div class="temp-value" id="time-left">--</div>
+                        <div class="temp-unit">minutes</div>
+                    </div>
+                </div>
+                
+                <div class="temp-chart">
+                    <div class="chart-grid">
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                        <div class="grid-line"></div>
+                    </div>
+                    
+                    <div class="y-axis-labels">
+                        <div>250</div>
+                        <div>200</div>
+                        <div>150</div>
+                        <div>100</div>
+                        <div>50</div>
+                        <div>0</div>
+                    </div>
+                    
+                    <div class="chart-data" id="chart-data">
+                        <!-- Data points will be generated by Brython -->
+                    </div>
+                    
+                    <div class="x-axis-labels">
+                        <div>10:00</div>
+                        <div>10:15</div>
+                        <div>10:30</div>
+                        <div>10:45</div>
+                        <div>11:00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="results" class="results">
+                <h2>Roasting Calculation Results</h2>
+                <div class="result-item">
+                    <div class="result-title">Marinade Ingredients & Quantities</div>
+                    <div id="marinade-result" class="result-value">Enter chicken weight and click Calculate to see marinade recommendations</div>
+                    <div class="marinade-details" id="marinade-details">
+                        <!-- Marinade details will be generated by Brython -->
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="result-title">Roasting Instructions</div>
+                    <div class="instructions-box">
+                        <div class="instructions-title">Complete Roasting Guide:</div>
+                        <div id="instructions-result" class="instructions-content">Instructions will appear here after calculation. This will include temperature settings, timing, and preparation steps.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/python">
+        from browser import document, timer, window
+        import math
+        import random
+        
+        # Get DOM elements
+        oven_temp = document["oven-temp"]
+        target_temp = document["target-temp"]
+        time_left = document["time-left"]
+        current_time = document["current-time"]
+        chart_data = document["chart-data"]
+        chicken_weight_input = document["chicken-weight"]
+        calculate_btn = document["calculate-btn"]
+        error_message = document["error-message"]
+        results_div = document["results"]
+        marinade_result = document["marinade-result"]
+        marinade_details = document["marinade-details"]
+        instructions_result = document["instructions-result"]
+        
+        # Initialize temperatures
+        oven_current = 25
+        target_current = 0
+        time_remaining = 0
+        is_roasting = False
+        
+        # Generate initial chart data
+        def generate_chart_data():
+            # Clear existing data points
+            chart_data.clear()
+            
+            # Generate data points for the chart
+            for i in range(5):
+                data_point = document.createElement("div")
+                # Create heights for the bars based on oven temperature
+                if target_current > 0:
+                    # Simulate temperature progression
+                    progress = min(1.0, (5 - i) / 5 * (oven_current / target_current))
+                    height = 20 + (progress * 80)
+                else:
+                    height = 20 + (i * 15)
+                data_point.style.height = f"{height}%"
+                data_point.className = "data-point"
+                chart_data <= data_point
+        
+        # Update time display
+        def update_time():
+            from datetime import datetime
+            now = datetime.now()
+            current_time.text = now.strftime("%H:%M")
+        
+        # Simulate temperature changes during roasting
+        def update_temperatures():
+            global oven_current, time_remaining
+            
+            if is_roasting and target_current > 0:
+                # If roasting, gradually increase temperature toward target
+                if oven_current < target_current:
+                    oven_current += 2
+                elif oven_current > target_current + 5:
+                    oven_current -= 1
+                
+                # Update time remaining
+                if time_remaining > 0:
+                    time_remaining -= 1
+                
+                # Update displays
+                oven_temp.text = f"{oven_current:.0f}"
+                target_temp.text = f"{target_current:.0f}"
+                
+                if time_remaining > 0:
+                    hours = time_remaining // 60
+                    minutes = time_remaining % 60
+                    if hours > 0:
+                        time_left.text = f"{hours}h {minutes}m"
+                    else:
+                        time_left.text = f"{minutes}m"
+                else:
+                    time_left.text = "Done!"
+                    # Reset when done
+                    if oven_current <= 25:
+                        reset_roasting()
+            
+            # Update chart
+            generate_chart_data()
+        
+        # Reset roasting state
+        def reset_roasting():
+            global is_roasting, target_current, time_remaining
+            is_roasting = False
+            target_current = 0
+            time_remaining = 0
+            oven_temp.text = "25"
+            target_temp.text = "--"
+            time_left.text = "--"
+        
+        # Calculate marinade based on weight
+        def calculate_marinade(weight):
+            # Calculate marinade ratio (based on chicken weight)
+            salt = round(weight * 0.015, 1)  # Salt: 1.5% of weight
+            pepper = round(weight * 0.005, 1)  # Black pepper: 0.5% of weight
+            garlic = math.ceil(weight / 500)  # Garlic: 1 clove per 500g
+            olive_oil = round(weight * 0.02, 1)  # Olive oil: 2% of weight
+            herbs = math.ceil(weight / 1000)  # Herbs: 1 tsp per 1000g
+            
+            return {
+                "salt": salt,
+                "pepper": pepper,
+                "garlic": garlic,
+                "olive_oil": olive_oil,
+                "herbs": herbs
+            }
+        
+        # Calculate roasting temperature based on weight
+        def calculate_roasting_temperature(weight):
+            if weight <= 1000:
+                return 200
+            elif weight <= 2000:
+                return 190
+            else:
+                return 180
+        
+        # Calculate roasting time based on weight
+        def calculate_roasting_time(weight):
+            # Calculate roasting time (approx 25 minutes per 500g)
+            base_time = 30  # Base time
+            additional_time = (weight / 500) * 25
+            return round(base_time + additional_time)
+        
+        # Create marinade details display
+        def create_marinade_details(marinade_data):
+            marinade_details.clear()
+            
+            for ingredient, amount in marinade_data.items():
+                item = document.createElement("div")
+                item.className = "marinade-item"
+                
+                name = document.createElement("div")
+                name.className = "marinade-name"
+                name.text = ingredient.replace("_", " ").title()
+                
+                value = document.createElement("div")
+                value.className = "marinade-amount"
+                
+                if ingredient == "garlic":
+                    value.text = f"{amount} cloves"
+                elif ingredient == "olive_oil":
+                    value.text = f"{amount} ml"
+                elif ingredient == "herbs":
+                    value.text = f"{amount} tsp"
+                else:
+                    value.text = f"{amount} g"
+                
+                item <= name
+                item <= value
+                marinade_details <= item
+        
+        # Calculate button handler
+        def calculate_handler(evt):
+            global target_current, time_remaining
+            
+            try:
+                weight = float(chicken_weight_input.value)
+                
+                if weight < 500 or weight > 5000:
+                    error_message.style.display = "block"
+                    return
+                
+                # Hide error message
+                error_message.style.display = "none"
+                
+                # Calculate results
+                marinade_data = calculate_marinade(weight)
+                temperature = calculate_roasting_temperature(weight)
+                time = calculate_roasting_time(weight)
+                
+                # Set target temperature and time
+                target_current = temperature
+                time_remaining = time
+                
+                # Update displays
+                target_temp.text = f"{target_current:.0f}"
+                
+                hours = time_remaining // 60
+                minutes = time_remaining % 60
+                if hours > 0:
+                    time_left.text = f"{hours}h {minutes}m"
+                else:
+                    time_left.text = f"{minutes}m"
+                
+                # Display marinade results
+                marinade_text = f"For a {weight}g chicken, use the following ingredients:"
+                marinade_result.text = marinade_text
+                
+                # Create detailed marinade display
+                create_marinade_details(marinade_data)
+                
+                # Display instructions
+                instructions = f"1. Prepare the marinade using the ingredients listed above\n2. Marinate the chicken for at least 2 hours (preferably overnight)\n3. Preheat oven to {temperature}°C\n4. Roast the chicken for {time} minutes\n5. Check internal temperature reaches 74°C\n6. Let rest for 10 minutes before carving and serving"
+                instructions_result.text = instructions
+                
+                # Update chart
+                generate_chart_data()
+                
+            except ValueError:
+                error_message.style.display = "block"
+        
+        # Button event handlers
+        def start_handler(evt):
+            global is_roasting
+            if target_current > 0:
+                is_roasting = True
+                window.alert("Roasting started! Oven heating up...")
+            else:
+                window.alert("Please calculate roasting parameters first!")
+        
+        def temp_handler(evt):
+            window.alert("Temperature adjustment panel opened")
+        
+        def timer_handler(evt):
+            window.alert("Timer settings opened")
+        
+        def recipe_handler(evt):
+            window.alert("Recipe book opened")
+        
+        # Set up event listeners
+        calculate_btn.bind("click", calculate_handler)
+        document["start-btn"].bind("click", start_handler)
+        document["temp-btn"].bind("click", temp_handler)
+        document["timer-btn"].bind("click", timer_handler)
+        document["recipe-btn"].bind("click", recipe_handler)
+        
+        # Initialize the application
+        def initialize():
+            generate_chart_data()
+            update_time()
+            # Set up periodic updates
+            timer.set_interval(update_temperatures, 1000)  # Update every second
+            timer.set_interval(update_time, 30000)  # Update time every 30 seconds
+        
+        # Start the application
+        initialize()
+    </script>
+</body>
+</html>
