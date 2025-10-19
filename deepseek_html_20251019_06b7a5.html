@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>烤鸡计算器</title>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        
+        .description {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        input[type="number"] {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #c0392b;
+        }
+        
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .result-item {
+            margin-bottom: 15px;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+        
+        .result-value {
+            font-size: 18px;
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .tips {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #fff8e1;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .tips h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        @media (min-width: 768px) {
+            .input-group {
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            label {
+                margin-bottom: 0;
+                margin-right: 15px;
+                width: 150px;
+            }
+            
+            button {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body onload="brython()">
+    <div class="container">
+        <h1>烤鸡计算器</h1>
+        <p class="description">输入鸡的重量，自动计算腌料配比、烘烤温度和时间</p>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="chicken-weight">鸡的重量 (克):</label>
+                <input type="number" id="chicken-weight" min="500" max="5000" step="100" placeholder="例如: 1500">
+            </div>
+            
+            <button id="calculate-btn">计算</button>
+            <div id="error-message" class="error">请输入有效的鸡重量 (500-5000克)</div>
+        </div>
+        
+        <div id="results" class="results">
+            <h2>计算结果</h2>
+            <div class="result-item">
+                <div class="result-title">腌料配比:</div>
+                <div id="marinade-result" class="result-value"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-title">烘烤温度:</div>
+                <div id="temperature-result" class="result-value"></div>
+            </div>
+            <div class="result-item">
+                <div class="result-title">烘烤时间:</div>
+                <div id="time-result" class="result-value"></div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <h3>烤鸡小贴士:</h3>
+            <ul>
+                <li>腌制时间建议至少2小时，最好过夜</li>
+                <li>烤制前让鸡在室温下放置30分钟</li>
+                <li>使用肉类温度计确保内部温度达到74°C</li>
+                <li>烤制过程中可涂抹蜂蜜或酱汁增加风味</li>
+                <li>烤好后让鸡休息10分钟再切块</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/python">
+        from browser import document, alert
+        import math
+
+        def calculate_marinade(weight):
+            # 计算腌料配比 (基于鸡的重量)
+            salt = round(weight * 0.015, 1)  # 盐: 1.5% 重量
+            pepper = round(weight * 0.005, 1)  # 黑胡椒: 0.5% 重量
+            garlic = math.ceil(weight / 500)  # 大蒜: 每500克1瓣
+            olive_oil = round(weight * 0.02, 1)  # 橄榄油: 2% 重量
+            herbs = math.ceil(weight / 1000)  # 香草: 每1000克1茶匙
+            
+            return f"盐: {salt}g, 黑胡椒: {pepper}g, 大蒜: {garlic}瓣, 橄榄油: {olive_oil}ml, 香草: {herbs}茶匙"
+
+        def calculate_temperature(weight):
+            # 计算烘烤温度
+            if weight <= 1000:
+                return "200°C"
+            elif weight <= 2000:
+                return "190°C"
+            else:
+                return "180°C"
+
+        def calculate_time(weight):
+            # 计算烘烤时间 (每500克约需25分钟)
+            base_time = 30  # 基础时间
+            additional_time = (weight / 500) * 25
+            total_minutes = round(base_time + additional_time)
+            
+            hours = total_minutes // 60
+            minutes = total_minutes % 60
+            
+            if hours > 0:
+                return f"{hours}小时 {minutes}分钟"
+            else:
+                return f"{minutes}分钟"
+
+        def calculate(event):
+            weight_input = document["chicken-weight"]
+            results_div = document["results"]
+            error_div = document["error-message"]
+            
+            try:
+                weight = float(weight_input.value)
+                
+                if weight < 500 or weight > 5000:
+                    error_div.style.display = "block"
+                    results_div.style.display = "none"
+                    return
+                
+                # 隐藏错误信息
+                error_div.style.display = "none"
+                
+                # 计算各项结果
+                marinade = calculate_marinade(weight)
+                temperature = calculate_temperature(weight)
+                time = calculate_time(weight)
+                
+                # 显示结果
+                document["marinade-result"].text = marinade
+                document["temperature-result"].text = temperature
+                document["time-result"].text = time
+                
+                results_div.style.display = "block"
+                
+            except ValueError:
+                error_div.style.display = "block"
+                results_div.style.display = "none"
+
+        # 绑定事件
+        document["calculate-btn"].bind("click", calculate)
+    </script>
+</body>
+</html>
