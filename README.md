@@ -56,7 +56,7 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 
 整體採用三層架構設計：
 
-## 1️.前端視覺層（HTML + CSS）
+### 1️.前端視覺層（HTML + CSS）
 
 HTML 結構明確劃分：
 
@@ -66,7 +66,7 @@ HTML 結構明確劃分：
 
 CSS 採用 深色玻璃質感設計，搭配柔和的漸層與陰影效果，模擬高科技控制面板介面
 
-## 2️. 邏輯運算層（Brython Python）
+### 2️. 邏輯運算層（Brython Python）
 
 主要 Python 函數：
 
