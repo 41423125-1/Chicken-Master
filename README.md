@@ -43,6 +43,8 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 
 
 模組	功能說明
+
+
 <img width="556" height="594" alt="image" src="https://github.com/user-attachments/assets/d0774ed3-4cb0-4564-9a58-29853d1429bb" />
 
 1. 重量輸入區	使用者輸入雞重量 (500–5000g)，作為計算依據
