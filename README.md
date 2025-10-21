@@ -10,13 +10,13 @@
 本系統的核心原理是利用 Brython（Browser Python） 將 Python 程式直接在瀏覽器端執行，藉由操作 HTML DOM 元素，實現互動式控制面板。
 整體邏輯如下：
 
-I.Brython 執行層
+## I.Brython 執行層
 
 Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScript，於瀏覽器內執行。
 
 透過 from browser import document, timer, window 操作 DOM、定時器與本地儲存。
 
-II.資料運算層
+## II.資料運算層
 
 使用者輸入雞的重量與選擇的腌料配方後，程式以 Python 計算所需：
 
@@ -26,7 +26,7 @@ II.資料運算層
 
 烘烤時間（以每500克為25分鐘估算）
 
-III.資料展示層
+## III.資料展示層
 
 計算結果（腌料比例、烘烤步驟）會即時更新至 HTML 介面中。
 
