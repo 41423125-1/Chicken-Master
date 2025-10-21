@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>烤雞溫測控制面板</title>
+    <title>Roast Chicken Temperature Control Panel</title>
     <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
     <style>
@@ -11,7 +11,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
         
         body {
@@ -110,6 +110,56 @@
             outline: none;
             box-shadow: 0 0 10px rgba(228, 63, 90, 0.3);
         }
+
+        /* Recipe selection area */
+        .recipe-selection {
+            margin-bottom: 25px;
+        }
+
+        .recipe-title {
+            font-weight: bold;
+            color: #e6e6e6;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .recipe-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .recipe-btn {
+            background: rgba(15, 52, 96, 0.7);
+            border: 2px solid #2d4059;
+            border-radius: 10px;
+            padding: 15px;
+            color: #e6e6e6;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .recipe-btn:hover {
+            background: rgba(31, 64, 104, 0.8);
+            border-color: rgba(228, 63, 90, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .recipe-btn.active {
+            background: rgba(228, 63, 90, 0.2);
+            border-color: #e43f5a;
+            color: #e43f5a;
+            box-shadow: 0 0 15px rgba(228, 63, 90, 0.3);
+        }
+
+        .recipe-icon {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            display: block;
+        }
         
         .calculate-btn {
             background: linear-gradient(135deg, #e43f5a 0%, #d32f4e 100%);
@@ -172,7 +222,7 @@
             box-shadow: 0 6px 20px rgba(149, 165, 166, 0.4);
         }
 
-        /* 控制按钮样式 */
+        /* Control buttons style */
         .control-buttons {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -210,7 +260,7 @@
             margin-bottom: 8px;
         }
 
-        /* 图标控制面板样式 */
+        /* Icon control panel style */
         .icon-panel {
             background: rgba(15, 52, 96, 0.7);
             border-radius: 15px;
@@ -273,129 +323,11 @@
             margin-top: 5px;
         }
 
-        /* 图标颜色 */
+        /* Icon colors */
         .icon-monitor { color: #4cd964; }
         .icon-recipe { color: #ff9500; }
         .icon-history { color: #5ac8fa; }
         .icon-settings { color: #ff3b30; }
-        
-        .temp-display {
-            padding: 25px 30px 15px 30px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .temp-title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            color: #e6e6e6;
-            font-weight: bold;
-        }
-        
-        .temp-readings {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            gap: 15px;
-        }
-        
-        .temp-item {
-            text-align: center;
-            flex: 1;
-            padding: 15px;
-            background: rgba(15, 52, 96, 0.7);
-            border-radius: 10px;
-            border: 1px solid rgba(45, 64, 89, 0.5);
-        }
-        
-        .temp-label {
-            font-size: 0.9rem;
-            color: #b8b8b8;
-            margin-bottom: 8px;
-        }
-        
-        .temp-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #e43f5a;
-        }
-        
-        .temp-unit {
-            font-size: 0.9rem;
-            color: #b8b8b8;
-        }
-        
-        .temp-chart {
-            height: 200px;
-            background: rgba(26, 26, 46, 0.8);
-            border-radius: 12px;
-            padding: 15px;
-            position: relative;
-            margin-top: 10px;
-            border: 1px solid rgba(45, 64, 89, 0.5);
-        }
-        
-        .chart-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            pointer-events: none;
-        }
-        
-        .grid-line {
-            border-top: 1px solid rgba(45, 64, 89, 0.5);
-            width: 100%;
-        }
-        
-        .y-axis-labels {
-            position: absolute;
-            left: 8px;
-            top: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: #b8b8b8;
-        }
-        
-        .chart-data {
-            position: absolute;
-            bottom: 15px;
-            left: 45px;
-            right: 15px;
-            height: 160px;
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-        }
-        
-        .data-point {
-            flex: 1;
-            background: linear-gradient(to top, #e43f5a, #ff6b6b);
-            border-radius: 3px 3px 0 0;
-            transition: height 0.5s ease;
-            min-height: 5px;
-        }
-        
-        .x-axis-labels {
-            position: absolute;
-            bottom: 0;
-            left: 45px;
-            right: 15px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
-            color: #b8b8b8;
-            padding: 5px 0;
-        }
         
         .results {
             padding: 20px 25px;
@@ -530,6 +462,19 @@
             font-weight: bold;
         }
         
+        .history-marinade {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 6px;
+        }
+        
+        .marinade-summary {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            line-height: 1.4;
+        }
+        
         .no-history {
             text-align: center;
             color: #b8b8b8;
@@ -544,153 +489,125 @@
         <div class="panel">
             <div class="left-section">
                 <div class="status-bar">
-                    <div class="app-title">烤雞溫測控制面板</div>
+                    <div class="app-title">Roast Chicken Control Panel</div>
                     <div class="current-time" id="current-time">22:10</div>
                 </div>
                 
                 <div class="input-section">
-                    <!-- 鸡重量输入区域 -->
+                    <!-- Chicken weight input area -->
                     <div class="input-group">
-                        <label for="chicken-weight">雞的重量 (公克):</label>
-                        <input type="number" id="chicken-weight" min="500" max="5000" step="100" placeholder="例如: 1500" value="1500">
+                        <label for="chicken-weight">Chicken Weight (grams):</label>
+                        <input type="number" id="chicken-weight" min="500" max="5000" step="100" placeholder="e.g. 1500" value="1500">
+                    </div>
+
+                    <!-- Recipe selection area -->
+                    <div class="recipe-selection">
+                        <div class="recipe-title">Select Marinade Recipe</div>
+                        <div class="recipe-buttons">
+                            <button class="recipe-btn active" id="recipe-classic">
+                                <span class="recipe-icon">🍗</span>
+                                Classic Original
+                            </button>
+                            <button class="recipe-btn" id="recipe-spicy">
+                                <span class="recipe-icon">🌶️</span>
+                                Spicy Flavor
+                            </button>
+                            <button class="recipe-btn" id="recipe-herbal">
+                                <span class="recipe-icon">🌿</span>
+                                Herbal Garlic
+                            </button>
+                            <button class="recipe-btn" id="recipe-sweet">
+                                <span class="recipe-icon">🍯</span>
+                                Honey Glazed
+                            </button>
+                        </div>
                     </div>
                     
-                    <!-- 功能按钮 -->
-                    <button class="calculate-btn" id="calculate-btn">計算烘烤參數</button>
-                    <button class="history-btn" id="history-btn">查看歷史記錄</button>
-                    <button class="back-btn" id="back-btn">返回主畫面</button>
-                    <div id="error-message" class="error">請輸入有效的雞重量 (500-5000公克)</div>
+                    <!-- Function buttons -->
+                    <button class="calculate-btn" id="calculate-btn">Calculate Roasting Parameters</button>
+                    <button class="history-btn" id="history-btn">View History</button>
+                    <button class="back-btn" id="back-btn">Back to Main</button>
+                    <div id="error-message" class="error">Please enter a valid chicken weight (500-5000 grams)</div>
                 </div>
 
-                <!-- 控制按钮区域 - 现在在上面 -->
+                <!-- Control buttons area -->
                 <div class="control-buttons">
                     <button class="control-btn" id="start-btn">
                         <div class="btn-icon">🔥</div>
-                        <div>開始烘烤</div>
+                        <div>Start Roasting</div>
                     </button>
                     <button class="control-btn" id="temp-btn">
                         <div class="btn-icon">🌡️</div>
-                        <div>調整溫度</div>
+                        <div>Adjust Temperature</div>
                     </button>
                     <button class="control-btn" id="timer-btn">
                         <div class="btn-icon">⏱️</div>
-                        <div>設定計時器</div>
+                        <div>Set Timer</div>
                     </button>
                     <button class="control-btn" id="recipe-btn">
                         <div class="btn-icon">📋</div>
-                        <div>查看食譜</div>
+                        <div>View Recipe</div>
                     </button>
                 </div>
 
-                <!-- 图标控制面板 - 现在在下面 -->
+                <!-- Icon control panel -->
                 <div class="icon-panel">
-                    <div class="icon-panel-title">功能選單</div>
+                    <div class="icon-panel-title">Function Menu</div>
                     <div class="icon-grid">
-                        <!-- 监控图标 -->
+                        <!-- Monitor icon -->
                         <div class="icon-item active" id="icon-monitor">
                             <span class="icon icon-monitor">📊</span>
-                            <div class="icon-name">監控</div>
-                            <div class="icon-desc">實時監控系統</div>
+                            <div class="icon-name">Monitor</div>
+                            <div class="icon-desc">Real-time Monitoring</div>
                         </div>
                         
-                        <!-- 食谱图标 -->
+                        <!-- Recipe icon -->
                         <div class="icon-item" id="icon-recipe">
                             <span class="icon icon-recipe">📋</span>
-                            <div class="icon-name">食譜</div>
-                            <div class="icon-desc">管理烹飪食譜</div>
+                            <div class="icon-name">Recipes</div>
+                            <div class="icon-desc">Manage Cooking Recipes</div>
                         </div>
                         
-                        <!-- 历史图标 -->
+                        <!-- History icon -->
                         <div class="icon-item" id="icon-history">
                             <span class="icon icon-history">⏱️</span>
-                            <div class="icon-name">歷史</div>
-                            <div class="icon-desc">查看操作記錄</div>
+                            <div class="icon-name">History</div>
+                            <div class="icon-desc">View Operation Records</div>
                         </div>
                         
-                        <!-- 设置图标 -->
+                        <!-- Settings icon -->
                         <div class="icon-item" id="icon-settings">
                             <span class="icon icon-settings">⚙️</span>
-                            <div class="icon-name">設定</div>
-                            <div class="icon-desc">系統配置選項</div>
+                            <div class="icon-name">Settings</div>
+                            <div class="icon-desc">System Configuration</div>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="right-section">
-                <div class="temp-display">
-                    <div class="temp-title">烘烤溫度與時間監控</div>
-                    
-                    <div class="temp-readings">
-                        <div class="temp-item">
-                            <div class="temp-label">目前烤箱溫度</div>
-                            <div class="temp-value" id="oven-temp">25</div>
-                            <div class="temp-unit">°C</div>
-                        </div>
-                        <div class="temp-item">
-                            <div class="temp-label">目標溫度</div>
-                            <div class="temp-value" id="target-temp">--</div>
-                            <div class="temp-unit">°C</div>
-                        </div>
-                        <div class="temp-item">
-                            <div class="temp-label">剩餘時間</div>
-                            <div class="temp-value" id="time-left">--</div>
-                            <div class="temp-unit">分鐘</div>
-                        </div>
-                    </div>
-                    
-                    <div class="temp-chart">
-                        <div class="chart-grid">
-                            <div class="grid-line"></div>
-                            <div class="grid-line"></div>
-                            <div class="grid-line"></div>
-                            <div class="grid-line"></div>
-                            <div class="grid-line"></div>
-                        </div>
-                        
-                        <div class="y-axis-labels">
-                            <div>250</div>
-                            <div>200</div>
-                            <div>150</div>
-                            <div>100</div>
-                            <div>50</div>
-                            <div>0</div>
-                        </div>
-                        
-                        <div class="chart-data" id="chart-data"></div>
-                        
-                        <div class="x-axis-labels">
-                            <div>10:00</div>
-                            <div>10:15</div>
-                            <div>10:30</div>
-                            <div>10:45</div>
-                            <div>11:00</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 计算结果区域 - 包含腌料配方和烘烤说明 -->
+                <!-- Calculation results area - includes marinade recipe and roasting instructions -->
                 <div id="results" class="results">
-                    <h2>烘烤計算結果</h2>
+                    <h2>Roasting Calculation Results</h2>
                     <div class="result-item">
-                        <div class="result-title">醃料配方與用量</div>
-                        <div id="marinade-result" class="result-value">輸入雞的重量並點擊計算以查看醃料建議</div>
+                        <div class="result-title">Marinade Recipe & Amounts</div>
+                        <div id="marinade-result" class="result-value">Enter chicken weight and click calculate to view marinade recommendations</div>
                         <div class="marinade-details" id="marinade-details">
-                            <!-- 腌料详情将由 Brython 动态生成 -->
+                            <!-- Marinade details will be dynamically generated by Brython -->
                         </div>
                     </div>
                     <div class="result-item">
-                        <div class="result-title">烘烤說明</div>
+                        <div class="result-title">Roasting Instructions</div>
                         <div class="instructions-box">
-                            <div id="instructions-result" class="instructions-content">計算後將顯示詳細的烘烤說明，包含溫度設定、時間控制和準備步驟。</div>
+                            <div id="instructions-result" class="instructions-content">After calculation, detailed roasting instructions will be displayed, including temperature settings, time control, and preparation steps.</div>
                         </div>
                     </div>
                 </div>
                 
                 <div id="history-section" class="history-section">
-                    <h2>烘烤歷史記錄</h2>
+                    <h2>Roasting History</h2>
                     <div class="history-list" id="history-list">
-                        <div class="no-history" id="no-history">尚無烘烤歷史記錄。請先計算您的第一個烘烤參數！</div>
+                        <div class="no-history" id="no-history">No roasting history yet. Please calculate your first roasting parameters!</div>
                     </div>
                 </div>
             </div>
@@ -705,11 +622,7 @@
         from datetime import datetime
         
         # 获取 DOM 元素引用
-        oven_temp = document["oven-temp"]
-        target_temp = document["target-temp"]
-        time_left = document["time-left"]
         current_time = document["current-time"]
-        chart_data = document["chart-data"]
         chicken_weight_input = document["chicken-weight"]
         calculate_btn = document["calculate-btn"]
         history_btn = document["history-btn"]
@@ -723,23 +636,26 @@
         marinade_details = document["marinade-details"]
         instructions_result = document["instructions-result"]
         
+        # 配方按钮
+        recipe_classic = document["recipe-classic"]
+        recipe_spicy = document["recipe-spicy"]
+        recipe_herbal = document["recipe-herbal"]
+        recipe_sweet = document["recipe-sweet"]
+        
         # 图标元素
         icon_monitor = document["icon-monitor"]
         icon_recipe = document["icon-recipe"]
         icon_history = document["icon-history"]
         icon_settings = document["icon-settings"]
         
-        # 初始化温度变量
-        oven_current = 25
-        target_current = 0
-        time_remaining = 0
-        is_roasting = False
-        
         # 历史记录存储
         roasting_history = []
         
         # 当前激活的图标
         active_icon = icon_monitor
+        
+        # 当前选择的配方
+        current_recipe = "classic"
         
         def set_active_icon(icon):
             """设置激活的图标"""
@@ -752,93 +668,81 @@
             icon.classList.add("active")
             active_icon = icon
 
-        def generate_chart_data():
-            """生成温度图表的初始数据点"""
-            chart_data.clear()
+        def set_active_recipe(recipe_id):
+            """设置激活的配方"""
+            global current_recipe
             
-            # 为图表生成数据点
-            for i in range(5):
-                data_point = document.createElement("div")
-                data_point.className = "data-point"
-                
-                if target_current > 0:
-                    # 模拟温度进展
-                    progress = min(1.0, (5 - i) / 5 * (oven_current / target_current))
-                    height = 20 + (progress * 80)
-                else:
-                    height = 20 + (i * 15)
-                
-                data_point.style.height = f"{height}%"
-                chart_data <= data_point
-        
+            # 移除所有配方的激活样式
+            recipe_classic.classList.remove("active")
+            recipe_spicy.classList.remove("active")
+            recipe_herbal.classList.remove("active")
+            recipe_sweet.classList.remove("active")
+            
+            # 设置新的激活配方
+            if recipe_id == "classic":
+                recipe_classic.classList.add("active")
+                current_recipe = "classic"
+            elif recipe_id == "spicy":
+                recipe_spicy.classList.add("active")
+                current_recipe = "spicy"
+            elif recipe_id == "herbal":
+                recipe_herbal.classList.add("active")
+                current_recipe = "herbal"
+            elif recipe_id == "sweet":
+                recipe_sweet.classList.add("active")
+                current_recipe = "sweet"
+
         def update_time():
             """更新当前时间显示"""
             now = datetime.now()
             current_time.text = now.strftime("%H:%M")
         
-        def update_temperatures():
-            """更新温度显示和模拟温度变化"""
-            global oven_current, time_remaining
-            
-            if is_roasting and target_current > 0:
-                # 如果正在烘烤，逐渐增加温度到目标温度
-                if oven_current < target_current:
-                    oven_current += 2
-                elif oven_current > target_current + 5:
-                    oven_current -= 1
-                
-                # 更新剩余时间
-                if time_remaining > 0:
-                    time_remaining -= 1
-                
-                # 更新显示
-                oven_temp.text = f"{oven_current:.0f}"
-                target_temp.text = f"{target_current:.0f}"
-                
-                if time_remaining > 0:
-                    hours = time_remaining // 60
-                    minutes = time_remaining % 60
-                    if hours > 0:
-                        time_left.text = f"{hours}時 {minutes}分"
-                    else:
-                        time_left.text = f"{minutes}分"
-                else:
-                    time_left.text = "完成！"
-                    # 完成后重置
-                    if oven_current <= 25:
-                        reset_roasting()
-            
-            # 更新图表
-            generate_chart_data()
-        
-        def reset_roasting():
-            """重置烘烤状态到初始值"""
-            global is_roasting, target_current, time_remaining
-            is_roasting = False
-            target_current = 0
-            time_remaining = 0
-            oven_temp.text = "25"
-            target_temp.text = "--"
-            time_left.text = "--"
-        
-        def calculate_marinade(weight):
+        def calculate_marinade(weight, recipe_type):
             """
-            根据鸡的重量计算腌料配比
+            根据鸡的重量和配方类型计算腌料配比
             """
-            # 计算腌料比例（基于鸡的重量）
-            salt = round(weight * 0.015, 1)  # 盐：重量的1.5%
-            pepper = round(weight * 0.005, 1)  # 黑胡椒：重量的0.5%
-            garlic = math.ceil(weight / 500)  # 大蒜：每500克1瓣
-            olive_oil = round(weight * 0.02, 1)  # 橄榄油：重量的2%
-            herbs = math.ceil(weight / 1000)  # 香草：每1000克1茶匙
-            
-            return {
-                "salt": salt,
-                "pepper": pepper,
-                "garlic": garlic,
-                "olive_oil": olive_oil,
-                "herbs": herbs
-            }
+            if recipe_type == "classic":
+                # 經典原味配方
+                return {
+                    "salt": round(weight * 0.015, 1),  # 鹽：重量的1.5%
+                    "pepper": round(weight * 0.005, 1),  # 黑胡椒：重量的0.5%
+                    "garlic": math.ceil(weight / 500),  # 大蒜：每500克1瓣
+                    "olive_oil": round(weight * 0.02, 1),  # 橄欖油：重量的2%
+                    "herbs": math.ceil(weight / 1000)  # 香草：每1000克1茶匙
+                }
+            elif recipe_type == "spicy":
+                # 香辣風味配方
+                return {
+                    "salt": round(weight * 0.012, 1),  # 鹽：重量的1.2%
+                    "pepper": round(weight * 0.008, 1),  # 黑胡椒：重量的0.8%
+                    "garlic": math.ceil(weight / 400),  # 大蒜：每400克1瓣
+                    "olive_oil": round(weight * 0.018, 1),  # 橄欖油：重量的1.8%
+                    "chili_powder": round(weight * 0.003, 1),  # 辣椒粉：重量的0.3%
+                    "paprika": round(weight * 0.002, 1),  # 紅椒粉：重量的0.2%
+                    "cumin": round(weight * 0.001, 1)  # 孜然：重量的0.1%
+                }
+            elif recipe_type == "herbal":
+                # 香草蒜香配方
+                return {
+                    "salt": round(weight * 0.014, 1),  # 鹽：重量的1.4%
+                    "pepper": round(weight * 0.004, 1),  # 黑胡椒：重量的0.4%
+                    "garlic": math.ceil(weight / 300),  # 大蒜：每300克1瓣
+                    "olive_oil": round(weight * 0.025, 1),  # 橄欖油：重量的2.5%
+                    "rosemary": math.ceil(weight / 800),  # 迷迭香：每800克1茶匙
+                    "thyme": math.ceil(weight / 800),  # 百里香：每800克1茶匙
+                    "lemon_juice": round(weight * 0.01, 1)  # 檸檬汁：重量的1%
+                }
+            elif recipe_type == "sweet":
+                # 蜜汁甜味配方
+                return {
+                    "salt": round(weight * 0.01, 1),  # 鹽：重量的1%
+                    "pepper": round(weight * 0.003, 1),  # 黑胡椒：重量的0.3%
+                    "garlic": math.ceil(weight / 600),  # 大蒜：每600克1瓣
+                    "olive_oil": round(weight * 0.015, 1),  # 橄欖油：重量的1.5%
+                    "honey": round(weight * 0.03, 1),  # 蜂蜜：重量的3%
+                    "soy_sauce": round(weight * 0.02, 1),  # 醬油：重量的2%
+                    "ginger": round(weight * 0.002, 1)  # 薑：重量的0.2%
+                }
         
         def calculate_roasting_temperature(weight):
             """根据重量计算烘烤温度"""
@@ -872,26 +776,37 @@
                 value.className = "marinade-amount"
                 
                 if ingredient == "garlic":
-                    value.text = f"{amount} 瓣"
-                elif ingredient == "olive_oil":
-                    value.text = f"{amount} 毫升"
-                elif ingredient == "herbs":
-                    value.text = f"{amount} 茶匙"
+                    value.text = f"{amount} cloves"
+                elif ingredient in ["olive_oil", "lemon_juice", "soy_sauce"]:
+                    value.text = f"{amount} ml"
+                elif ingredient in ["herbs", "rosemary", "thyme"]:
+                    value.text = f"{amount} tsp"
+                elif ingredient == "honey":
+                    value.text = f"{amount} g"
                 else:
-                    value.text = f"{amount} 克"
+                    value.text = f"{amount} g"
                 
                 item <= name
                 item <= value
                 marinade_details <= item
         
-        def save_to_history(weight, temperature, time, marinade_data):
+        def save_to_history(weight, temperature, time, marinade_data, recipe_type):
             """保存计算参数到历史记录"""
+            recipe_names = {
+                "classic": "Classic Original",
+                "spicy": "Spicy Flavor", 
+                "herbal": "Herbal Garlic",
+                "sweet": "Honey Glazed"
+            }
+            
             history_entry = {
                 "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
                 "weight": weight,
                 "temperature": temperature,
                 "time": time,
-                "marinade": marinade_data
+                "marinade": marinade_data,
+                "recipe_type": recipe_type,
+                "recipe_name": recipe_names[recipe_type]
             }
             roasting_history.append(history_entry)
             
@@ -907,6 +822,28 @@
                     roasting_history = JSON.parse(stored_history)
             except:
                 roasting_history = []
+        
+        def format_marinade_summary(marinade_data):
+            """格式化腌料摘要用于历史记录显示"""
+            summary_parts = []
+            
+            for ingredient, amount in marinade_data.items():
+                if ingredient == "garlic":
+                    summary_parts.append(f"Garlic {amount} cloves")
+                elif ingredient == "olive_oil":
+                    summary_parts.append(f"Olive Oil {amount}ml")
+                elif ingredient == "honey":
+                    summary_parts.append(f"Honey {amount}g")
+                elif ingredient == "soy_sauce":
+                    summary_parts.append(f"Soy Sauce {amount}ml")
+                elif ingredient == "lemon_juice":
+                    summary_parts.append(f"Lemon Juice {amount}ml")
+                elif ingredient in ["herbs", "rosemary", "thyme"]:
+                    summary_parts.append(f"{ingredient.replace('_', ' ').title()} {amount}tsp")
+                else:
+                    summary_parts.append(f"{ingredient.replace('_', ' ').title()} {amount}g")
+            
+            return " | ".join(summary_parts)
         
         def display_history():
             """显示历史记录"""
@@ -930,20 +867,38 @@
                     
                     weight = document.createElement("div")
                     weight.className = "history-weight"
-                    weight.text = f"{entry['weight']}克 雞肉"
+                    weight.text = f"{entry['weight']}g Chicken - {entry['recipe_name']}"
                     
                     header <= date
                     header <= weight
                     history_item <= header
                     
-                    # 添加详细信息
-                    details = document.createElement("div")
-                    details.style.fontSize = "0.85rem"
-                    details.style.marginTop = "8px"
-                    details.style.color = "#b8b8b8"
-                    details.text = f"溫度: {entry['temperature']}°C | 時間: {entry['time']}分鐘 | 鹽: {entry['marinade']['salt']}g"
-                    history_item <= details
+                    # 添加烘烤参数
+                    params = document.createElement("div")
+                    params.style.fontSize = "0.85rem"
+                    params.style.marginTop = "8px"
+                    params.style.color = "#b8b8b8"
+                    params.text = f"Temperature: {entry['temperature']}°C | Time: {entry['time']} minutes"
+                    history_item <= params
                     
+                    # 添加腌料摘要
+                    marinade_div = document.createElement("div")
+                    marinade_div.className = "history-marinade"
+                    
+                    marinade_title = document.createElement("div")
+                    marinade_title.style.fontSize = "0.8rem"
+                    marinade_title.style.fontWeight = "bold"
+                    marinade_title.style.color = "#e43f5a"
+                    marinade_title.style.marginBottom = "5px"
+                    marinade_title.text = "Marinade Recipe:"
+                    marinade_div <= marinade_title
+                    
+                    marinade_summary = document.createElement("div")
+                    marinade_summary.className = "marinade-summary"
+                    marinade_summary.text = format_marinade_summary(entry["marinade"])
+                    marinade_div <= marinade_summary
+                    
+                    history_item <= marinade_div
                     history_list <= history_item
         
         def show_main_view():
@@ -965,8 +920,6 @@
         
         def calculate_handler(evt):
             """处理计算按钮点击"""
-            global target_current, time_remaining
-            
             try:
                 weight = float(chicken_weight_input.value)
                 
@@ -978,61 +931,46 @@
                 error_message.style.display = "none"
                 
                 # 计算结果
-                marinade_data = calculate_marinade(weight)
+                marinade_data = calculate_marinade(weight, current_recipe)
                 temperature = calculate_roasting_temperature(weight)
                 time = calculate_roasting_time(weight)
                 
-                # 设定目标温度和时间
-                target_current = temperature
-                time_remaining = time
-                
-                # 更新显示
-                target_temp.text = f"{target_current:.0f}"
-                
-                hours = time_remaining // 60
-                minutes = time_remaining % 60
-                if hours > 0:
-                    time_left.text = f"{hours}時 {minutes}分"
-                else:
-                    time_left.text = f"{minutes}分"
-                
                 # 显示腌料结果
-                marinade_text = f"對於 {weight}克 的雞肉，使用以下配料："
+                recipe_names = {
+                    "classic": "Classic Original",
+                    "spicy": "Spicy Flavor",
+                    "herbal": "Herbal Garlic", 
+                    "sweet": "Honey Glazed"
+                }
+                
+                marinade_text = f"For {weight}g chicken, using {recipe_names[current_recipe]} recipe:"
                 marinade_result.text = marinade_text
                 
                 # 创建详细的腌料显示
                 create_marinade_details(marinade_data)
                 
                 # 显示说明
-                instructions = f"1. 準備醃料：將所有配料混合均勻\n2. 醃製雞肉：將醃料均勻塗抹在雞肉上，醃製至少2小時（最好過夜）\n3. 預熱烤箱：將烤箱預熱至 {temperature}°C\n4. 烘烤時間：將雞肉放入烤箱，烘烤 {time} 分鐘\n5. 檢查熟度：使用溫度計檢查雞肉內部溫度是否達到74°C\n6. 靜置休息：烘烤完成後，讓雞肉靜置10分鐘再切塊享用"
+                instructions = f"1. Prepare marinade: Mix all ingredients thoroughly\n2. Marinate chicken: Apply marinade evenly to chicken, marinate for at least 2 hours (preferably overnight)\n3. Preheat oven: Preheat oven to {temperature}°C\n4. Roasting time: Place chicken in oven, roast for {time} minutes\n5. Check doneness: Use thermometer to check if internal temperature reaches 74°C\n6. Rest: Let chicken rest for 10 minutes before carving and serving"
                 instructions_result.text = instructions
                 
                 # 保存到历史记录
-                save_to_history(weight, temperature, time, marinade_data)
-                
-                # 更新图表
-                generate_chart_data()
+                save_to_history(weight, temperature, time, marinade_data, current_recipe)
                 
             except ValueError:
                 error_message.style.display = "block"
         
         # 按钮事件处理
         def start_handler(evt):
-            global is_roasting
-            if target_current > 0:
-                is_roasting = True
-                window.alert("開始烘烤！烤箱加熱中...")
-            else:
-                window.alert("請先計算烘烤參數！")
+            window.alert("Start roasting function")
         
         def temp_handler(evt):
-            window.alert("溫度調整功能")
+            window.alert("Temperature adjustment function")
         
         def timer_handler(evt):
-            window.alert("計時器設定功能")
+            window.alert("Timer setting function")
         
         def recipe_handler(evt):
-            window.alert("食譜查看功能")
+            window.alert("Recipe viewing function")
         
         def history_handler(evt):
             show_history_view()
@@ -1040,21 +978,34 @@
         def back_handler(evt):
             show_main_view()
         
+        # 配方选择事件
+        def classic_handler(evt):
+            set_active_recipe("classic")
+        
+        def spicy_handler(evt):
+            set_active_recipe("spicy")
+        
+        def herbal_handler(evt):
+            set_active_recipe("herbal")
+        
+        def sweet_handler(evt):
+            set_active_recipe("sweet")
+        
         # 图标点击事件
         def monitor_handler(evt):
             show_main_view()
-            window.alert("進入監控模式")
+            window.alert("Entering monitoring mode")
         
         def recipe_icon_handler(evt):
             set_active_icon(icon_recipe)
-            window.alert("進入食譜管理")
+            window.alert("Entering recipe management")
         
         def history_icon_handler(evt):
             show_history_view()
         
         def settings_handler(evt):
             set_active_icon(icon_settings)
-            window.alert("進入系統設定")
+            window.alert("Entering system settings")
         
         # 绑定事件
         calculate_btn.bind("click", calculate_handler)
@@ -1065,22 +1016,31 @@
         history_btn.bind("click", history_handler)
         back_btn.bind("click", back_handler)
         
-        # 图标事件绑定
+        # 绑定配方选择事件
+        recipe_classic.bind("click", classic_handler)
+        recipe_spicy.bind("click", spicy_handler)
+        recipe_herbal.bind("click", herbal_handler)
+        recipe_sweet.bind("click", sweet_handler)
+        
+        # 绑定图标点击事件
         icon_monitor.bind("click", monitor_handler)
         icon_recipe.bind("click", recipe_icon_handler)
         icon_history.bind("click", history_icon_handler)
         icon_settings.bind("click", settings_handler)
         
-        # 初始化应用
+        # 初始化
         def initialize():
-            generate_chart_data()
+            # 更新时间
             update_time()
+            timer.set_interval(update_time, 60000)  # 每分钟更新一次
+            
+            # 加载历史记录
             load_from_history()
-            # 设置定时器
-            timer.set_interval(update_temperatures, 1000)  # 每秒更新
-            timer.set_interval(update_time, 30000)  # 每30秒更新时间
+            
+            # 设置初始配方
+            set_active_recipe("classic")
         
-        # 启动应用
+        # 启动初始化
         initialize()
     </script>
 </body>
