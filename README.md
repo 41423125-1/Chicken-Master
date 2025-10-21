@@ -92,7 +92,7 @@ display_history()	動態生成歷史紀錄項目
 set_active_recipe() / set_active_icon()	管理使用者選擇狀態
 
 
-3️. 資料持久層（localStorage）
+### 3️. 資料持久層（localStorage）
 
 以 JSON 形式儲存使用者操作紀錄：自動於頁面載入時恢復歷史資料。
 
