@@ -72,12 +72,26 @@ CSS 採用 深色玻璃質感設計，搭配柔和的漸層與陰影效果，模
 
 ### 函數名稱	功能
 calculate_marinade(weight, recipe_type)	根據重量與配方，計算各材料比例
+
+
 calculate_roasting_temperature(weight)	決定烤箱溫度
+
+
 calculate_roasting_time(weight)	計算烘烤時間
+
+
 create_marinade_details(data)	動態生成腌料顯示表格
+
+
 save_to_history() / load_from_history()	與 localStorage 交互，保存與載入紀錄
+
+
 display_history()	動態生成歷史紀錄項目
+
+
 set_active_recipe() / set_active_icon()	管理使用者選擇狀態
+
+
 3️. 資料持久層（localStorage）
 
 以 JSON 形式儲存使用者操作紀錄：自動於頁面載入時恢復歷史資料。
