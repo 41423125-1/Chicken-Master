@@ -47,8 +47,10 @@ class World:
         # 手機用控制按鈕 UI
         button_container = html.DIV(style={"margin-top": "10px", "text-align": "center"})
         move_button = html.BUTTON("Move Forward (j)", id="move_button")
+        move2_button = html.BUTTON("Move Forward No Trace (k)", id="move2_button")  # 新增按鈕
         turn_button = html.BUTTON("Turn Left (i)", id="turn_button")
         button_container <= move_button
+        button_container <= move2_button
         button_container <= turn_button
 
         # 插入到 HTML 指定位置
@@ -72,7 +74,7 @@ class World:
             ctx.stroke()
 
     def _draw_image(self, ctx, src, x, y, w, h, offset_x=0, offset_y=0):
-        # 載入圖片並繪製（用於牆壁、機器人）
+        # 載入圖片並繪製（用於牆壁）
         img = html.IMG()
         img.src = src
         def onload(evt):
@@ -91,11 +93,6 @@ class World:
             self._draw_image(ctx, IMG_PATH + "east.png", 0, y, WALL_THICKNESS, CELL_SIZE)
             self._draw_image(ctx, IMG_PATH + "east.png", self.width - 1, y, WALL_THICKNESS, CELL_SIZE, offset_x=CELL_SIZE - WALL_THICKNESS)
 
-    def robot(self, x, y):
-        # 畫出靜態機器人（初始位置）
-        ctx = self.layers["robots"].getContext("2d")
-        self._draw_image(ctx, IMG_PATH + "blue_robot_e.png", x - 1, y - 1, CELL_SIZE, CELL_SIZE)
-
 # --- 定義動畫機器人類別 ---
 class AnimatedRobot:
     def __init__(self, world, x, y):
@@ -108,23 +105,21 @@ class AnimatedRobot:
         self.trace_ctx = world.layers["objects"].getContext("2d")
         self.queue = []  # 動作佇列
         self.running = False
-        # 預載入圖像
+        # 預載入圖像並等待載入完成
         self.images = {}
+        self._preload_images()
+        # 初始繪製機器人
+        timer.set_timeout(self._draw_robot, 100)  # 延遲繪製，確保圖像載入
+
+    def _preload_images(self):
+        # 預載入所有方向的機器人圖像
         for direction in self.facing_order:
             img = html.IMG()
             img.src = IMG_PATH + f"blue_robot_{direction.lower()}.png"
             self.images[direction] = img
-        self._draw_robot()
-
-    def _robot_image(self):
-        return {
-            "E": "blue_robot_e.png",
-            "N": "blue_robot_n.png",
-            "W": "blue_robot_w.png",
-            "S": "blue_robot_s.png"
-        }[self.facing]
 
     def _draw_robot(self):
+        # 清除整個機器人畫布
         self.robot_ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
         img = self.images[self.facing]
         px = self.x * CELL_SIZE
@@ -133,6 +128,8 @@ class AnimatedRobot:
             self.robot_ctx.drawImage(img, px, py, CELL_SIZE, CELL_SIZE)
         else:
             def onload(evt):
+                # 載入時再次清除畫布並繪製，防止留下先前的機器人圖像
+                self.robot_ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
                 self.robot_ctx.drawImage(img, px, py, CELL_SIZE, CELL_SIZE)
             img.bind("load", onload)
 
@@ -178,6 +175,33 @@ class AnimatedRobot:
         self.queue.append(action)
         self._run_queue()
 
+    def move2(self, steps):
+        def action(next_done):
+            def step():
+                nonlocal steps
+                if steps == 0:
+                    next_done()
+                    return
+                from_x, from_y = self.x, self.y
+                dx, dy = 0, 0
+                if self.facing == "E": dx = 1
+                elif self.facing == "W": dx = -1
+                elif self.facing == "N": dy = 1
+                elif self.facing == "S": dy = -1
+                next_x = self.x + dx
+                next_y = self.y + dy
+                if 0 <= next_x < self.world.width and 0 <= next_y < self.world.height:
+                    self.x, self.y = next_x, next_y
+                    self._draw_robot()  # 只更新機器人位置，不畫軌跡
+                    steps -= 1
+                    timer.set_timeout(step, 200)
+                else:
+                    print("已經撞牆，停止移動！")
+                    next_done()
+            step()
+        self.queue.append(action)
+        self._run_queue()
+
     def turn_left(self):
         def action(done):
             idx = self.facing_order.index(self.facing)
@@ -200,7 +224,6 @@ class AnimatedRobot:
 
 # --- 主程式：建立地圖與機器人 ---
 w = World(10, 10)
-w.robot(1, 1)
 r = AnimatedRobot(w, 1, 1)
 
 # 綁定鍵盤控制
@@ -210,21 +233,24 @@ def keydown(evt):
         r.move(1)
     elif evt.key == "i":
         r.turn_left()
+    elif evt.key == "k":  # 新增鍵盤控制 for move2
+        r.move2(1)
 
 # 綁定按鈕控制
 @bind(document["move_button"], "click")
 def move_click(evt):
     r.move(1)
 
+@bind(document["move2_button"], "click")  # 新增按鈕綁定
+def move2_click(evt):
+    r.move2(1)
+
 @bind(document["turn_button"], "click")
 def turn_click(evt):
     r.turn_left()
 
-# 初始自動巡邏路線（可移除）
-r.move(9)
-r.turn_left()
-r.move(9)
-r.turn_left()
-r.move(9)
-r.turn_left()
-r.move(9)
+# 測試範例：展示 move() 和 move2() 的區別
+# 機器人從 (1,1) 開始，先用 move() 走 2 步留下紅色軌跡，再用 move2() 走 2 步不留軌跡
+r.move(2)      # 留下紅色軌跡，向東走 2 步到 (3,1)
+r.turn_left()  # 轉向北
+r.move2(2)    # 不留軌跡，向北走 2 步到 (3,3)
