@@ -47,7 +47,7 @@ class World:
         # 手機用控制按鈕 UI
         button_container = html.DIV(style={"margin-top": "10px", "text-align": "center"})
         move_button = html.BUTTON("Move Forward (j)", id="move_button")
-        move2_button = html.BUTTON("Move Forward No Trace (k)", id="move2_button")  # 新增按鈕
+        move2_button = html.BUTTON("Move Forward No Trace (k)", id="move2_button")
         turn_button = html.BUTTON("Turn Left (i)", id="turn_button")
         button_container <= move_button
         button_container <= move2_button
@@ -192,12 +192,54 @@ class AnimatedRobot:
                 next_y = self.y + dy
                 if 0 <= next_x < self.world.width and 0 <= next_y < self.world.height:
                     self.x, self.y = next_x, next_y
-                    self._draw_robot()  # 只更新機器人位置，不畫軌跡
+                    self._draw_robot()
                     steps -= 1
                     timer.set_timeout(step, 200)
                 else:
                     print("已經撞牆，停止移動！")
                     next_done()
+            step()
+        self.queue.append(action)
+        self._run_queue()
+
+    def move3(self, from_x, from_y, to_x, to_y):
+        def action(next_done):
+            # 檢查起點是否為當前位置
+            if self.x != from_x - 1 or self.y != from_y - 1:
+                print(f"錯誤：機器人當前位置 ({self.x + 1}, {self.y + 1}) 與指定起點 ({from_x}, {from_y}) 不符！")
+                next_done()
+                return
+            # 檢查終點是否在範圍內
+            if not (0 <= to_x - 1 < self.world.width and 0 <= to_y - 1 < self.world.height):
+                print(f"錯誤：終點 ({to_x}, {to_y}) 超出地圖範圍！")
+                next_done()
+                return
+            # 檢查是否為對角線
+            dx = to_x - from_x
+            dy = to_y - from_y
+            if abs(dx) != abs(dy):
+                print("錯誤：move3 僅支持對角線移動！")
+                next_done()
+                return
+            steps = abs(dx)
+            if steps == 0:
+                next_done()
+                return
+            # 計算每一步的方向
+            step_x = 1 if dx > 0 else -1
+            step_y = 1 if dy > 0 else -1
+            def step():
+                nonlocal steps
+                if steps == 0:
+                    next_done()
+                    return
+                from_x, from_y = self.x, self.y
+                self.x += step_x
+                self.y += step_y
+                self._draw_trace(from_x, from_y, self.x, self.y)
+                self._draw_robot()
+                steps -= 1
+                timer.set_timeout(step, 200)
             step()
         self.queue.append(action)
         self._run_queue()
@@ -224,7 +266,7 @@ class AnimatedRobot:
 
 # --- 主程式：建立地圖與機器人 ---
 w = World(10, 10)
-r = AnimatedRobot(w, 1, 1)
+r = AnimatedRobot(w, 5, 5)  # 從 (5,5) 開始
 
 # 綁定鍵盤控制
 @bind(document, "keydown")
@@ -233,7 +275,7 @@ def keydown(evt):
         r.move(1)
     elif evt.key == "i":
         r.turn_left()
-    elif evt.key == "k":  # 新增鍵盤控制 for move2
+    elif evt.key == "k":
         r.move2(1)
 
 # 綁定按鈕控制
@@ -241,7 +283,7 @@ def keydown(evt):
 def move_click(evt):
     r.move(1)
 
-@bind(document["move2_button"], "click")  # 新增按鈕綁定
+@bind(document["move2_button"], "click")
 def move2_click(evt):
     r.move2(1)
 
@@ -249,8 +291,5 @@ def move2_click(evt):
 def turn_click(evt):
     r.turn_left()
 
-# 測試範例：展示 move() 和 move2() 的區別
-# 機器人從 (1,1) 開始，先用 move() 走 2 步留下紅色軌跡，再用 move2() 走 2 步不留軌跡
-r.move(2)      # 留下紅色軌跡，向東走 2 步到 (3,1)
-r.turn_left()  # 轉向北
-r.move2(2)    # 不留軌跡，向北走 2 步到 (3,3)
+# 測試範例：從 (5,5) 斜線移動到 (6,6)
+r.move3(5, 5, 6, 6)
