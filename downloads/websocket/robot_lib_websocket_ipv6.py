@@ -126,7 +126,7 @@ class AnimatedRobot:
         self._draw_robot()
 
         # WebSocket connection setup (still uses wss:// protocol)
-        self.ws = websocket.WebSocket("wss://[2001:b011:d006:1349:c956:1cec:b46b:8ad1]:8765")  # Replace with server's WSS URL
+        self.ws = websocket.WebSocket("wss://[2001:288:6004:17:2023:cba:0:100]:8765")  # Replace with server's WSS URL
         self.ws.bind("open", lambda evt: print("WebSocket connection established"))
         self.ws.bind("message", self.on_message)
         self.ws.bind("error", lambda evt: print("WebSocket error:", evt))
