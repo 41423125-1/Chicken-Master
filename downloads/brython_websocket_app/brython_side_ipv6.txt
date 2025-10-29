@@ -1,0 +1,117 @@
+'''
+手動點擊信任：直接瀏覽 https://[::1]:8765（或 https://localhost:8765），點「進階 > 繼續到不安全頁面」（Advanced > Proceed to unsafe）。之後再載入你的 Brython 頁面。
+'''
+from browser import document, window, html, alert
+import socket  # 用來檢查是否為 IPv6 環境（可選）
+
+# 全域變數
+ws = None
+messages_area = None
+status_span = None
+
+def create_ui():
+    global messages_area, status_span
+    app = document["brython_div1"]
+    app.clear()
+
+    app <= html.H1("Brython + WebSocket (IPv6 + wss) 範例")
+
+    # 輸入區
+    input_div = html.DIV()
+    input_div <= html.LABEL("輸入訊息: ", For="data")
+    data_input = html.INPUT(id="data", type="text", placeholder="輸入要發送的訊息...")
+    input_div <= data_input
+    app <= input_div
+
+    # 狀態顯示
+    status_div = html.DIV(id="status")
+    status_div <= "連接狀態: "
+    status_span = html.SPAN("未連接", id="connection-status", style={"color": "red"})
+    status_div <= status_span
+    app <= status_div
+
+    # 訊息區
+    messages_area = html.DIV(id="messages", style={"white-space": "pre-wrap", "font-family": "monospace"})
+    app <= messages_area
+
+    # 按鈕
+    btn_div = html.DIV(style={"margin-top": "15px"})
+    run_btn = html.BUTTON("連線並發送", id="run", Class="btn btn-connect")
+    run_btn.bind("click", connect_and_send)
+    btn_div <= run_btn
+
+    close_btn = html.BUTTON("關閉連線", id="close", Class="btn btn-close")
+    close_btn.bind("click", close_connection)
+    btn_div <= close_btn
+    app <= btn_div
+
+# WebSocket 事件
+def on_open(evt):
+    status_span.text = "已連接 (wss)"
+    status_span.style.color = "green"
+    add_message("WebSocket 安全連線成功！(wss + IPv6)")
+
+def on_message(evt):
+    add_message(f"伺服器回應: {evt.data}")
+
+def on_close(evt):
+    add_message("連線已關閉")
+    status_span.text = "已斷開"
+    status_span.style.color = "red"
+
+def on_error(evt):
+    add_message(f"錯誤: {evt.message}")
+    alert(f"WebSocket 錯誤: {evt.message}")
+
+# 動態產生 WebSocket URL（支援 IPv6）
+def get_ws_url():
+    # 優先使用 IPv6 loopback
+    return "wss://[::1]:8765"
+    # 若在某些環境無法用 [::1]，可 fallback 到 127.0.0.1
+    # return "wss://127.0.0.1:8765"
+
+def connect_and_send(evt):
+    global ws
+    data = document["data"].value.strip()
+    if not data:
+        alert("請輸入訊息！")
+        return
+
+    if ws and ws.readyState == ws.OPEN:
+        ws.send(data)
+        add_message(f"發送: {data}")
+        document["data"].value = ""
+    else:
+        try:
+            url = get_ws_url()
+            ws = window.WebSocket.new(url)
+            ws.bind("open", on_open)
+            ws.bind("message", on_message)
+            ws.bind("close", on_close)
+            ws.bind("error", on_error)
+
+            def send_after_open(e):
+                ws.send(data)
+                add_message(f"發送: {data}")
+                document["data"].value = ""
+                ws.unbind("open", send_after_open)
+            ws.bind("open", send_after_open)
+
+        except Exception as e:
+            alert(f"連線失敗: {str(e)}")
+
+def close_connection(evt):
+    global ws
+    if ws and ws.readyState in (ws.CONNECTING, ws.OPEN):
+        ws.close()
+        ws = None
+    else:
+        add_message("無作用中連線")
+
+def add_message(msg):
+    global messages_area
+    messages_area.text += msg + "\n"
+    messages_area.scrollTop = messages_area.scrollHeight
+
+# 初始化
+create_ui()
