@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roast Chicken / Sous-Vide Control Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #162447 100%);
+            color: #e6e6e6;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(22, 36, 71, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .panel {
+            display: flex;
+            min-height: 700px;
+        }
+        
+        .left-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #2d4059;
+        }
+        
+        .right-section {
+            flex: 1.3;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .status-bar {
+            background: linear-gradient(135deg, #0f3460 0%, #1f4068 100%);
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #2d4059;
+        }
+        
+        .app-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #e43f5a;
+        }
+        
+        .current-time {
+            font-size: 1.1rem;
+            color: #b8b8b8;
+        }
+        
+        .input-section {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 18px;
+        }
+        
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #e6e6e6;
+            font-size: 1.05rem;
+        }
+        
+        input[type="number"], select {
+            padding: 12px;
+            border: 2px solid #2d4059;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            background-color: #0f3460;
+            color: #e6e6e6;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="number"]:focus, select:focus {
+            border-color: #e43f5a;
+            outline: none;
+            box-shadow: 0 0 10px rgba(228, 63, 90, 0.3);
+        }
+
+        /* Recipe selection area */
+        .recipe-selection {
+            margin-bottom: 18px;
+        }
+
+        .recipe-title {
+            font-weight: bold;
+            color: #e6e6e6;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .recipe-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .recipe-btn {
+            background: rgba(15, 52, 96, 0.7);
+            border: 2px solid #2d4059;
+            border-radius: 10px;
+            padding: 12px;
+            color: #e6e6e6;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .recipe-btn:hover {
+            background: rgba(31, 64, 104, 0.8);
+            border-color: rgba(228, 63, 90, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .recipe-btn.active {
+            background: rgba(228, 63, 90, 0.2);
+            border-color: #e43f5a;
+            color: #e43f5a;
+            box-shadow: 0 0 15px rgba(228, 63, 90, 0.3);
+        }
+
+        .recipe-icon {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, #e43f5a 0%, #d32f4e 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(228, 63, 90, 0.3);
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(228, 63, 90, 0.4);
+        }
+        
+        .history-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .history-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 12px;
+            display: none;
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(149, 165, 166, 0.4);
+        }
+
+        /* Control buttons style */
+        .control-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
+            border-top: 2px solid #2d4059;
+            border-bottom: 2px solid #2d4059;
+        }
+        
+        .control-btn {
+            background: rgba(15, 52, 96, 0.7);
+            border: 1px solid rgba(45, 64, 89, 0.5);
+            border-radius: 10px;
+            padding: 14px;
+            color: #e6e6e6;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 72px;
+        }
+        
+        .control-btn:hover {
+            background: rgba(31, 64, 104, 0.8);
+            border-color: rgba(228, 63, 90, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .btn-icon {
+            font-size: 1.4rem;
+            margin-bottom: 6px;
+        }
+
+        /* Icon control panel style */
+        .icon-panel {
+            background: rgba(15, 52, 96, 0.7);
+            border-radius: 15px;
+            padding: 16px;
+            margin: 16px;
+            border: 1px solid rgba(45, 64, 89, 0.5);
+            flex: 1;
+        }
+
+        .icon-panel-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #e43f5a;
+            margin-bottom: 12px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .icon-item {
+            background: rgba(31, 64, 104, 0.8);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(45, 64, 89, 0.5);
+        }
+
+        .icon-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(228, 63, 90, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon-item.active {
+            border-color: #e43f5a;
+            box-shadow: 0 0 20px rgba(228, 63, 90, 0.3);
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .icon-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #e6e6e6;
+        }
+
+        .icon-desc {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            margin-top: 5px;
+        }
+
+        .results {
+            padding: 20px 25px;
+            background: rgba(31, 64, 104, 0.8);
+            border-top: 2px solid #2d4059;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .results h2 {
+            color: #e43f5a;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .result-item {
+            margin-bottom: 18px;
+            padding: 16px;
+            background: rgba(15, 52, 96, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(45, 64, 89, 0.5);
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: #e43f5a;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+            border-bottom: 1px solid rgba(228, 63, 90, 0.3);
+            padding-bottom: 6px;
+        }
+        
+        .result-value {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e6e6e6;
+        }
+        
+        .error {
+            color: #ff6b6b;
+            margin-top: 12px;
+            display: none;
+            background: rgba(15, 52, 96, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .marinade-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .marinade-item {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(45, 64, 89, 0.3);
+        }
+        
+        .marinade-name {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            margin-bottom: 5px;
+        }
+        
+        .marinade-amount {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #e6e6e6;
+        }
+        
+        .instructions-box {
+            background: rgba(26, 26, 46, 0.8);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 8px;
+            border-left: 4px solid #e43f5a;
+        }
+        
+        .instructions-content {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            white-space: pre-line;
+            color: #e6e6e6;
+        }
+        
+        .history-section {
+            display: none;
+            padding: 20px 25px;
+            background: rgba(31, 64, 104, 0.8);
+            border-top: 2px solid #2d4059;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            background: rgba(15, 52, 96, 0.7);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(45, 64, 89, 0.5);
+            border-left: 4px solid #3498db;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .history-date {
+            font-weight: bold;
+            color: #3498db;
+            font-size: 0.85rem;
+        }
+        
+        .history-weight {
+            color: #e6e6e6;
+            font-size: 0.95rem;
+            font-weight: bold;
+        }
+        
+        .history-marinade {
+            margin-top: 8px;
+            padding: 8px;
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 6px;
+        }
+        
+        .marinade-summary {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            line-height: 1.4;
+        }
+        
+        .no-history {
+            text-align: center;
+            color: #b8b8b8;
+            font-style: italic;
+            padding: 20px;
+            font-size: 1rem;
+        }
+
+        .small-note {
+            font-size: 0.85rem;
+            color: #b8b8b8;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body onload="brython()">
+    <div class="container">
+        <div class="panel">
+            <div class="left-section">
+                <div class="status-bar">
+                    <div class="app-title">Roast Chicken Control Panel</div>
+                    <div class="current-time" id="current-time">22:10</div>
+                </div>
+                
+                <div class="input-section">
+                    <!-- Chicken weight input area -->
+                    <div class="input-group">
+                        <label for="chicken-weight">Chicken Weight (grams):</label>
+                        <input type="number" id="chicken-weight" min="500" max="5000" step="100" placeholder="e.g. 1500" value="1500">
+                    </div>
+
+                    <!-- Cooking mode selection -->
+                    <div class="input-group">
+                        <label for="cooking-mode">Cooking Mode:</label>
+                        <select id="cooking-mode">
+                            <option value="oven" selected>Oven</option>
+                            <option value="sous-vide">Sous-vide (舒肥)</option>
+                        </select>
+                        <div class="small-note">Choose "Sous-vide" to get sous-vide temperature & time recommendations. Finish by searing to crisp the skin.</div>
+                    </div>
+
+                    <!-- Sous-vide style selector (visible only for sous-vide) -->
+                    <div class="input-group" id="sous-vide-style-group" style="display:none;">
+                        <label for="sous-vide-style">Sous-vide Style:</label>
+                        <select id="sous-vide-style">
+                            <option value="juicy" selected>Juicy & Tender (e.g. 60°C, 3-4h)</option>
+                            <option value="tender">More Tender (e.g. 65°C, 4-6h)</option>
+                            <option value="fall_off">Fall-off-the-bone (e.g. 70°C, 6-8h)</option>
+                        </select>
+                    </div>
+
+                    <!-- Recipe selection area -->
+                    <div class="recipe-selection">
+                        <div class="recipe-title">Select Marinade Recipe</div>
+                        <div class="recipe-buttons">
+                            <button class="recipe-btn active" id="recipe-classic">
+                                <span class="recipe-icon">🍗</span>
+                                Classic Original
+                            </button>
+                            <button class="recipe-btn" id="recipe-spicy">
+                                <span class="recipe-icon">🌶️</span>
+                                Spicy Flavor
+                            </button>
+                            <button class="recipe-btn" id="recipe-herbal">
+                                <span class="recipe-icon">🌿</span>
+                                Herbal Garlic
+                            </button>
+                            <button class="recipe-btn" id="recipe-sweet">
+                                <span class="recipe-icon">🍯</span>
+                                Honey Glazed
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Function buttons -->
+                    <button class="calculate-btn" id="calculate-btn">Calculate Cooking Parameters</button>
+                    <button class="history-btn" id="history-btn">View History</button>
+                    <button class="back-btn" id="back-btn">Back to Main</button>
+                    <div id="error-message" class="error">Please enter a valid chicken weight (500-5000 grams)</div>
+                </div>
+
+                <!-- Control buttons area -->
+                <div class="control-buttons">
+                    <button class="control-btn" id="start-btn">
+                        <div class="btn-icon">🔥</div>
+                        <div>Start</div>
+                    </button>
+                    <button class="control-btn" id="temp-btn">
+                        <div class="btn-icon">🌡️</div>
+                        <div>Adjust Temp</div>
+                    </button>
+                    <button class="control-btn" id="timer-btn">
+                        <div class="btn-icon">⏱️</div>
+                        <div>Set Timer</div>
+                    </button>
+                    <button class="control-btn" id="recipe-btn">
+                        <div class="btn-icon">📋</div>
+                        <div>View Recipe</div>
+                    </button>
+                </div>
+
+                <!-- Icon control panel -->
+                <div class="icon-panel">
+                    <div class="icon-panel-title">Function Menu</div>
+                    <div class="icon-grid">
+                        <!-- Monitor icon -->
+                        <div class="icon-item active" id="icon-monitor">
+                            <span class="icon icon-monitor">📊</span>
+                            <div class="icon-name">Monitor</div>
+                            <div class="icon-desc">Real-time Monitoring</div>
+                        </div>
+                        
+                        <!-- Recipe icon -->
+                        <div class="icon-item" id="icon-recipe">
+                            <span class="icon icon-recipe">📋</span>
+                            <div class="icon-name">Recipes</div>
+                            <div class="icon-desc">Manage Cooking Recipes</div>
+                        </div>
+                        
+                        <!-- History icon -->
+                        <div class="icon-item" id="icon-history">
+                            <span class="icon icon-history">⏱️</span>
+                            <div class="icon-name">History</div>
+                            <div class="icon-desc">View Operation Records</div>
+                        </div>
+                        
+                        <!-- Settings icon -->
+                        <div class="icon-item" id="icon-settings">
+                            <span class="icon icon-settings">⚙️</span>
+                            <div class="icon-name">Settings</div>
+                            <div class="icon-desc">System Configuration</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <!-- Calculation results area - includes marinade recipe and roasting instructions -->
+                <div id="results" class="results">
+                    <h2>Cooking Calculation Results</h2>
+                    <div class="result-item">
+                        <div class="result-title">Marinade Recipe & Amounts</div>
+                        <div id="marinade-result" class="result-value">Enter chicken weight and click calculate to view marinade recommendations</div>
+                        <div class="marinade-details" id="marinade-details">
+                            <!-- Marinade details will be dynamically generated by Brython -->
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-title">Cooking Instructions</div>
+                        <div class="instructions-box">
+                            <div id="instructions-result" class="instructions-content">After calculation, detailed cooking instructions will be displayed including temperature, time, and finishing steps.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="history-section" class="history-section">
+                    <h2>Cooking History</h2>
+                    <div class="history-list" id="history-list">
+                        <div class="no-history" id="no-history">No cooking history yet. Please calculate your first cooking parameters!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/python">
+        # Brython script: adds sous-vide mode calculations and UI integration
+        from browser import document, timer, window
+        import math
+        from datetime import datetime
+        
+        # DOM references
+        current_time = document["current-time"]
+        chicken_weight_input = document["chicken-weight"]
+        calculate_btn = document["calculate-btn"]
+        history_btn = document["history-btn"]
+        back_btn = document["back-btn"]
+        error_message = document["error-message"]
+        results_div = document["results"]
+        history_section = document["history-section"]
+        history_list = document["history-list"]
+        no_history = document["no-history"]
+        marinade_result = document["marinade-result"]
+        marinade_details = document["marinade-details"]
+        instructions_result = document["instructions-result"]
+        
+        # Controls for mode and sous-vide style
+        cooking_mode_select = document["cooking-mode"]
+        sous_vide_style_group = document["sous-vide-style-group"]
+        sous_vide_style_select = document["sous-vide-style"]
+        
+        # Recipe buttons
+        recipe_classic = document["recipe-classic"]
+        recipe_spicy = document["recipe-spicy"]
+        recipe_herbal = document["recipe-herbal"]
+        recipe_sweet = document["recipe-sweet"]
+        
+        # Icons
+        icon_monitor = document["icon-monitor"]
+        icon_recipe = document["icon-recipe"]
+        icon_history = document["icon-history"]
+        icon_settings = document["icon-settings"]
+        
+        # History store
+        roasting_history = []
+        
+        # Active icon and recipe
+        active_icon = icon_monitor
+        current_recipe = "classic"
+        
+        def set_active_icon(icon):
+            global active_icon
+            try:
+                active_icon.classList.remove("active")
+            except:
+                pass
+            icon.classList.add("active")
+            active_icon = icon
+
+        def set_active_recipe(recipe_id):
+            global current_recipe
+            # remove existing
+            for btn in (recipe_classic, recipe_spicy, recipe_herbal, recipe_sweet):
+                try:
+                    btn.classList.remove("active")
+                except:
+                    pass
+            if recipe_id == "classic":
+                recipe_classic.classList.add("active")
+                current_recipe = "classic"
+            elif recipe_id == "spicy":
+                recipe_spicy.classList.add("active")
+                current_recipe = "spicy"
+            elif recipe_id == "herbal":
+                recipe_herbal.classList.add("active")
+                current_recipe = "herbal"
+            elif recipe_id == "sweet":
+                recipe_sweet.classList.add("active")
+                current_recipe = "sweet"
+
+        def update_time():
+            now = datetime.now()
+            current_time.text = now.strftime("%H:%M")
+        
+        def calculate_marinade(weight, recipe_type):
+            if recipe_type == "classic":
+                return {
+                    "salt": round(weight * 0.015, 1),
+                    "pepper": round(weight * 0.005, 1),
+                    "garlic": math.ceil(weight / 500),
+                    "olive_oil": round(weight * 0.02, 1),
+                    "herbs": math.ceil(weight / 1000)
+                }
+            elif recipe_type == "spicy":
+                return {
+                    "salt": round(weight * 0.012, 1),
+                    "pepper": round(weight * 0.008, 1),
+                    "garlic": math.ceil(weight / 400),
+                    "olive_oil": round(weight * 0.018, 1),
+                    "chili_powder": round(weight * 0.003, 1),
+                    "paprika": round(weight * 0.002, 1),
+                    "cumin": round(weight * 0.001, 1)
+                }
+            elif recipe_type == "herbal":
+                return {
+                    "salt": round(weight * 0.014, 1),
+                    "pepper": round(weight * 0.004, 1),
+                    "garlic": math.ceil(weight / 300),
+                    "olive_oil": round(weight * 0.025, 1),
+                    "rosemary": math.ceil(weight / 800),
+                    "thyme": math.ceil(weight / 800),
+                    "lemon_juice": round(weight * 0.01, 1)
+                }
+            elif recipe_type == "sweet":
+                return {
+                    "salt": round(weight * 0.01, 1),
+                    "pepper": round(weight * 0.003, 1),
+                    "garlic": math.ceil(weight / 600),
+                    "olive_oil": round(weight * 0.015, 1),
+                    "honey": round(weight * 0.03, 1),
+                    "soy_sauce": round(weight * 0.02, 1),
+                    "ginger": round(weight * 0.002, 1)
+                }
+        
+        def calculate_roasting_temperature(weight):
+            if weight <= 1000:
+                return 200
+            elif weight <= 2000:
+                return 190
+            else:
+                return 180
+        
+        def calculate_roasting_time(weight):
+            base_time = 30
+            additional_time = (weight / 500) * 25
+            return round(base_time + additional_time)
+        
+        def calculate_sous_vide(weight, style):
+            """
+            Simple sous-vide recommendations for whole chicken.
+            style: 'juicy', 'tender', 'fall_off'
+            Returns (temperature_C, time_minutes)
+            Note: these are recommendations; follow local food-safety rules for pasteurization.
+            """
+            # Use weight to estimate additional time for larger birds.
+            # Base assumptions centered around a whole chicken ~1500g.
+            base_weight = 1500.0
+            extra_units = max(0.0, (weight - base_weight) / 500.0)  # 500g steps
+            if style == "juicy":
+                temp = 60  # °C
+                time_hours = 3.0 + 0.5 * math.ceil(extra_units)
+            elif style == "tender":
+                temp = 65
+                time_hours = 4.0 + 1.0 * math.ceil(extra_units)
+            elif style == "fall_off":
+                temp = 70
+                time_hours = 6.0 + 1.0 * math.ceil(extra_units)
+            else:
+                temp = 65
+                time_hours = 4.0 + 1.0 * math.ceil(extra_units)
+            return temp, int(time_hours * 60)
+        
+        def create_marinade_details(marinade_data):
+            marinade_details.clear()
+            for ingredient, amount in marinade_data.items():
+                item = document.createElement("div")
+                item.className = "marinade-item"
+                
+                name = document.createElement("div")
+                name.className = "marinade-name"
+                name.text = ingredient.replace("_", " ").title()
+                
+                value = document.createElement("div")
+                value.className = "marinade-amount"
+                
+                if ingredient == "garlic":
+                    value.text = f"{amount} cloves"
+                elif ingredient in ["olive_oil", "lemon_juice", "soy_sauce"]:
+                    value.text = f"{amount} ml"
+                elif ingredient in ["herbs", "rosemary", "thyme"]:
+                    value.text = f"{amount} tsp"
+                elif ingredient == "honey":
+                    value.text = f"{amount} g"
+                else:
+                    value.text = f"{amount} g"
+                
+                item <= name
+                item <= value
+                marinade_details <= item
+        
+        def save_to_history(weight, temperature, time_minutes, marinade_data, recipe_type, mode, sv_style=None):
+            recipe_names = {
+                "classic": "Classic Original",
+                "spicy": "Spicy Flavor", 
+                "herbal": "Herbal Garlic",
+                "sweet": "Honey Glazed"
+            }
+            entry = {
+                "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "weight": weight,
+                "temperature": temperature,
+                "time_minutes": time_minutes,
+                "marinade": marinade_data,
+                "recipe_type": recipe_type,
+                "recipe_name": recipe_names.get(recipe_type, recipe_type),
+                "mode": mode,
+                "sous_vide_style": sv_style or ""
+            }
+            roasting_history.append(entry)
+            try:
+                window.localStorage.setItem("roastingHistory", window.JSON.stringify(roasting_history))
+            except:
+                # fallback if window.JSON not available
+                try:
+                    window.localStorage.setItem("roastingHistory", str(roasting_history))
+                except:
+                    pass
+        
+        def load_from_history():
+            global roasting_history
+            try:
+                stored = window.localStorage.getItem("roastingHistory")
+                if stored:
+                    # Try parse JSON; if fails, ignore
+                    try:
+                        roasting_history = window.JSON.parse(stored)
+                    except:
+                        roasting_history = []
+            except:
+                roasting_history = []
+        
+        def format_marinade_summary(marinade_data):
+            parts = []
+            for ingredient, amount in marinade_data.items():
+                if ingredient == "garlic":
+                    parts.append(f"Garlic {amount} cloves")
+                elif ingredient == "olive_oil":
+                    parts.append(f"Olive Oil {amount}ml")
+                elif ingredient == "honey":
+                    parts.append(f"Honey {amount}g")
+                elif ingredient == "soy_sauce":
+                    parts.append(f"Soy Sauce {amount}ml")
+                elif ingredient == "lemon_juice":
+                    parts.append(f"Lemon Juice {amount}ml")
+                elif ingredient in ["herbs", "rosemary", "thyme"]:
+                    parts.append(f"{ingredient.replace('_', ' ').title()} {amount}tsp")
+                else:
+                    parts.append(f"{ingredient.replace('_', ' ').title()} {amount}g")
+            return " | ".join(parts)
+        
+        def display_history():
+            history_list.clear()
+            if len(roasting_history) == 0:
+                no_history.style.display = "block"
+                history_list <= no_history
+            else:
+                no_history.style.display = "none"
+                for entry in reversed(roasting_history):
+                    history_item = document.createElement("div")
+                    history_item.className = "history-item"
+                    
+                    header = document.createElement("div")
+                    header.className = "history-header"
+                    
+                    date = document.createElement("div")
+                    date.className = "history-date"
+                    date.text = entry.get("date", "")
+                    
+                    weight = document.createElement("div")
+                    weight.className = "history-weight"
+                    # show mode in the title
+                    mode = entry.get("mode", "oven")
+                    sv = entry.get("sous_vide_style", "")
+                    title_suffix = ""
+                    if mode == "sous-vide":
+                        title_suffix = f" (Sous-vide: {sv})" if sv else " (Sous-vide)"
+                    weight.text = f"{entry.get('weight', 0)}g Chicken - {entry.get('recipe_name','')}{title_suffix}"
+                    
+                    header <= date
+                    header <= weight
+                    history_item <= header
+                    
+                    params = document.createElement("div")
+                    params.style.fontSize = "0.85rem"
+                    params.style.marginTop = "6px"
+                    params.style.color = "#b8b8b8"
+                    tmins = entry.get("time_minutes", None)
+                    if tmins is not None:
+                        hours = tmins // 60
+                        mins = tmins % 60
+                        time_str = f"{hours}h {mins}m" if hours else f"{mins} minutes"
+                    else:
+                        time_str = f"{entry.get('time', '')} minutes"
+                    params.text = f"Temp: {entry.get('temperature','')}°C | Time: {time_str}"
+                    history_item <= params
+                    
+                    marinade_div = document.createElement("div")
+                    marinade_div.className = "history-marinade"
+                    
+                    marinade_title = document.createElement("div")
+                    marinade_title.style.fontSize = "0.8rem"
+                    marinade_title.style.fontWeight = "bold"
+                    marinade_title.style.color = "#e43f5a"
+                    marinade_title.style.marginBottom = "5px"
+                    marinade_title.text = "Marinade Recipe:"
+                    marinade_div <= marinade_title
+                    
+                    marinade_summary = document.createElement("div")
+                    marinade_summary.className = "marinade-summary"
+                    marinade_summary.text = format_marinade_summary(entry.get("marinade", {}))
+                    marinade_div <= marinade_summary
+                    
+                    history_item <= marinade_div
+                    history_list <= history_item
+        
+        def show_main_view():
+            results_div.style.display = "block"
+            history_section.style.display = "none"
+            history_btn.style.display = "block"
+            back_btn.style.display = "none"
+            set_active_icon(icon_monitor)
+        
+        def show_history_view():
+            results_div.style.display = "none"
+            history_section.style.display = "block"
+            history_btn.style.display = "none"
+            back_btn.style.display = "block"
+            display_history()
+            set_active_icon(icon_history)
+        
+        def calculate_handler(evt):
+            try:
+                weight = float(chicken_weight_input.value)
+                if weight < 500 or weight > 5000:
+                    error_message.style.display = "block"
+                    return
+                error_message.style.display = "none"
+                
+                # Common marinade
+                marinade_data = calculate_marinade(weight, current_recipe)
+                
+                mode = cooking_mode_select.value  # 'oven' or 'sous-vide'
+                if mode == "oven":
+                    temperature = calculate_roasting_temperature(weight)
+                    time_minutes = calculate_roasting_time(weight)
+                    # display
+                    marinade_result.text = f"For {weight}g chicken, using {current_recipe.title()} recipe (Oven):"
+                    create_marinade_details(marinade_data)
+                    instructions = (
+                        f"1. Prepare marinade: Mix all ingredients thoroughly\n"
+                        f"2. Marinate chicken: Apply marinade evenly, marinate for at least 2 hours (preferably overnight)\n"
+                        f"3. Preheat oven: Preheat oven to {temperature}°C\n"
+                        f"4. Roasting time: Place chicken in oven, roast for {time_minutes} minutes\n"
+                        f"5. Check doneness: Use thermometer to check if internal temperature reaches 74°C\n"
+                        f"6. Rest: Let chicken rest for 10 minutes before carving and serving"
+                    )
+                    # Save history (convert minutes to store)
+                    save_to_history(weight, temperature, int(time_minutes), marinade_data, current_recipe, mode)
+                else:
+                    # sous-vide
+                    sv_style = sous_vide_style_select.value
+                    temp, time_min = calculate_sous_vide(weight, sv_style)
+                    marinade_result.text = f"For {weight}g chicken, using {current_recipe.title()} recipe (Sous-vide - {sv_style}):"
+                    create_marinade_details(marinade_data)
+                    hours = time_min // 60
+                    mins = time_min % 60
+                    time_str = f"{hours}h {mins}m" if hours else f"{mins}m"
+                    instructions = (
+                        f"1. Prepare marinade: Mix ingredients and vacuum-seal or use a strong zip-bag\n"
+                        f"2. Marinate and seal: Apply marinade and seal chicken for sous-vide\n"
+                        f"3. Sous-vide: Set water bath to {temp}°C and cook for {time_str}\n"
+                        f"   - Recommended style: {'Juicy & Tender' if sv_style=='juicy' else 'More Tender' if sv_style=='tender' else 'Fall-off-the-bone'}\n"
+                        f"4. Safety note: Ensure adequate pasteurization by time/temperature (follow local guidelines)\n"
+                        f"5. Finish: Remove from bag, pat dry. Sear skin in hot pan or under broiler for 2-6 minutes to crisp the skin before serving\n"
+                        f"6. Rest briefly and carve"
+                    )
+                    save_to_history(weight, temp, int(time_min), marinade_data, current_recipe, mode, sv_style)
+                
+                instructions_result.text = instructions
+            except Exception as e:
+                # show error
+                error_message.style.display = "block"
+        
+        # Control handlers (placeholders)
+        def start_handler(evt):
+            window.alert("Start function (placeholder)")
+        
+        def temp_handler(evt):
+            window.alert("Temperature adjustment function (placeholder)")
+        
+        def timer_handler(evt):
+            window.alert("Timer setting function (placeholder)")
+        
+        def recipe_handler(evt):
+            window.alert("Recipe viewing function (placeholder)")
+        
+        def history_handler(evt):
+            show_history_view()
+        
+        def back_handler(evt):
+            show_main_view()
+        
+        # Recipe button handlers
+        def classic_handler(evt):
+            set_active_recipe("classic")
+        
+        def spicy_handler(evt):
+            set_active_recipe("spicy")
+        
+        def herbal_handler(evt):
+            set_active_recipe("herbal")
+        
+        def sweet_handler(evt):
+            set_active_recipe("sweet")
+        
+        # Icon handlers
+        def monitor_handler(evt):
+            show_main_view()
+            window.alert("Entering monitoring mode (placeholder)")
+        
+        def recipe_icon_handler(evt):
+            set_active_icon(icon_recipe)
+            window.alert("Entering recipe management (placeholder)")
+        
+        def history_icon_handler(evt):
+            show_history_view()
+        
+        def settings_handler(evt):
+            set_active_icon(icon_settings)
+            window.alert("Entering system settings (placeholder)")
+        
+        # Mode change: toggle visibility of sous-vide style
+        def mode_change_handler(evt):
+            mode = cooking_mode_select.value
+            if mode == "sous-vide":
+                sous_vide_style_group.style.display = "block"
+            else:
+                sous_vide_style_group.style.display = "none"
+        
+        # Bind events
+        calculate_btn.bind("click", calculate_handler)
+        document["start-btn"].bind("click", start_handler)
+        document["temp-btn"].bind("click", temp_handler)
+        document["timer-btn"].bind("click", timer_handler)
+        document["recipe-btn"].bind("click", recipe_handler)
+        history_btn.bind("click", history_handler)
+        back_btn.bind("click", back_handler)
+        
+        recipe_classic.bind("click", classic_handler)
+        recipe_spicy.bind("click", spicy_handler)
+        recipe_herbal.bind("click", herbal_handler)
+        recipe_sweet.bind("click", sweet_handler)
+        
+        icon_monitor.bind("click", monitor_handler)
+        icon_recipe.bind("click", recipe_icon_handler)
+        icon_history.bind("click", history_icon_handler)
+        icon_settings.bind("click", settings_handler)
+        
+        cooking_mode_select.bind("change", mode_change_handler)
+        
+        # Initialize
+        def initialize():
+            update_time()
+            timer.set_interval(update_time, 60000)
+            load_from_history()
+            set_active_recipe("classic")
+            mode_change_handler(None)
+        
+        initialize()
+    </script>
+</body>
+</html>
