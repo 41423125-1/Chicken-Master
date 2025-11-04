@@ -53,7 +53,7 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 # Architecture
 整體採用三層架構設計：
 
-1. 前端視覺層（HTML + CSS）
+### 1. 前端視覺層（HTML + CSS）
 HTML 結構劃分：
 
 .card: 主容器，包含所有功能模組
@@ -74,7 +74,7 @@ CSS 設計特色：
 
 加載動畫與狀態指示器
 
-2. 邏輯運算層（Brython Python）
+### 2. 邏輯運算層（Brython Python）
 主要 Python 函數：
 
 函數名稱	功能
@@ -86,7 +86,7 @@ recommend_hold_minutes(temp_c)	推薦保溫滅菌時間
 calculate_marinade(weight, recipe_type)	計算醃料各材料用量
 create_marinade_details(marinade_data)	動態生成醃料顯示表格
 set_active_recipe() / toggle_note()	管理使用者選擇狀態
-3. 事件處理層
+### 3. 事件處理層
 Brython 事件綁定：
 
 配方按鈕點擊事件：單選切換
