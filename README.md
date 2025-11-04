@@ -18,7 +18,7 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 
 實現完整的 Python 數學計算與邏輯處理能力
 
-###II. 熱力學計算層
+### II. 熱力學計算層
 系統基於食品科學的熱傳導原理進行精準計算：
 
 核心計算公式：
@@ -29,19 +29,19 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 
 保溫時間：根據目標溫度採用 Douglas Baldwin 的 pasteurization 表進行等效滅菌時間估算
 
-###III. 智慧調整系統
+### III. 智慧調整系統
 根據使用者選擇的烹飪條件（去骨、切丁、有皮）動態調整厚度與時間估算
 
 醃料用量根據表面積變化自動調整比例
 
-###IV. 即時展示層
+### IV. 即時展示層
 計算結果（時間、溫度、醃料比例）即時更新至 HTML 介面
 
 利用 document.createElement 動態生成醃料項目的顯示方格
 
 響應式設計確保在不同設備上的最佳顯示效果
 
-#Functions
+# Functions
 模組	功能說明
 重量輸入區	使用者輸入雞肉重量 (1-5000g)，作為所有計算的基礎依據
 配方選擇區	四種醃料風味：經典原味、香辣風味、香草蒜香、蜜汁甜味，單選切換
@@ -50,7 +50,7 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 計算按鈕	按下後執行熱力學計算，輸出加熱時間、保溫時間與總時間
 結果顯示區	顯示詳細的烹飪參數、厚度估算與調整因素說明
 醃料建議面板	顯示當前配方的詳細材料用量，根據重量與條件自動調整
-#Architecture
+# Architecture
 整體採用三層架構設計：
 
 1. 前端視覺層（HTML + CSS）
