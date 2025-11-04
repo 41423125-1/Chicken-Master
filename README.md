@@ -8,8 +8,7 @@
  # Principle
  
 
-本系統的核心原理是利用 Brython（Browser Python） 將 Python 程式直接在瀏覽器端執行，藉由操作 HTML DOM 元素，實現互動式控制面板
-整體邏輯如下：
+本系統的核心原理是利用 Brython（Browser Python）將 Python 程式直接在瀏覽器端執行，藉由操作 HTML DOM 元素，實現互動式舒肥烹飪計算面板。整體邏輯如下：
 
 ### I.Brython 執行層
 
@@ -17,91 +16,102 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 
 透過 from browser import document, timer, window 操作 DOM、定時器與本地儲存
 
-### II.資料運算層
+實現完整的 Python 數學計算與邏輯處理能力
 
-使用者輸入雞的重量與選擇的腌料配方後，程式以 Python 計算所需：
+###II. 熱力學計算層
+系統基於食品科學的熱傳導原理進行精準計算：
 
-各種調味料比例（依雞重量乘以比例係數）
+核心計算公式：
 
-烘烤溫度（根據重量分級）
+厚度估算：厚度(cm) = (重量(g) / 密度(1.06g/cm³))^(1/3) × 形狀係數(0.6)
 
-烘烤時間（以每500克為25分鐘估算）
+熱傳導時間：t = (厚度/2)² / (π² × 熱擴散係數(1.4e-7 m²/s)) × 保守係數(2.5)
 
-### III.資料展示層
+保溫時間：根據目標溫度採用 Douglas Baldwin 的 pasteurization 表進行等效滅菌時間估算
 
-計算結果（腌料比例、烘烤步驟）會即時更新至 HTML 介面中
+###III. 智慧調整系統
+根據使用者選擇的烹飪條件（去骨、切丁、有皮）動態調整厚度與時間估算
 
-利用 document.createElement 動態生成每個腌料項目的顯示方格
+醃料用量根據表面積變化自動調整比例
 
-狀態儲存與歷史紀錄
+###IV. 即時展示層
+計算結果（時間、溫度、醃料比例）即時更新至 HTML 介面
 
-每次的烘烤參數結果會保存到 window.localStorage
+利用 document.createElement 動態生成醃料項目的顯示方格
 
-歷史紀錄可於右側面板查看，支援返回主頁
+響應式設計確保在不同設備上的最佳顯示效果
 
-# Functions
-
-
+#Functions
 模組	功能說明
-
-
-1. 重量輸入區	使用者輸入雞重量 (500–5000g)，作為計算依據
-2. 配方選擇區	四種腌料風味：Classic、Spicy、Herbal、Sweet，點選切換
-3. 計算按鈕	按下後即時計算出腌料比例、烘烤溫度與時間
-4. 結果顯示區	顯示腌料詳細表格與烘烤步驟說明
-5. 歷史紀錄功能	顯示過去計算的烤雞紀錄，含時間、重量、溫度與配方摘要
-6. 控制面板按鈕	模擬控制功能（Start、Temperature、Timer、Recipe）
-7. 功能圖示面板	四大模式：Monitor、Recipe、History、Settings，可切換視圖
-8. 即時時鐘	每分鐘更新一次當前時間顯示
-
-# Architecture
-
+重量輸入區	使用者輸入雞肉重量 (1-5000g)，作為所有計算的基礎依據
+配方選擇區	四種醃料風味：經典原味、香辣風味、香草蒜香、蜜汁甜味，單選切換
+溫度設定區	預設熟度選項(60°C-74°C) + 自訂溫度輸入，含安全提醒
+烹飪條件備註	多選項：去骨、切丁、有皮，影響時間與醃料計算
+計算按鈕	按下後執行熱力學計算，輸出加熱時間、保溫時間與總時間
+結果顯示區	顯示詳細的烹飪參數、厚度估算與調整因素說明
+醃料建議面板	顯示當前配方的詳細材料用量，根據重量與條件自動調整
+#Architecture
 整體採用三層架構設計：
 
-### 1️.前端視覺層（HTML + CSS）
+1. 前端視覺層（HTML + CSS）
+HTML 結構劃分：
 
-HTML 結構明確劃分：
+.card: 主容器，包含所有功能模組
 
-.left-section: 控制與輸入功能
+輸入控制區：重量、配方、溫度、備註
 
-.right-section: 結果與歷史紀錄
+結果顯示區：烹飪參數與醃料建議
 
-CSS 採用 深色玻璃質感設計，搭配柔和的漸層與陰影效果，模擬高科技控制面板介面
+安全提醒區：USDA 建議與注意事項
 
-### 2️. 邏輯運算層（Brython Python）
+CSS 設計特色：
 
+現代化簡潔設計，採用系統字體與自定義色彩變數
+
+響應式網格佈局，適應手機與桌面設備
+
+互動狀態視覺回饋（hover、active、focus）
+
+加載動畫與狀態指示器
+
+2. 邏輯運算層（Brython Python）
 主要 Python 函數：
 
-### 函數名稱	功能
-calculate_marinade(weight, recipe_type)	根據重量與配方，計算各材料比例
+函數名稱	功能
+estimate_thickness_cm_from_weight_g(w_g)	根據重量估算雞肉厚度
+adjust_thickness_based_on_notes(base_thickness)	根據備註條件調整厚度估算
+estimate_time_to_reach_core_minutes(thickness_cm)	計算到達核心溫度時間
+adjust_time_based_on_notes(base_time)	根據備註條件調整加熱時間
+recommend_hold_minutes(temp_c)	推薦保溫滅菌時間
+calculate_marinade(weight, recipe_type)	計算醃料各材料用量
+create_marinade_details(marinade_data)	動態生成醃料顯示表格
+set_active_recipe() / toggle_note()	管理使用者選擇狀態
+3. 事件處理層
+Brython 事件綁定：
 
+配方按鈕點擊事件：單選切換
 
-calculate_roasting_temperature(weight)	決定烤箱溫度
+備註按鈕點擊事件：多選切換
 
+溫度選擇變化事件：顯示/隱藏自訂溫度輸入
 
-calculate_roasting_time(weight)	計算烘烤時間
+計算按鈕點擊事件：觸發完整計算流程
 
+非同步處理：
 
-create_marinade_details(data)	動態生成腌料顯示表格
+使用 timer.set_timeout 模擬計算延遲，提供更好的使用者體驗
 
+加載狀態顯示與隱藏
 
-save_to_history() / load_from_history()	與 localStorage 交互，保存與載入紀錄
+科學基礎
+本工具基於以下食品科學原理：
 
+傅立葉熱傳導定律：用於估算熱量從表面傳導至核心的時間
 
-display_history()	動態生成歷史紀錄項目
+等效滅菌原理：低溫長時間與高溫短時間的滅菌等效性
 
+表面積體積比：影響醃料滲透與熱傳導效率
 
-set_active_recipe() / set_active_icon()	管理使用者選擇狀態
+熱擴散係數：雞肉組織的熱物理特性參數
 
-
-### 3️. 資料持久層（localStorage）
-
-以 JSON 形式儲存使用者操作紀錄：自動於頁面載入時恢復歷史資料。
-
-# 特色與延伸應用
-
-1.完全以 Brython 實現 Python 前端互動，無需後端伺服器
-
-2.支援 本地歷史記錄保存
-
-3.架構清晰，可延伸為：智慧烤箱模擬控制系統；食譜管理面板；教學型程式實驗專案（Brython DOM 操作範例）
+系統將複雜的食品科學計算封裝成簡單易用的介面，讓使用者能夠精準控制舒肥烹飪過程，同時確保食品安全。
