@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <title>舒肥雞肉溫度與時間計算器（Brython）</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* 簡潔樣式，保留核心 UI */
+    :root {
+      font-family: system-ui, "Noto Sans CJK TC", Arial, Helvetica, sans-serif;
+      --primary-color: #2b7cff;
+      --primary-light: #f3f7ff;
+      --secondary-color: #6c757d;
+      --border-color: #d6dbe6;
+      --success-color: #28a745;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+    }
+    
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #111;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      line-height: 1.5;
+    }
+    
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(20,30,60,0.08);
+    }
+    
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      color: #222;
+    }
+    
+    p.lead {
+      margin: 0 0 16px;
+      color: #444;
+      font-size: 0.95rem;
+    }
+    
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 600;
+      color: #222;
+    }
+    
+    select, input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 6px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #fff;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    select:focus, input[type="number"]:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(43, 124, 255, 0.1);
+    }
+    
+    .btn {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: var(--primary-color);
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      width: 100%;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    
+    .btn:hover {
+      background: #1a6de0;
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+    }
+    
+    .recipe-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    @media (min-width: 480px) {
+      .recipe-buttons {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .recipe-btn {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    
+    .recipe-btn:hover {
+      background: #f0f4ff;
+    }
+    
+    .recipe-btn.active {
+      background: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(43,124,255,0.12);
+    }
+    
+    .note-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    @media (min-width: 480px) {
+      .note-buttons {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .note-btn {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    
+    .note-btn:hover {
+      background: #f0f4ff;
+    }
+    
+    .note-btn.active {
+      background: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(43,124,255,0.12);
+    }
+    
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      border: 1px solid #dbe9ff;
+    }
+    
+    .marinade-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    
+    @media (min-width: 480px) {
+      .marinade-details {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .marinade-item {
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #edf2ff;
+      text-align: center;
+    }
+    
+    .marinade-name {
+      font-size: 0.85rem;
+      color: #666;
+      margin-bottom: 6px;
+    }
+    
+    .marinade-amount {
+      font-weight: 700;
+      color: #111;
+    }
+    
+    .warning {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #fff6f6;
+      border: 1px solid #ffd6d6;
+      color: #8a1b1b;
+      font-size: 0.9rem;
+    }
+    
+    small {
+      color: #666;
+      font-size: 0.85rem;
+    }
+    
+    .temp-note {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 4px;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(43, 124, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
+  <!-- Brython -->
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.10.5/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3.10.5/brython_stdlib.js"></script>
+</head>
+<body onload="brython()">
+  <div class="card">
+    <h1>舒肥雞肉溫度與時間計算器</h1>
+    <p class="lead">輸入雞肉重量，選擇目標溫度，估算到達核心溫度的加熱時間與保守保溫（滅菌）時間。可選配方並顯示醃料用量。</p>
+
+    <div id="weight_block">
+      <label for="weight">雞肉重量（公克）</label>
+      <input id="weight" type="number" min="1" step="1" value="500" aria-describedby="weight_help">
+      <small id="weight_help">整塊去骨雞胸或雞腿重量。實際烹調時間受厚度影響為主（此處以重量估算厚度）。</small>
+    </div>
+
+    <label for="recipe-buttons">醃料配方（選一）</label>
+    <div class="recipe-buttons" id="recipe-buttons" role="radiogroup" aria-label="選擇醃料配方">
+      <button class="recipe-btn active" id="recipe-classic" role="radio" aria-checked="true">經典原味</button>
+      <button class="recipe-btn" id="recipe-spicy" role="radio" aria-checked="false">香辣風味</button>
+      <button class="recipe-btn" id="recipe-herbal" role="radio" aria-checked="false">香草蒜香</button>
+      <button class="recipe-btn" id="recipe-sweet" role="radio" aria-checked="false">蜜汁甜味</button>
+    </div>
+
+    <label for="preset_temp">目標熟度 / 溫度</label>
+    <select id="preset_temp" aria-describedby="temp_help">
+      <option value="60">60 °C — 很嫩（需較長保溫以滅菌）</option>
+      <option value="64">64 °C — 多汁</option>
+      <option value="68" selected>68 °C — 經典熟度</option>
+      <option value="74">74 °C — USDA 建議即時安全</option>
+      <option value="custom">自訂溫度</option>
+    </select>
+    <small id="temp_help" class="temp-note">較低溫度需要更長的保溫時間以確保食品安全</small>
+
+    <div id="custom_temp_div" style="display:none">
+      <label for="custom_temp">自訂溫度（°C）</label>
+      <input id="custom_temp" type="number" min="40" max="100" step="0.1" value="62.0">
+    </div>
+
+    <label for="note-buttons">備註（可多選）</label>
+    <div class="note-buttons" id="note-buttons" role="group" aria-label="選擇備註">
+      <button class="note-btn" id="note-boneless" role="checkbox" aria-checked="false">去骨</button>
+      <button class="note-btn" id="note-diced" role="checkbox" aria-checked="false">切丁</button>
+      <button class="note-btn" id="note-skin" role="checkbox" aria-checked="false">有皮</button>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div> 計算中...
+    </div>
+
+    <button id="calc" class="btn">計算時間與溫度</button>
+
+    <div id="out" class="result" style="display:none"></div>
+
+    <div id="marinade_panel" style="display:none" class="result">
+      <div style="font-weight:700;color:#2b7cff">醃料用量建議</div>
+      <div id="marinade-summary" style="margin-top:8px;color:#444">請先輸入重量並選擇配方，按「計算時間與溫度」。</div>
+      <div id="marinade-details" class="marinade-details"></div>
+    </div>
+
+    <div class="warning">
+      <strong>安全提醒：</strong>
+      <ul style="margin:6px 0 0 18px;padding:0">
+        <li>USDA 建議雞肉中心溫度達 74°C 即時安全。</li>
+        <li>較低溫度可用「溫度 × 時間」達到等效滅菌，請參考專業 pasteurization 表（如 Douglas Baldwin）。</li>
+        <li>本工具僅為估算，請以官方或專業資料為準。</li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="text/python">
+from browser import document, html, timer
+import math
+
+# 參數
+DENSITY_G_PER_CM3 = 1.06   # 雞肉密度近似 g/cm^3
+ALPHA = 1.4e-7             # 熱擴散係數 m^2/s（近似）
+PI = math.pi
+
+# 目前配方（字串）
+current_recipe = "classic"
+
+# 備註選擇狀態
+note_selections = {
+    "boneless": False,
+    "diced": False,
+    "skin": False
+}
+
+# 配方名稱字典
+recipe_names = {
+    "classic": "經典原味",
+    "spicy": "香辣風味",
+    "herbal": "香草蒜香",
+    "sweet": "蜜汁甜味"
+}
+
+def set_active_recipe(recipe_id):
+    global current_recipe
+    # 清除所有 active 樣式
+    for btn_id in ("recipe-classic","recipe-spicy","recipe-herbal","recipe-sweet"):
+        document[btn_id].classList.remove("active")
+        document[btn_id].setAttribute("aria-checked", "false")
+    # 設定新的
+    if recipe_id == "classic":
+        document["recipe-classic"].classList.add("active")
+        document["recipe-classic"].setAttribute("aria-checked", "true")
+        current_recipe = "classic"
+    elif recipe_id == "spicy":
+        document["recipe-spicy"].classList.add("active")
+        document["recipe-spicy"].setAttribute("aria-checked", "true")
+        current_recipe = "spicy"
+    elif recipe_id == "herbal":
+        document["recipe-herbal"].classList.add("active")
+        document["recipe-herbal"].setAttribute("aria-checked", "true")
+        current_recipe = "herbal"
+    elif recipe_id == "sweet":
+        document["recipe-sweet"].classList.add("active")
+        document["recipe-sweet"].setAttribute("aria-checked", "true")
+        current_recipe = "sweet"
+
+def toggle_note(note_id):
+    """切換備註選擇狀態"""
+    note_selections[note_id] = not note_selections[note_id]
+    btn = document[f"note-{note_id}"]
+    if note_selections[note_id]:
+        btn.classList.add("active")
+        btn.setAttribute("aria-checked", "true")
+    else:
+        btn.classList.remove("active")
+        btn.setAttribute("aria-checked", "false")
+
+def get_note_text():
+    """取得備註文字"""
+    notes = []
+    if note_selections["boneless"]:
+        notes.append("去骨")
+    if note_selections["diced"]:
+        notes.append("切丁")
+    if note_selections["skin"]:
+        notes.append("有皮")
+    return "、".join(notes) if notes else "無特殊備註"
+
+def adjust_thickness_based_on_notes(base_thickness_cm):
+    """根據備註調整厚度估算"""
+    adjusted_thickness = base_thickness_cm
+    
+    # 切丁會大幅減少厚度
+    if note_selections["diced"]:
+        adjusted_thickness *= 0.3  # 切丁後厚度約為原來的30%
+    
+    # 去骨會稍微減少厚度（因為通常去骨後肉會變薄）
+    elif note_selections["boneless"]:
+        adjusted_thickness *= 0.8  # 去骨後厚度約為原來的80%
+    
+    # 有皮會稍微增加有效厚度（皮會影響熱傳導）
+    if note_selections["skin"]:
+        adjusted_thickness *= 1.1  # 有皮增加10%有效厚度
+    
+    return max(0.5, adjusted_thickness)  # 最小厚度0.5cm
+
+def adjust_time_based_on_notes(base_time_minutes):
+    """根據備註調整時間估算"""
+    adjusted_time = base_time_minutes
+    
+    # 切丁會大幅減少加熱時間
+    if note_selections["diced"]:
+        adjusted_time *= 0.4  # 切丁後時間約為原來的40%
+    
+    # 去骨會稍微減少加熱時間
+    elif note_selections["boneless"]:
+        adjusted_time *= 0.9  # 去骨後時間約為原來的90%
+    
+    # 有皮會稍微增加加熱時間（皮會阻礙熱傳導）
+    if note_selections["skin"]:
+        adjusted_time *= 1.15  # 有皮增加15%時間
+    
+    return adjusted_time
+
+def estimate_thickness_cm_from_weight_g(w_g):
+    vol_cm3 = w_g / DENSITY_G_PER_CM3
+    edge_cm = vol_cm3 ** (1/3)
+    shape_factor = 0.6
+    return max(0.2, edge_cm * shape_factor)
+
+def estimate_time_to_reach_core_minutes(thickness_cm):
+    half_m = (thickness_cm / 100.0) / 2.0
+    t_char_s = (half_m ** 2) / (PI**2 * ALPHA)
+    conservative_factor = 2.5
+    t_s = t_char_s * conservative_factor
+    return t_s / 60.0
+
+def recommend_hold_minutes(temp_c):
+    if temp_c >= 74:
+        return 0
+    if temp_c >= 70:
+        return 2
+    if temp_c >= 65:
+        return 5
+    if temp_c >= 60:
+        return 20
+    if temp_c >= 57:
+        return 40
+    return 60
+
+def format_minutes(m):
+    if m < 1:
+        return f"{m*60:.0f} 秒"
+    else:
+        hrs = int(m // 60)
+        mins = int(round(m % 60))
+        if hrs > 0:
+            return f"{hrs} 小時 {mins} 分鐘"
+        else:
+            return f"{int(round(m))} 分鐘"
+
+def calculate_marinade(weight, recipe_type):
+    # 根據備註調整醃料用量
+    adjustment_factor = 1.0
+    
+    # 切丁會增加表面積，需要更多醃料
+    if note_selections["diced"]:
+        adjustment_factor = 1.3  # 增加30%醃料
+    
+    # 有皮會減少醃料吸收，需要稍微調整
+    elif note_selections["skin"]:
+        adjustment_factor = 0.9  # 減少10%醃料
+    
+    if recipe_type == "classic":
+        return {
+            "鹽": round(weight * 0.015 * adjustment_factor, 1),
+            "黑胡椒": round(weight * 0.005 * adjustment_factor, 1),
+            "大蒜": math.ceil(weight / 500),
+            "橄欖油": round(weight * 0.02 * adjustment_factor, 1),
+            "香草": math.ceil(weight / 1000)
+        }
+    elif recipe_type == "spicy":
+        return {
+            "鹽": round(weight * 0.012 * adjustment_factor, 1),
+            "黑胡椒": round(weight * 0.008 * adjustment_factor, 1),
+            "大蒜": math.ceil(weight / 400),
+            "橄欖油": round(weight * 0.018 * adjustment_factor, 1),
+            "辣椒粉": round(weight * 0.003 * adjustment_factor, 1),
+            "紅椒粉": round(weight * 0.002 * adjustment_factor, 1)
+        }
+    elif recipe_type == "herbal":
+        return {
+            "鹽": round(weight * 0.014 * adjustment_factor, 1),
+            "黑胡椒": round(weight * 0.004 * adjustment_factor, 1),
+            "大蒜": math.ceil(weight / 300),
+            "橄欖油": round(weight * 0.025 * adjustment_factor, 1),
+            "迷迭香": math.ceil(weight / 800),
+            "百里香": math.ceil(weight / 800),
+            "檸檬汁": round(weight * 0.01 * adjustment_factor, 1)
+        }
+    elif recipe_type == "sweet":
+        return {
+            "鹽": round(weight * 0.01 * adjustment_factor, 1),
+            "黑胡椒": round(weight * 0.003 * adjustment_factor, 1),
+            "大蒜": math.ceil(weight / 600),
+            "橄欖油": round(weight * 0.015 * adjustment_factor, 1),
+            "蜂蜜": round(weight * 0.03 * adjustment_factor, 1),
+            "醬油": round(weight * 0.02 * adjustment_factor, 1)
+        }
+
+def create_marinade_details(marinade_data):
+    details = document["marinade-details"]
+    details.clear()
+    for ingredient, amount in marinade_data.items():
+        item = document.createElement("div")
+        item.className = "marinade-item"
+        name = document.createElement("div")
+        name.className = "marinade-name"
+        name.text = ingredient
+        val = document.createElement("div")
+        val.className = "marinade-amount"
+        if ingredient == "大蒜":
+            val.text = f"{amount} 顆"
+        elif ingredient in ("橄欖油","檸檬汁","醬油"):
+            val.text = f"{amount} ml"
+        elif ingredient in ("香草","迷迭香","百里香"):
+            val.text = f"{amount} tsp"
+        elif ingredient == "蜂蜜":
+            val.text = f"{amount} g"
+        else:
+            val.text = f"{amount} g"
+        item <= name
+        item <= val
+        details <= item
+
+def on_preset_change(ev=None):
+    val = document["preset_temp"].value
+    document["custom_temp_div"].style.display = "block" if val == "custom" else "none"
+
+def show_loading():
+    document["loading"].style.display = "block"
+
+def hide_loading():
+    document["loading"].style.display = "none"
+
+def perform_calculation():
+    """實際執行計算的函數（在延遲後調用）"""
+    try:
+        w = float(document["weight"].value)
+        if w <= 0:
+            raise ValueError("重量需為正數")
+
+        # 基礎厚度估算
+        base_thickness_cm = estimate_thickness_cm_from_weight_g(w)
+        
+        # 根據備註調整厚度
+        adjusted_thickness_cm = adjust_thickness_based_on_notes(base_thickness_cm)
+        
+        source = f"估算自重量 {w:.0f} g"
+
+        preset = document["preset_temp"].value
+        if preset == "custom":
+            temp_c = float(document["custom_temp"].value)
+        else:
+            temp_c = float(preset)
+
+        # 基礎時間估算
+        base_heat_minutes = estimate_time_to_reach_core_minutes(adjusted_thickness_cm)
+        
+        # 根據備註調整時間
+        adjusted_heat_minutes = adjust_time_based_on_notes(base_heat_minutes)
+        
+        hold_minutes = recommend_hold_minutes(temp_c)
+        total_minutes = adjusted_heat_minutes + hold_minutes
+
+        out = document["out"]
+        out.style.display = "block"
+        out.clear()
+        out <= html.H3("計算結果")
+        out <= html.P(f"{source}；估算厚度：{adjusted_thickness_cm:.2f} cm（已根據備註調整）")
+        out <= html.P(f"目標溫度：{temp_c:.1f} °C")
+        out <= html.P(f"備註：{get_note_text()}")
+        out <= html.P(f"估計到達核心接近水浴溫度所需時間（保守估）： {format_minutes(adjusted_heat_minutes)}")
+        
+        # 顯示調整說明
+        adjustment_info = []
+        if note_selections["diced"]:
+            adjustment_info.append("切丁大幅減少加熱時間")
+        elif note_selections["boneless"]:
+            adjustment_info.append("去骨稍微減少加熱時間")
+        if note_selections["skin"]:
+            adjustment_info.append("有皮稍微增加加熱時間")
+        
+        if adjustment_info:
+            out <= html.P(f"時間調整因素：{'、'.join(adjustment_info)}")
+        
+        if hold_minutes == 0:
+            out <= html.P(html.STRONG("建議保溫時間：即時/無需額外保溫（USDA 74°C 推薦即時安全）"))
+        else:
+            out <= html.P(f"建議保溫（滅菌）時間（保守）： {format_minutes(hold_minutes)}（僅供參考）")
+        out <= html.P(html.STRONG(f"估計總烹調時間（到達 + 保溫）： {format_minutes(total_minutes)}"))
+        out <= html.HR()
+        out <= html.P("備註：此為估算，測量實際厚度並直接輸入會更準確。")
+
+        # 同時產生醃料建議（依目前選定配方）
+        marinade_data = calculate_marinade(w, current_recipe)
+        document["marinade-summary"].text = f"配方：{ recipe_names.get(current_recipe, current_recipe) } — 建議用量如下："
+        create_marinade_details(marinade_data)
+        document["marinade_panel"].style.display = "block"
+
+    except Exception as e:
+        out = document["out"]
+        out.style.display = "block"
+        out.clear()
+        out <= html.P(f"發生錯誤：{e}")
+    finally:
+        hide_loading()
+
+def on_calc(ev=None):
+    """計算按鈕點擊處理函數"""
+    show_loading()
+    # 使用 timer 來模擬延遲，而不是 time.sleep
+    timer.set_timeout(perform_calculation, 500)  # 500ms 後執行
+
+# 綁定事件
+document["preset_temp"].bind("change", on_preset_change)
+document["calc"].bind("click", on_calc)
+
+# 配方按鈕綁定
+document["recipe-classic"].bind("click", lambda ev: set_active_recipe("classic"))
+document["recipe-spicy"].bind("click", lambda ev: set_active_recipe("spicy"))
+document["recipe-herbal"].bind("click", lambda ev: set_active_recipe("herbal"))
+document["recipe-sweet"].bind("click", lambda ev: set_active_recipe("sweet"))
+
+# 備註按鈕綁定
+document["note-boneless"].bind("click", lambda ev: toggle_note("boneless"))
+document["note-diced"].bind("click", lambda ev: toggle_note("diced"))
+document["note-skin"].bind("click", lambda ev: toggle_note("skin"))
+  </script>
+</body>
+</html>
