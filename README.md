@@ -42,14 +42,23 @@ Brython 將 <script type="text/python"> 內的 Python 程式碼轉譯成 JavaScr
 響應式設計確保在不同設備上的最佳顯示效果
 
 # Functions
+
 模組	功能說明
+
 重量輸入區	使用者輸入雞肉重量 (1-5000g)，作為所有計算的基礎依據
+
 配方選擇區	四種醃料風味：經典原味、香辣風味、香草蒜香、蜜汁甜味，單選切換
+
 溫度設定區	預設熟度選項(60°C-74°C) + 自訂溫度輸入，含安全提醒
+
 烹飪條件備註	多選項：去骨、切丁、有皮，影響時間與醃料計算
+
 計算按鈕	按下後執行熱力學計算，輸出加熱時間、保溫時間與總時間
+
 結果顯示區	顯示詳細的烹飪參數、厚度估算與調整因素說明
+
 醃料建議面板	顯示當前配方的詳細材料用量，根據重量與條件自動調整
+
 # Architecture
 整體採用三層架構設計：
 
@@ -75,17 +84,27 @@ CSS 設計特色：
 加載動畫與狀態指示器
 
 ### 2. 邏輯運算層（Brython Python）
+
 主要 Python 函數：
 
 函數名稱	功能
+
 estimate_thickness_cm_from_weight_g(w_g)	根據重量估算雞肉厚度
+
 adjust_thickness_based_on_notes(base_thickness)	根據備註條件調整厚度估算
+
 estimate_time_to_reach_core_minutes(thickness_cm)	計算到達核心溫度時間
+
 adjust_time_based_on_notes(base_time)	根據備註條件調整加熱時間
+
 recommend_hold_minutes(temp_c)	推薦保溫滅菌時間
+
 calculate_marinade(weight, recipe_type)	計算醃料各材料用量
+
 create_marinade_details(marinade_data)	動態生成醃料顯示表格
+
 set_active_recipe() / toggle_note()	管理使用者選擇狀態
+
 ### 3. 事件處理層
 Brython 事件綁定：
 
