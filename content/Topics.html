@@ -1,0 +1,413 @@
+<!DOCTYPE html><html>
+        <head>
+        <title>cp2025</title>
+        <meta charset="utf-8">
+<meta property="head" content="H1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/magnific-popup.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/jquery-ui.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/flaticon/font/flaticon.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/aos.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/style.css">
+        <link rel="shortcut icon" href="./../cmsimde/static/favicons.png">
+        
+        <style type='text/css'>
+            .site-section {
+            background-color: #FFFF;
+            padding: 40px 40px;
+            }
+            body > div > div.dropdown.open {
+                display: block;
+            }
+        </style>
+    
+        <!-- <script src="./../cmsimde/static/jquery.js"></script> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/normalize.min.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch_set.js"></script>
+        <script src="tipuesearch_content.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/tipuesearch.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch.js"></script>
+        <!-- for Wink3 客製化關閉 -->
+        <!--
+        <link rel="stylesheet" type="text/css" href="./../cmsimde/static/winkPlayer.css" />
+        <script type="text/javascript" src="./../cmsimde/static/winkPlayer.js"></script>
+        -->
+        <script>
+            /* original tipuesearch
+            $(document).ready(function() {
+                 $('#tipue_search_input').tipuesearch();
+            });
+            */
+            // customed doSearch
+            function doSearch() {
+                $('#tipue_search_input').tipuesearch({
+                    newWindow: true, 
+                    minimumLength: 2,
+                    wholeWords: false, // for search 中文
+                });
+            }
+            $(document).ready(doSearch);
+        </script>
+        
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shCore.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushBash.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDiff.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJScript.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJava.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPython.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushSql.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushHaxe.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushXml.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPhp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushLua.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushMojo.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushWbt.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCpp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCss.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCSharp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDart.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushRust.js"></script>
+<link type="text/css" rel="stylesheet" href="./../cmsimde/static/syntaxhighlighter/css/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 暫時不用
+<script src="./../cmsimde/static/fengari-web.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/Cango-13v08-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/CangoAxes-4v01-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/gearUtils-05.js"></script>
+-->
+<!-- for Brython 暫時不用
+<script src="https://scrum-3.github.io/web/brython/brython.js"></script>
+<script src="https://scrum-3.github.io/web/brython/brython_stdlib.js"></script>
+-->
+<style>
+img.add_border {
+    border: 3px solid blue;
+}
+</style>
+
+</head>
+<body>
+<div class='container'><nav>
+        
+    <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+            <header class="site-navbar py-4 bg-white" role="banner">
+              <div class="container">
+                <div class="row align-items-center">
+                <h1>cp2025 計算機程式</h1>
+                <div class="pl-4">
+                    <form>
+                    <input type="text" placeholder="Search" name="q" id="tipue_search_input" pattern=".{2,}" title="At least 2 characters" required>
+                    </form>
+                </div>
+                  <!-- <div class="col-11 col-xl-2">
+                    <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">cp2025 計算機程式</a></h1> 
+                  </div>
+                  -->
+                  <div class="col-12 col-md-10 d-none d-xl-block">
+                    <nav class="site-navigation position-relative text-right" role="navigation">
+    <ul class='site-menu js-clone-nav mr-auto d-none d-lg-block'>
+                        <li class="active has-children"><a href="index.html">Home</a>
+                        <ul class="dropdown">
+                            <li><a href="sitemap.html">SMap</a></li>
+                            <li><a href="./../reveal/index.html">reveal</a></li>
+                            <li><a href="./../blog/index.html">blog</a></li>
+                        </ul>
+                      </li>
+                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='cs101.html'>cs101</a><li class='has-children'><a href='Computer.html'>Computer</a><ul class='dropdown'><li><a href='llama.html'>llama</a><li><a href='nginx.html'>nginx</a></li></ul><li class='has-children'><a href='AI.html'>AI</a><ul class='dropdown'><li><a href='Learning.html'>Learning</a><li><a href='QandA.html'>QandA</a><li><a href='Teams.html'>Teams</a></li></ul><li><a href='Homework.html'>Homework</a></li></ul><li class='has-children'><a href='Topics.html'>Topics</a><ul class='dropdown'><li class='has-children'><a href='Git.html'>Git</a><ul class='dropdown'><li><a href='Git_ex1.html'>Git_ex1</a><li><a href='Git_ex2.html'>Git_ex2</a></li></ul><li class='has-children'><a href='Python.html'>Python</a><ul class='dropdown'><li><a href='SE.html'>SE</a><li><a href='CL.html'>CL</a><li><a href='Loops.html'>Loops</a><li><a href='Recursion.html'>Recursion</a><li><a href='SA.html'>SA</a><li><a href='SST.html'>SST</a><li><a href='Maze.html'>Maze</a><li><a href='Collect.html'>Collect</a><li><a href='GT.html'>GT</a><li><a href='Python_ex1.html'>Python_ex1</a></li></ul><li class='has-children'><a href='Javascript.html'>Javascript</a><ul class='dropdown'><li><a href='HTML and CSS.html'>HTML and CSS</a></li></ul><li class='has-children'><a href='Project.html'>Project</a><ul class='dropdown'><li><a href='Waitress.html'>Waitress</a><li><a href='API.html'>API</a></li></li></ul></ul><li class='has-children'><a href='Brython.html'>Brython</a><ul class='dropdown'><li><a href='Brython_ex.html'>Brython_ex</a><li><a href='Robot_ex.html'>Robot_ex</a></li></ul><li class='has-children'><a href='Ref.html'>Ref</a><ul class='dropdown'><li class='has-children'><a href='Reeborg.html'>Reeborg</a><ul class='dropdown'><li><a href='ex1.html'>ex1</a><li><a href='Otto_ninja.html'>Otto_ninja</a></li></ul><li><a href='tkinter.html'>tkinter</a><li><a href='Pyodide.html'>Pyodide</a><li><a href='Pyodide_ex.html'>Pyodide_ex</a><li class='has-children'><a href='Pyodide2.html'>Pyodide2</a><ul class='dropdown'><li><a href='robot.py.html'>robot.py</a><li><a href='Example2.html'>Example2</a></li></ul><li class='has-children'><a href='Pyodide3.html'>Pyodide3</a><ul class='dropdown'><li><a href='png_files.html'>png_files</a><li><a href='Harvest.html'>Harvest</a></li>
+                      </ul>
+                </nav>
+              </div>
+              <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+              </div>
+
+            </div>
+          </div>
+          
+        </header>
+    <div id="tipue_search_content">Homework << <a href='Homework.html'>Previous</a> <a href='Git.html'>Next</a> >> Git<br /><h1>Topics</h1>
+<p>w1:</p>
+<p><a href="https://mde.tw/w1">https://mde.tw/w1</a> for 1a </p>
+<p style="padding-left: 30px;">利用 Codespaces 維護 Github Pages 網站內容</p>
+<p style="padding-left: 30px;">利用 portable_2026 可攜系統維護 Github Pages 網站內容</p>
+<p style="padding-left: 60px;">透過 Token 取得維護權限</p>
+<p style="padding-left: 60px;">y:\home_ipv6\.gitconfig 中設定</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">[http "https://github.com"]
+    sslVerify = false</pre>
+<p style="padding-left: 60px;">表示當採 https 連線到 github.com 時，停用 SSL 憑證驗證，雖然方便，但若透過公眾網路上網，將會暴露在中間人攻擊(<a href="https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB">MITM</a>)的風險。</p>
+<p style="padding-left: 60px;">或者</p>
+<p style="padding-left: 60px;">git config --global http.sslCAInfo "y:\PortableGit\usr\ssl\certs\ca-bundle.crt"</p>
+<p style="padding-left: 60px;">啟用 SSL 憑證驗證。</p>
+<p><a href="https://41423299.github.io/w1">https://41423299.github.io/w1</a> for 1b</p>
+<p style="padding-left: 30px;">利用 Codespaces 維護 Github Pages 網站內容</p>
+<p style="padding-left: 30px;">Take Home 問題: 近端維護 Github Pages 網站時，有哪兩種管理權限驗證方式?</p>
+<p>w2:</p>
+<p style="padding-left: 30px;">開始透過 <a href="https://mde.tw/cp2025/content/Robot_ex.html">https://mde.tw/cp2025/content/Robot_ex.html</a> 學習 Python 程式語法。</p>
+<p style="padding-left: 30px;">當了解如何<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex1.py">控制機器人直行</a>之後，若又對機器人加了一個左轉的功能 - turn_left()，機器人是否已經可以在平面場區中自由行動。</p>
+<p style="padding-left: 30px;">假如又知道機器人在創始階段，是透過 World(10, 10) 方法，建立一個 10 x 10 的平面場區，那麼場景範圍應該可以自由控制大小。</p>
+<p style="padding-left: 30px;">接下來，請結合上述資訊，修改<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/71ff1c69dd233e6a5a83dd60997950de/raw/7f33223c0c669eac2a2bbce5c60b610edfdd9c72/brython_robot_ex1.py">控制機器人直行</a>程式，讓機器人的足跡踏遍 10 x 10 場區的每一格。</p>
+<p style="padding-left: 30px;">這樣，也能完成踏遍 20 x 20 場區的每一格嗎?</p>
+<p style="padding-left: 30px;">Python 基本語法: <a href="https://link.springer.com/chapter/10.1007/978-3-031-90522-3_1">Python essential</a> (只能在校網擷取)</p>
+<p style="padding-left: 30px;">應用函式定義與 for 重複迴圈，可以導引機器人在 20x20 的場景中<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/d6d229925f852c97fc71abe1fa0620c4/raw/bb1b4c63ef692fd8c61f339dbd59c413e7405573/w2_1.py">走過</a>每一格。</p>
+<p style="padding-left: 30px;">利用上列程式，再設定繞行所有網格的程式為 walk_all_grid() 函式，可以適用不同大小的網格場景<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/d6d229925f852c97fc71abe1fa0620c4/raw/e221415e8e698159a9cc947ab09f3c53b36bb33e/horizontal_walk_all_grid.py">行走</a>。</p>
+<p style="padding-left: 30px;"><span style="background-color: #ccffcc;">程式練習</span>: 上面的機器人行走範例，採水平路線行走，請各分組學員設法修改為採垂直路線繞行所有網格的版本。</p>
+<p style="padding-left: 30px;"><a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/b2c368eff8c00f9987b0b56d1d290988402603ad/1b_w2_1.py">1b w2_1.py</a></p>
+<p style="padding-left: 30px;"><span style="background-color: #ffcc99;">問題</span>: 不知道您有沒有注意到，上面的網格尺寸都是整數，因此<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/d6d229925f852c97fc71abe1fa0620c4/raw/bb1b4c63ef692fd8c61f339dbd59c413e7405573/w2_1.py">走過</a>每一格，以及<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/d6d229925f852c97fc71abe1fa0620c4/raw/e221415e8e698159a9cc947ab09f3c53b36bb33e/horizontal_walk_all_grid.py">行走</a>的程式都不會造成問題，</p>
+<p style="padding-left: 30px;">但若網格的尺寸不是整數而是奇數 (例如: 利用先前設計<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/d6d229925f852c97fc71abe1fa0620c4/raw/85f4d857f267ebca6a6f401c889a3a6ad8629096/walk_11x11.py">行走 11x11 網格</a>)，應該如何修改? 目標是無論 size 是整數或是奇數，無論是水平或垂直繞行，機器人都要能順利完成繞行經過每一格的任務。</p>
+<p>w3: <a href="https://mde.tw/cp_demo/content/Python.html">Python 程式語法學習</a></p>
+<p style="padding-left: 30px;">利用 <a href="https://github.com/scrum-1/respysive-slide">https://github.com/scrum-1/respysive-slide</a> 製作簡報，設法可以多人採分散式版次管理流程製作協同專案的線上簡報內容。</p>
+<p style="padding-left: 30px;">讓簡報製作就像寫 Python 程式一樣，可以分散式協同，方便非同步內容管理與合併，可以直接在線上進行簡報。</p>
+<p>w4: 機電系統設計，其實是一連串的數學解題與程式設計。</p>
+<p style="padding-left: 30px;">電腦輔助機械設計套件（Computer-Aided Mechanical Design Package），本質上是一種結合<strong data-end="1401" data-start="1378">數學建模、工程物理、計算模擬與資訊技術</strong>的工具，主要目的是幫助工程師在數位空間中完成設計、分析與製造準備工作。</p>
+<p style="padding-left: 30px;">電腦輔助機械設計套件的本質是透過電腦建模與模擬技術，把機械工程師的設計概念數位化，並透過虛擬工具進行驗證與最佳化。</p>
+<p style="padding-left: 30px;">這些結合數學幾何模型與計算機程式的工具，讓工程師能夠 1) 在虛擬空間中繪製零件與組件 2) 模擬材料與力學行為 3) 取得最佳化設計參數 4) 快速修改與試驗不同方案 5) 避免昂貴的實體原型開發與測試。</p>
+<p style="padding-left: 30px;">設計案例: <a href="https://mde.tw/cad_demo/content/Plotter.html">Plotter</a>，<a href="https://mde.tw/cad_demo/content/Openduck.html">Openduck</a></p>
+<p style="padding-left: 30px;"><a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d1f7266329c2e18800c236f8c639b1de0317a591/cp_w4_robot_animation.py">機器人行走模擬程式</a>，存為程式模組之後，利用向量運算<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/f354f7b128bcbb8c41aa059d2749d92d89ebb8bb/w4_vector_control_robot.py">控制機器人行進方向</a></p>
+<p style="padding-left: 30px;">若直接在瀏覽器中執行<a href="https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/26e0aa0ac5ee0b5cfdceb559a4bd2bd5e4c382b8/w4_A_star_searching.py">較密集運算</a>時，瀏覽器回覆執行速度過慢時，該如何處理?</p>
+<p>w5-w12: 深入理解<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d1f7266329c2e18800c236f8c639b1de0317a591/cp_w4_robot_animation.py">機器人行走模擬程式</a>中的所有 Python 與 Brython 程式用法。</p>
+<p style="padding-left: 30px;">Prompt:</p>
+<p style="padding-left: 60px;">請針對 from browser import document, html, timer, bind 中導入的物件各舉 10 個案例詳細說明。</p>
+<p style="padding-left: 60px;">請詳細說明以下程式各行的用法: (隨後將程式碼附上)</p>
+<p style="padding-left: 30px;">說明如何將 Brython 程式直接放入網頁中執行。</p>
+<p style="padding-left: 30px;">w7: <a href="./../downloads/websocket_robot.7z">websocket_robot.7z</a> (納入由遠端鍵盤控制 robot)</p>
+<p style="padding-left: 30px;">localhost websocket 應用: <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/159e3ccc2fe4c2027ed3a676273573bb/raw/b7bd9fb81c8faf3eb229ef4cda46200b7a5aab6e/brython_websocket1.py">brython 端</a>，<a href="https://gist.githubusercontent.com/mdecycu/159e3ccc2fe4c2027ed3a676273573bb/raw/b7bd9fb81c8faf3eb229ef4cda46200b7a5aab6e/websocket_server1.py">server 端</a></p>
+<p style="padding-left: 30px;">IPv4 與 IPv6 websocket 應用: <a href="./../downloads/brython_websocket_app.7z">brython_websocket_app.7z</a></p>
+<p style="padding-left: 60px;">如何將 websocket 應用到 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d1f7266329c2e18800c236f8c639b1de0317a591/cp_w4_robot_animation.py">機器人行走模擬程式</a>?</p>
+<p style="padding-left: 30px;">w7 1b 題目:</p>
+<p style="padding-left: 60px;">請導引 robot 走到 10x10 格點，以 (5, 5) 為中心畫一個 2x2 的正方形線條</p>
+<p style="padding-left: 90px;">可以直接將 robot 的起始位置訂為畫線起點，再逐一畫出 4 條線</p>
+<p style="padding-left: 90px;">若從 (1,1) 開始<span style="background-color: #ffff00;">走到</span>畫線起點，也可以逐一畫出所需的 4 條線 (<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/488e94c6a6f0c3f63dbae5e1d0e61a7ab8a812d7/w7_1b_ex1.py">範例</a>)</p>
+<p style="padding-left: 90px;">若能新增一個 move2() 是不會留下紅色軌跡的函式，該如何編寫?</p>
+<p style="padding-left: 90px;">若已經知道可以透過 git checkout c0d70cd 將倉儲內容切回第四週的版本，請列出新舊<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d1f7266329c2e18800c236f8c639b1de0317a591/cp_w4_robot_animation.py">機器人行走模擬程式</a>的修改細節。</p>
+<p style="padding-left: 90px;">新增 move3(x1, y1, x2, y2) 可以從 (x1, y1) 走到 (x2, y2), 留下斜線路徑的 <a href="https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d529e57369b9b6fd6668fd3c42b6dcea5b4a652c/cp_w4_robot_animation.py">robot_lib.py</a>。</p>
+<p style="padding-left: 30px;">w8:</p>
+<p style="padding-left: 60px;">請各分組採協同製作的流程完成下列任務:</p>
+<p style="padding-left: 90px;">設法利用<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d1f7266329c2e18800c236f8c639b1de0317a591/cp_w4_robot_animation.py">機器人行走模擬程式</a>，列出與 Python <a href="./../downloads/python_keywords.txt">所有關鍵字</a>有關的程式應用範例。</p>
+<p style="padding-left: 90px;">設法利用機器人的行走練習與 <a href="https://developer.mozilla.org/zh-TW/docs/Web/HTML/Reference/Elements/canvas">Html5 Canvas</a> 有關的各種繪圖程式練習。</p>
+<p style="padding-left: 60px;">Brython 程式位於瀏覽器前端，若要將表單上的資料儲存至後端，就必須與 Python 程式.</p>
+<p style="padding-left: 60px;">兩端如何溝通: 使用傳統的 ajax 或 websocket? Python 數值運算或檔案轉換後的<span style="background-color: #ffff00;">資料如何存檔</span>?</p>
+<p style="padding-left: 90px;">如何利用 Python 讀進 <a href="./../downloads/robot_lib.txt">robot_lib.txt</a> 檔案，並用 print 將內容列出?</p>
+<p style="padding-left: 60px;">Python 資料結構: list、tuple、dictionary、set 如何應用?</p>
+<p style="padding-left: 60px;">Python 與資料庫 (Database): SQLite、PostgreSQL、MySQL、MS SQL</p>
+<p>w11: 如何將先前已經運作的協同倉儲提交紀錄，推送到 Github Classroom 中的協同倉儲</p>
+<p style="padding-left: 30px;">在 Codespaces 中採用 token 權限進行:</p>
+<p style="padding-left: 60px;">利用 <span style="background-color: #ccffcc;">ctrl + p</span> 可以顯示或編輯 .git/config</p>
+<p style="padding-left: 60px;">利用 git remote add 代號 github_classroom_repo_url.git 可以將代號與 url 新增至 .git/config 中</p>
+<p style="padding-left: 60px;">建立 token，並將 token 放入 <span>github_classroom_repo_url .git 中</span></p>
+<p style="padding-left: 60px;"><span>git push 代號 main 可以將先前倉儲的 main 分支推送至 Github Classroom 中的協同倉儲</span></p>
+<p style="padding-left: 30px;">在近端可攜程式環境中進行 (已經有協同倉儲):</p>
+<p style="padding-left: 60px;">cd 到先前運作的協同倉儲目錄</p>
+<p style="padding-left: 60px;"><span>利用 git remote add 代號 github_classroom_repo_url.git 可以將代號與 url 新增至 .git/config 中</span></p>
+<p style="padding-left: 60px;">建立 token，並將 token 放入 <span>github_classroom_repo_url.git 中</span></p>
+<p style="padding-left: 60px;"><span>git push 代號 main 可以將先前倉儲的 main 分支推送至 Github Classroom 中的協同倉儲</span></p>
+<p style="padding-left: 30px;"><span>在近端可攜程式環境中進行 (尚未有協同倉儲):</span></p>
+<p style="padding-left: 60px;">登入 Github 後，連結到 <a href="https://github.com/mdecycu/cmsimde_site">https://github.com/mdecycu/cmsimde_site</a> 先建立 cmsimde 架構的倉儲</p>
+<p style="padding-left: 60px;">接下來在 Codespaces 環境將上一個建立的倉儲推送到 <span>github_classroom_repo_url .git 中</span></p>
+<p style="padding-left: 60px;">或利用近端環境<span>將上一個建立的倉儲推送到 </span><span>github_classroom_repo_url .git 中</span></p>
+<p style="padding-left: 30px;">接下來進入 <a href="https://s5.eng.nfu.edu.tw:9499">https://s5.eng.nfu.edu.tw:9499</a> 註冊新帳號，登入後可以將自己寫的 brython 程式存檔 (機器人程式庫: <a href="./../downloads/robot_lib.py">robot_lib.py</a>)</p>
+<hr/>
+<p style="padding-left: 30px;">接著將<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/d1f7266329c2e18800c236f8c639b1de0317a591/cp_w4_robot_animation.py">機器人行走模擬程式</a>存為程式模組之後，利用向量運算<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/f354f7b128bcbb8c41aa059d2749d92d89ebb8bb/w4_vector_control_robot.py">控制機器人行進方向</a>，或進行其他應用。</p>
+<p style="padding-left: 30px;">後續應用 Prompt:</p>
+<p style="padding-left: 60px;">利用以下的 Brython 機器人在格點中行走的模擬程式作為模組, 存為 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/5dd2d47ddab3a52bf6477f75e3f548216cf0de60/cp_w4_robot_animation.py">robot_lib.py</a> 之後, 請利用 import robot_lib 作為開端，舉八個可以用來學習演算法的典型範例，請注意這是 Brython, 因此可能無法進行密集的運算，因此另外再舉五個可以結合此 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/b81cebd4eba83488040fb444e065692ef2da76f2/cp_w4_robot_animation.py">robot_lib.py</a> 作為模組 import，但是卻利用與遠端 Flask 程式結合運算的案例，讓 Brython 負責前端的動態模擬，較為複雜的運算則透過 ajax 或其他方法，將運算送到 Server 運算後，有 Brython 前端程式負責模擬: (接著將 <a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/fa7d2a68d1569596f62e5b7739a83119/raw/b81cebd4eba83488040fb444e065692ef2da76f2/cp_w4_robot_animation.py">robot_lib.py</a> 程式碼貼上)</p>
+<p style="padding-left: 30px;">十個學習演算法的典型範例:</p>
+<p style="padding-left: 30px;">一、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/989580879f409f41551759e82345c4feeea3e363/random_walk.py">隨機漫遊</a> (Random Walk)</p>
+<p style="padding-left: 60px;">讓機器人進行隨機行走，學習如何實現隨機選擇方向，並處理邊界條件。</p>
+<p style="padding-left: 30px;">二、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/419b5683116435127e814098329c67ab5d04d0ca/maze_solution.py">迷宮尋路</a> (Maze Solving)</p>
+<p style="padding-left: 60px;">讓機器人在一個包含牆壁的地圖中尋找最短路徑，可以使用 A* 算法或深度優先搜尋 (DFS) 算法。</p>
+<p style="padding-left: 30px;">三、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/d922db84457110c7e1c0d405199349ff09431499/shorted_path.py">最短路徑搜尋</a> (Shortest Path Search)</p>
+<p style="padding-left: 60px;">給定一個有障礙物的地圖，讓機器人找到從起點到終點的最短路徑。可以學習使用 Dijkstra 演算法或 A* 演算法。</p>
+<p style="padding-left: 30px;">四、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/c51b4c7a90e062a597dc587a28a9e976d0e52715/patrolling.py">巡邏模式</a> (Patrolling)</p>
+<p style="padding-left: 60px;">讓機器人自動巡邏一個指定區域，並根據一定規則改變方向，學習簡單的自動化模式。</p>
+<p style="padding-left: 30px;">五、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/510c60404a01829e9842b3a705d5d4a94fb17011/pick_and_place.py">物品拾取與放置</a> (Pickup and Place)</p>
+<p style="padding-left: 60px;">讓機器人在地圖中尋找物品並將其放置到指定位置，學習如何控制機器人的移動與狀態轉換。</p>
+<p style="padding-left: 30px;">六、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/3e85051af7791d38f3f2991397f658711166e9b6/obstacle_avoidance.py">避障</a> (Obstacle Avoidance)</p>
+<p style="padding-left: 60px;">讓機器人避開障礙物，學習如何根據傳感器數據進行即時決策，避免碰撞。</p>
+<p style="padding-left: 30px;">七、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/35212484a494d48eca0a95cd8a2562c9f6373c5f/object_circling.py">圍繞物體行走</a> (Object Circling)</p>
+<p style="padding-left: 60px;">讓機器人圍繞地圖中的某個物體行走，學習如何調整其行為以保持固定的圓形路徑。</p>
+<p style="padding-left: 30px;">八、<a href="https://mde.tw/cp2025/content/Brython.html?src=https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/281d59aae380be6c627413166596ce98cd31dee9/boundary_exploration.py">邊界探索</a> (Boundary Exploration)</p>
+<p style="padding-left: 60px;">讓機器人沿著邊界走，並學習如何使用循環條件處理邊界情況。(<a href="https://gist.githubusercontent.com/mdecycu/aa66c4a85dae81189c394ea75d023ef8/raw/be404af67b7b10cc48e7bb734ac70a356f3674cf/boundary_exploration_and_stop.py">探索一圈後停止</a>)</p>
+<p style="padding-left: 30px;">五個結合 Flask 程式的運算案例:</p>
+<p style="padding-left: 30px;">Brython 的運算能力有限，複雜的計算可交給後端 Flask 處理，前端用於動態顯示模擬。以下是五個結合 Flask 與 Brython 的範例：</p>
+<p style="padding-left: 30px;">一、迷宮生成與尋路</p>
+<p style="padding-left: 60px;">描述: 在 Flask 後端生成一個隨機迷宮，並使用 <a href="https://zh.wikipedia.org/zh-tw/A*%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95">A*</a> 或 <a href="https://zh.wikipedia.org/zh-tw/%E6%88%B4%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95">Dijkstra</a> 算法尋找最短路徑。前端使用 Brython 顯示迷宮與路徑。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">使用 Flask 生成迷宮並計算最短路徑。</p>
+<p style="padding-left: 90px;">Flask 將結果回傳給前端。</p>
+<p style="padding-left: 90px;">Brython 使用動畫展示機器人如何行走。</p>
+<p style="padding-left: 30px;">二、多機器人協作 (Multi-Robot Collaboration)</p>
+<p style="padding-left: 60px;">描述: 使用 Flask 後端控制多個機器人的協作，並根據任務分配給各個機器人。在 Brython 前端展示機器人的動態協作。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">前端傳送多個機器人的初始位置和任務。</p>
+<p style="padding-left: 90px;">Flask 計算每個機器人的路徑和協作策略。</p>
+<p style="padding-left: 90px;">Brython 以動畫形式展示機器人的動態協作。</p>
+<p style="padding-left: 30px;">三、物品搜尋與物品移動</p>
+<p style="padding-left: 60px;">描述: 機器人在地圖中搜尋物品，並將其搬移到指定位置。所有搜尋演算法（如深度優先搜尋、廣度優先搜尋）在 Flask 後端運算。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">Flask 計算搜尋路徑與搬移策略。</p>
+<p style="padding-left: 90px;">Brython 顯示動態模擬，並控制機器人移動。</p>
+<p style="padding-left: 30px;">四、機器人學習與自適應控制</p>
+<p style="padding-left: 60px;">描述: 在 Flask 後端實現強化學習或 Q-learning 演算法，讓機器人學習如何在環境中尋找最優策略。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">機器人根據前端操作回傳其行為與環境狀態。</p>
+<p style="padding-left: 90px;">Flask 訓練機器人並返回最優行為。</p>
+<p style="padding-left: 90px;">Brython 實時更新機器人的動作。</p>
+<p style="padding-left: 30px;">五、環境變化中的最優路徑規劃</p>
+<p style="padding-left: 60px;">描述: 當地圖中有障礙物或其他變化時，機器人需要動態調整路徑。所有路徑規劃的計算在 Flask 後端完成，前端展示機器人的調整過程。</p>
+<p style="padding-left: 60px;">流程:</p>
+<p style="padding-left: 90px;">Flask 接收環境變化訊息，重新計算最優路徑。</p>
+<p style="padding-left: 90px;">Brython 以動畫方式展示機器人根據新的路徑進行調整。</p>
+<hr/>
+<p>電腦輔助設計室電腦硬體與網路使用介紹</p>
+<p style="padding-left: 30px;">C: 為 SSD，網路協定可以自行決定使用 IPv4 或 IPv6 (若使用純 IPv6 則必須設定 Proxy 才能連結到 github.com 以及僅支援 IPv4 協定的網站) </p>
+<p>Teams 線上教學:</p>
+<p style="padding-left: 30px;">以 "學號@nfu.edu.tw" 登入<span> </span><a href="https://login.microsoftonline.com/">https://login.microsoftonline.com/</a><span> </span>Office 365</p>
+<p style="padding-left: 30px;">Teams 團隊代碼: w87x8do</p>
+<p>下載可攜程式套件:</p>
+<p style="padding-left: 30px;"><a href="http://229.cycu.org/portable_2026.7z">portable_2026.7z</a> (387MB)</p>
+<p style="padding-left: 60px;">解開壓縮後，雙點擊 start_miniconda3.bat 啟動可攜系統，雙點擊 stop.bat 關閉可攜系統。</p>
+<p style="padding-left: 60px;">可攜系統啟動後，在命令列執行 conda activate y:\envs\cmsimde 可進入能執行 CMSiMDE 的環境。</p>
+<p style="padding-left: 60px;">若希望可攜系統啟動直接進入 cmsimde 環境，可將 start_miniconda3.bat 檔案中第 98 行: call "%CONDA_ROOT%\Scripts\activate.bat" %ENV_NAME% 更換為 call "%CONDA_ROOT%\Scripts\activate.bat" %Disk%:\envs\cmsimde。</p>
+<p>各學員自行<a href="https://docs.github.com/zh/get-started/start-your-journey/creating-an-account-on-github">建立 Github 帳號</a></p>
+<p>說明如何建立分組倉儲 Template</p>
+<p>學習如何開啟可攜套件、關閉可攜套件</p>
+<p style="padding-left: 30px;">利用 Python 執行設計運算及維護倉儲與網站內容</p>
+<p style="padding-left: 30px;">Windows <a href="https://hackmd.io/@peterju/B1pUqd-5c">Batch file</a> 與 <a href="https://link.springer.com/book/10.1007/978-1-4842-7064-6">Powershell</a> 應用 </p>
+<p><a href="https://classroom.github.com/">Github Classroom</a> 上的分組網站: <a href="https://github.com/mdecp2025">https://github.com/mdecp2025</a> </p>
+<p style="padding-left: 30px;"><a href="https://classroom.github.com/">Github Classroom</a> 是一套 Web based 工具，功能在於簡化採用 Github 倉儲進行教學與協同分組的工作 </p>
+<p style="padding-left: 30px;">各組組長建立 <a href="https://classroom.github.com/">Github Classroom</a> 分組團隊，各組取得分組倉儲 </p>
+<p>學習如何在近端電腦與 <a href="https://github.com/features/codespaces">Codespaces</a> 上維護分組倉儲內容</p>
+<p style="padding-left: 30px;">近端: Github Token 與 SSH (Putty、Registry (<a href="https://learn.microsoft.com/zh-tw/troubleshoot/windows-server/performance/windows-registry-advanced-users">中文版</a>、<a href="https://learn.microsoft.com/en-us/troubleshoot/windows-server/performance/windows-registry-advanced-users">英文版</a>)應用)  </p>
+<p>利用 <a href="https://mde.tw/cp2025/reeborg">Reeborg</a> 學習 Python 基本語法</p>
+<hr/>
+<h4>計算機程式課程主題總覽</h4>
+<h4>課程簡介</h4>
+<p>本課程以實作為導向，循序漸進學習 <strong>Python</strong>、<strong>JavaScript</strong>、<strong>HTML</strong>、<strong>CSS</strong> 等現代網頁與程式語言，最終應用於類 <strong><a href="https://mde.tw/reeborg">Reeborg</a> 機器人程式開發</strong>。內容設計結合理論與實作，強調程式邏輯、問題解決與跨語言應用能力。</p>
+<ul>
+<li>從零基礎學習程式語言的基本結構與語法</li>
+<li>掌握網頁技術，為互動式機器人程式設計打下基礎</li>
+<li>專題實作，應用於 Reeborg’s World 機器人操作與挑戰任務</li>
+</ul>
+<h4>課程主題與詳細內容</h4>
+<h4>1. Python 基礎與 Reeborg 機器人程式設計</h4>
+<ul>
+<li><strong>Python 語言簡介：</strong> 特色、應用領域、開發環境介紹</li>
+<li><strong>基本語法：</strong> 變數、資料型態、運算子、輸入與輸出</li>
+<li><strong>流程控制：</strong> 條件判斷 (<code>if</code>, <code>elif</code>, <code>else</code>)、迴圈 (<code>while</code>, <code>for</code>)</li>
+<li><strong>函式與模組：</strong> 函式定義與呼叫、自訂功能、模組導入</li>
+<li><strong>Reeborg’s World 操作：</strong>
+<ul>
+<li>基本指令 (<code>move()</code>, <code>turn_left()</code>, <code>take()</code>, <code>put()</code>)</li>
+<li>感測器判斷 (<code>front_is_clear()</code>, <code>wall_in_front()</code>, <code>object_here()</code>, <code>at_goal()</code>)</li>
+<li>將 Python 程式邏輯應用於控制機器人走迷宮、撿物、解任務</li>
+</ul>
+</li>
+<li><strong>實作練習：</strong> 關卡挑戰、流程規劃、錯誤偵錯與修正</li>
+</ul>
+<h4>2. JavaScript 程式設計基礎</h4>
+<ul>
+<li><strong>JavaScript 角色：</strong> 前端網頁互動語言，與 Python 差異與應用</li>
+<li><strong>基本語法：</strong> 變數 (<code>let</code>, <code>const</code>)、資料型態、運算子、輸出 (<code>console.log()</code>)</li>
+<li><strong>流程控制：</strong> 條件 (<code>if</code>, <code>else</code>)、迴圈 (<code>for</code>, <code>while</code>)</li>
+<li><strong>函式與 ES6 新語法：</strong> 函式宣告、箭頭函式 (<code>() =&gt; {}</code>)</li>
+<li><strong>陣列與物件：</strong> 基本操作、方法應用</li>
+<li><strong>與網頁互動：</strong> 認識 DOM、事件處理等（為後續進階鋪路）</li>
+<li><strong>小專題：</strong> 建立簡單計算機或互動網頁按鈕</li>
+</ul>
+<h4>3. HTML 基礎 - 建構網頁內容</h4>
+<ul>
+<li><strong>HTML 結構：</strong> 了解 <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code> 等標籤</li>
+<li><strong>常用標籤：</strong> <code>&lt;h1&gt;~&lt;h6&gt;</code> 標題、<code>&lt;p&gt;</code> 段落、<code>&lt;a&gt;</code> 連結、<code>&lt;img&gt;</code> 圖片、<code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> 列表、<code>&lt;table&gt;</code> 表格</li>
+<li><strong>表單與輸入：</strong> <code>&lt;form&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;button&gt;</code> 等</li>
+<li><strong>結構化分區：</strong> <code>&lt;div&gt;</code>, <code>&lt;span&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;nav&gt;</code> 等</li>
+<li><strong>專案實作：</strong> 製作個人簡歷網頁、Reeborg 世界說明頁等</li>
+</ul>
+<h4>4. CSS 樣式設計 - 美化網頁版面</h4>
+<ul>
+<li><strong>CSS 基本語法：</strong> 選擇器、屬性、值的語法結構</li>
+<li><strong>常用樣式：</strong> 顏色 (<code>color</code>、<code>background</code>)、字型 (<code>font-size</code>、<code>font-family</code>)、邊框 (<code>border</code>), 間距 (<code>margin</code>, <code>padding</code>)</li>
+<li><strong>版面配置：</strong> <code>display</code>、<code>flex</code>、<code>grid</code> 基礎</li>
+<li><strong>RWD 響應式設計：</strong> 讓你的網頁適合不同裝置</li>
+<li><strong>CSS 與 HTML 整合：</strong> 內嵌樣式、內部樣式表、外部 CSS 檔案</li>
+<li><strong>美化 Reeborg 機器人專案網頁：</strong> 實作練習</li>
+</ul>
+<h4>5. 綜合應用 - Reeborg 機器人專案開發</h4>
+<ul>
+<li><strong>專案規劃與團隊合作：</strong> 需求分析、分工合作</li>
+<li><strong>跨語言整合：</strong> 利用 Python 控制邏輯、JavaScript 增強互動、HTML/CSS 展示結果</li>
+<li><strong>打造專屬 Reeborg 世界：</strong> 設計自訂任務與挑戰</li>
+<li><strong>成果展示：</strong> 發表與互評，分享學習心得</li>
+</ul>
+<h4>學習建議與資源</h4>
+<ul>
+<li>多加練習與嘗試，遇到困難主動討論與尋找資料</li>
+<li>推薦學習網站：<a href="https://reeborg.ca/" target="_blank">Reeborg’s World</a>、<a href="https://www.w3schools.com/" target="_blank">W3Schools</a>、<a href="https://developer.mozilla.org/zh-TW/" target="_blank">MDN Web Docs</a></li>
+<li>建議每週規劃自主練習與小專案，培養實作與解決問題能力</li>
+<li>記錄學習歷程，定期回顧與修正</li>
+</ul><br />Homework << <a href='Homework.html'>Previous</a> <a href='Git.html'>Next</a> >> Git</div>
+        
+    <!-- footer -->
+      <div class="container">
+        <div class="row pt-3 mx-auto">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+        </div>
+      </div>
+    <!-- for footer -->
+    
+        </div> <!-- for site wrap -->
+            <!-- <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script> -->
+            <script src="../cmsimde/static/chimper/js/jquery-migrate-3.0.1.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery-ui.js"></script>
+            <script src="../cmsimde/static/chimper/js/popper.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/owl.carousel.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.stellar.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.countdown.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.magnific-popup.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap-datepicker.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/aos.js"></script>
+            <!--
+            <script src="../cmsimde/static/chimper/js/typed.js"></script>
+                    <script>
+                    var typed = new Typed('.typed-words', {
+                    strings: ["Web Apps"," WordPress"," Mobile Apps"],
+                    typeSpeed: 80,
+                    backSpeed: 80,
+                    backDelay: 4000,
+                    startDelay: 1000,
+                    loop: true,
+                    showCursor: true
+                    });
+                    </script>
+            -->
+            <script src="../cmsimde/static/chimper/js/main.js"></script>
+        
+<!-- 啟用 LaTeX equations 編輯 -->
+  <!-- <script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\(', '\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
+    </body></html>
+        

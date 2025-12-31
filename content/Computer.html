@@ -1,0 +1,243 @@
+<!DOCTYPE html><html>
+        <head>
+        <title>cp2025</title>
+        <meta charset="utf-8">
+<meta property="head" content="H2">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/magnific-popup.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/jquery-ui.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/flaticon/font/flaticon.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/aos.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/style.css">
+        <link rel="shortcut icon" href="./../cmsimde/static/favicons.png">
+        
+        <style type='text/css'>
+            .site-section {
+            background-color: #FFFF;
+            padding: 40px 40px;
+            }
+            body > div > div.dropdown.open {
+                display: block;
+            }
+        </style>
+    
+        <!-- <script src="./../cmsimde/static/jquery.js"></script> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/normalize.min.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch_set.js"></script>
+        <script src="tipuesearch_content.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/tipuesearch.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch.js"></script>
+        <!-- for Wink3 客製化關閉 -->
+        <!--
+        <link rel="stylesheet" type="text/css" href="./../cmsimde/static/winkPlayer.css" />
+        <script type="text/javascript" src="./../cmsimde/static/winkPlayer.js"></script>
+        -->
+        <script>
+            /* original tipuesearch
+            $(document).ready(function() {
+                 $('#tipue_search_input').tipuesearch();
+            });
+            */
+            // customed doSearch
+            function doSearch() {
+                $('#tipue_search_input').tipuesearch({
+                    newWindow: true, 
+                    minimumLength: 2,
+                    wholeWords: false, // for search 中文
+                });
+            }
+            $(document).ready(doSearch);
+        </script>
+        
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shCore.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushBash.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDiff.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJScript.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJava.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPython.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushSql.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushHaxe.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushXml.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPhp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushLua.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushMojo.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushWbt.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCpp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCss.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCSharp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDart.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushRust.js"></script>
+<link type="text/css" rel="stylesheet" href="./../cmsimde/static/syntaxhighlighter/css/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 暫時不用
+<script src="./../cmsimde/static/fengari-web.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/Cango-13v08-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/CangoAxes-4v01-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/gearUtils-05.js"></script>
+-->
+<!-- for Brython 暫時不用
+<script src="https://scrum-3.github.io/web/brython/brython.js"></script>
+<script src="https://scrum-3.github.io/web/brython/brython_stdlib.js"></script>
+-->
+<style>
+img.add_border {
+    border: 3px solid blue;
+}
+</style>
+
+</head>
+<body>
+<div class='container'><nav>
+        
+    <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+            <header class="site-navbar py-4 bg-white" role="banner">
+              <div class="container">
+                <div class="row align-items-center">
+                <h1>cp2025 計算機程式</h1>
+                <div class="pl-4">
+                    <form>
+                    <input type="text" placeholder="Search" name="q" id="tipue_search_input" pattern=".{2,}" title="At least 2 characters" required>
+                    </form>
+                </div>
+                  <!-- <div class="col-11 col-xl-2">
+                    <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">cp2025 計算機程式</a></h1> 
+                  </div>
+                  -->
+                  <div class="col-12 col-md-10 d-none d-xl-block">
+                    <nav class="site-navigation position-relative text-right" role="navigation">
+    <ul class='site-menu js-clone-nav mr-auto d-none d-lg-block'>
+                        <li class="active has-children"><a href="index.html">Home</a>
+                        <ul class="dropdown">
+                            <li><a href="sitemap.html">SMap</a></li>
+                            <li><a href="./../reveal/index.html">reveal</a></li>
+                            <li><a href="./../blog/index.html">blog</a></li>
+                        </ul>
+                      </li>
+                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='cs101.html'>cs101</a><li class='has-children'><a href='Computer.html'>Computer</a><ul class='dropdown'><li><a href='llama.html'>llama</a><li><a href='nginx.html'>nginx</a></li></ul><li class='has-children'><a href='AI.html'>AI</a><ul class='dropdown'><li><a href='Learning.html'>Learning</a><li><a href='QandA.html'>QandA</a><li><a href='Teams.html'>Teams</a></li></ul><li><a href='Homework.html'>Homework</a></li></ul><li class='has-children'><a href='Topics.html'>Topics</a><ul class='dropdown'><li class='has-children'><a href='Git.html'>Git</a><ul class='dropdown'><li><a href='Git_ex1.html'>Git_ex1</a><li><a href='Git_ex2.html'>Git_ex2</a></li></ul><li class='has-children'><a href='Python.html'>Python</a><ul class='dropdown'><li><a href='SE.html'>SE</a><li><a href='CL.html'>CL</a><li><a href='Loops.html'>Loops</a><li><a href='Recursion.html'>Recursion</a><li><a href='SA.html'>SA</a><li><a href='SST.html'>SST</a><li><a href='Maze.html'>Maze</a><li><a href='Collect.html'>Collect</a><li><a href='GT.html'>GT</a><li><a href='Python_ex1.html'>Python_ex1</a></li></ul><li class='has-children'><a href='Javascript.html'>Javascript</a><ul class='dropdown'><li><a href='HTML and CSS.html'>HTML and CSS</a></li></ul><li class='has-children'><a href='Project.html'>Project</a><ul class='dropdown'><li><a href='Waitress.html'>Waitress</a><li><a href='API.html'>API</a></li></li></ul></ul><li class='has-children'><a href='Brython.html'>Brython</a><ul class='dropdown'><li><a href='Brython_ex.html'>Brython_ex</a><li><a href='Robot_ex.html'>Robot_ex</a></li></ul><li class='has-children'><a href='Ref.html'>Ref</a><ul class='dropdown'><li class='has-children'><a href='Reeborg.html'>Reeborg</a><ul class='dropdown'><li><a href='ex1.html'>ex1</a><li><a href='Otto_ninja.html'>Otto_ninja</a></li></ul><li><a href='tkinter.html'>tkinter</a><li><a href='Pyodide.html'>Pyodide</a><li><a href='Pyodide_ex.html'>Pyodide_ex</a><li class='has-children'><a href='Pyodide2.html'>Pyodide2</a><ul class='dropdown'><li><a href='robot.py.html'>robot.py</a><li><a href='Example2.html'>Example2</a></li></ul><li class='has-children'><a href='Pyodide3.html'>Pyodide3</a><ul class='dropdown'><li><a href='png_files.html'>png_files</a><li><a href='Harvest.html'>Harvest</a></li>
+                      </ul>
+                </nav>
+              </div>
+              <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+              </div>
+
+            </div>
+          </div>
+          
+        </header>
+    <div id="tipue_search_content">cs101 << <a href='cs101.html'>Previous</a> <a href='llama.html'>Next</a> >> llama<br /><h1>Computer</h1>
+<p>一、假如使用 Windows 操作系統</p>
+<p><span style="background-color: #ccffcc;">顯示副檔名與隱藏檔</span></p>
+<p style="padding-left: 30px;">檔案總管內定並無檢視副檔名與隱藏檔案的設定，若之後所使用的工具並非安裝版，其副檔名並未登錄於操作系統，因此可能無法透過檔案 icon 辨識檔案屬性，最直接的方式就是透過副檔名確認。</p>
+<p style="padding-left: 30px;">其次，許多系統工具會使用 Windows 認定的隱藏檔格式 (以 . 開頭)，這些隱藏檔案或隱藏目錄，在 Git 指令操作時非常重要，因此建議將 Windows 檔案總管視窗下的檢視設定中，開啟檢視附檔名與隱藏檔的選項設定。</p>
+<p>假如使用 Windows 11 家用版</p>
+<p style="padding-left: 30px;">家用版與專業版的差異:</p>
+<p style="padding-left: 60px;">家用版僅支援單一 CPU</p>
+<p style="padding-left: 60px;">家用版最多支援 128 GB 記憶體</p>
+<p style="padding-left: 60px;">家用版無硬碟編碼功能</p>
+<p style="padding-left: 60px;">家用版無 <a href="https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/">Windows Sandbox</a></p>
+<p style="padding-left: 60px;">家用版無 Remote Desk Top Host - 可以使用 <a href="https://en.wikipedia.org/wiki/VNC">VNC</a> 進行遠端控制 </p>
+<p style="padding-left: 60px;">家用版必須自行安裝 Group Policy Editor (gpedit.msc) - 但可以<a href="https://www.itechtics.com/easily-enable-group-policy-editor-gpedit-msc-in-windows-10-home-edition/">自行配置安裝</a></p>
+<p style="padding-left: 60px;">家用版無 Hyper-V - 可以使用 <a href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_1">Virtualbox</a> 配置虛擬機</p>
+<p>無登入狀態使用 Windows 11</p>
+<p style="padding-left: 30px;">新機開啟之後的設定流程，系統要求必須登入微軟帳號才能繼續使用時，可以透過指令輸入，在重新開機設定階段，繞過此一過程。</p>
+<p style="padding-left: 30px;">意即，當按下 Shift + F10 (若有 Fn 鍵則需按下 Shift + Fn + F10) 時，系統會跳出命令列視窗，若此時命令列視窗中的目錄，已經跳到 C:\Windows\System32&gt;，則可利用 cd OOBE 之後執行 BYPASSNRO，要求重新開機時繞過此一要求。</p>
+<p style="padding-left: 30px;">這些指令都是英文字母，OOBE 是 Out Of Box Experience 的縮寫，而 BYPASSNRO 則是 BYPASS Network Requirement Out-of-box 的意思。</p>
+<p style="padding-left: 30px;">在 Windows 11 設置過程，選擇執行 C:\Windows\System32\OOBE\BYPASSNRO 按下 Enter，就會重新開機，之後的設置過程，便會繞過需要登入微軟帳號才能使用 Windows 11 的要求。</p>
+<p>自行安裝 gpedit.msc</p>
+<p style="padding-left: 30px;">另外，Windows 11 家用版並沒有 gpedit.msc 工具，這是操作系統的群組原則設置工具，若希望關閉微軟強制設定每 42 天必須重製密碼的內建原則，可以先安裝 gpedit.msc 之後再行修改。</p>
+<p style="padding-left: 30px;">在搜尋欄位執行 cmd 之後，選擇以管理者身分啟動命令列視窗後，執行下列批次檔指令:</p>
+<p>get_gpedit.bat</p>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">@echo off
+pushd "%~dp0"
+dir /b %SystemRoot%\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientTools-Package~3*.mum &gt;Files.txt
+dir /b %SystemRoot%\servicing\Packages\Microsoft-Windows-GroupPolicy-ClientExtensions-Package~3*.mum &gt;&gt;Files.txt
+for /f %%i in ('findstr /i . Files.txt 2^&gt;nul') do dism /online /norestart /add-package:"%SystemRoot%\servicing\Packages\%%i"
+del Files.txt
+pause
+</pre>
+<p style="padding-left: 30px;">完成之後，可以在搜尋處輸入 gpedit.msc，開啟 Local Group Policy Editor，進入 Windows 設定 - 安全設定 - 帳戶原則 - 密碼原則中，若將密碼最長使用期限的 42 天改為 0，則密碼就可由使用者自行決定最長使用期限，不需要每 42 天被強迫更改。</p>
+<p>其他建議:</p>
+<p style="padding-left: 30px;">安裝 <a href="https://www.7-zip.org/">7zip</a>、安裝 Firefox，之後儘可能使用可攜套件。</p>
+<p>二、假如使用 Ubuntu</p>
+<p><a href="https://ubuntu.com/#download-ubuntu">Ubuntu</a> 操作系統分為 Server 與 Desktop 版本，一般機械相關的課程所採用的套件大多僅支援 Windows 版，因此 Ubuntu 或其他 Linux 相關操作系統僅是用來建立輔助用的伺服器，或者用於測試所開發的套件是否能夠在 Ubuntu 環境中執行。</p>
+<p>在 Windows 11 操作系統中，利用 <a href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_1">Virtualbox</a> 配置一台 Ubuntu 虛擬機，應該是最方便的使用方式，儘管 <a href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_1">Virtualbox</a> 虛擬機僅能模擬大約 75% 的硬體效能，但只要 4GB Ram 與約 5GB 的硬碟空間就可以啟動，因此建議所使用的 Windows 筆電或桌機至少要有 32GB 的記憶體，以及 512 GB 以上的 SSD 硬碟空間.</p>
+<p>三、假如使用 Mac</p>
+<p><a href="https://en.wikipedia.org/wiki/MacOS">MacOS</a> 採用 BSD 系列操作系統，屬於 Unix，因此就機械相關課程的使用情況，與 Ubuntu 或其他 Linux 操作系統相似，大部分情況必須設法配置 Windows 11 虛擬機，或遠端登入到其他 Windows 11 機器，才能執行一些僅支援 Windows 的套件。  </p>
+<p>雲端帳號 two-factor authentication(兩段式認證)</p>
+<p>Gmail 帳號:</p>
+<p style="padding-left: 30px;">登入 Gmail 帳號後，進入 Google Account，選擇 Manage Google Account</p>
+<p style="padding-left: 30px;">點選 Manage Google Account 左方表單中的 Security</p>
+<p style="padding-left: 30px;">點選 2-step verification 後，開啟設定</p>
+<p style="padding-left: 30px;">畫面將顯示所綁定的手機號碼</p>
+<p style="padding-left: 30px;">若要進一步綁訂到 Authenticator，將會出現二維條碼</p>
+<p style="padding-left: 30px;">開啟手機中的 Authenticator App(例如: Authy)，新增綁定後用相機拍攝電腦螢幕上的二維條碼</p>
+<p style="padding-left: 30px;">將手機 Authenticator 中出現的六個數字輸入電腦設定欄位中，即可完成設定</p>
+<br />cs101 << <a href='cs101.html'>Previous</a> <a href='llama.html'>Next</a> >> llama</div>
+        
+    <!-- footer -->
+      <div class="container">
+        <div class="row pt-3 mx-auto">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+        </div>
+      </div>
+    <!-- for footer -->
+    
+        </div> <!-- for site wrap -->
+            <!-- <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script> -->
+            <script src="../cmsimde/static/chimper/js/jquery-migrate-3.0.1.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery-ui.js"></script>
+            <script src="../cmsimde/static/chimper/js/popper.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/owl.carousel.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.stellar.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.countdown.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.magnific-popup.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap-datepicker.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/aos.js"></script>
+            <!--
+            <script src="../cmsimde/static/chimper/js/typed.js"></script>
+                    <script>
+                    var typed = new Typed('.typed-words', {
+                    strings: ["Web Apps"," WordPress"," Mobile Apps"],
+                    typeSpeed: 80,
+                    backSpeed: 80,
+                    backDelay: 4000,
+                    startDelay: 1000,
+                    loop: true,
+                    showCursor: true
+                    });
+                    </script>
+            -->
+            <script src="../cmsimde/static/chimper/js/main.js"></script>
+        
+<!-- 啟用 LaTeX equations 編輯 -->
+  <!-- <script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\(', '\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
+    </body></html>
+        

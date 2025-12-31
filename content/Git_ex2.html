@@ -1,0 +1,489 @@
+<!DOCTYPE html><html>
+        <head>
+        <title>cp2025</title>
+        <meta charset="utf-8">
+<meta property="head" content="H3">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/icomoon/style.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/magnific-popup.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/jquery-ui.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/bootstrap-datepicker.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/fonts/flaticon/font/flaticon.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/aos.css">
+        <link rel="stylesheet" href="./../cmsimde/static/chimper/css/style.css">
+        <link rel="shortcut icon" href="./../cmsimde/static/favicons.png">
+        
+        <style type='text/css'>
+            .site-section {
+            background-color: #FFFF;
+            padding: 40px 40px;
+            }
+            body > div > div.dropdown.open {
+                display: block;
+            }
+        </style>
+    
+        <!-- <script src="./../cmsimde/static/jquery.js"></script> -->
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/normalize.min.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch_set.js"></script>
+        <script src="tipuesearch_content.js"></script>
+        <link rel="stylesheet" href="./../cmsimde/static/tipuesearch/css/tipuesearch.css">
+        <script src="./../cmsimde/static/tipuesearch/tipuesearch.js"></script>
+        <!-- for Wink3 客製化關閉 -->
+        <!--
+        <link rel="stylesheet" type="text/css" href="./../cmsimde/static/winkPlayer.css" />
+        <script type="text/javascript" src="./../cmsimde/static/winkPlayer.js"></script>
+        -->
+        <script>
+            /* original tipuesearch
+            $(document).ready(function() {
+                 $('#tipue_search_input').tipuesearch();
+            });
+            */
+            // customed doSearch
+            function doSearch() {
+                $('#tipue_search_input').tipuesearch({
+                    newWindow: true, 
+                    minimumLength: 2,
+                    wholeWords: false, // for search 中文
+                });
+            }
+            $(document).ready(doSearch);
+        </script>
+        
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shCore.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushBash.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDiff.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJScript.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushJava.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPython.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushSql.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushHaxe.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushXml.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPhp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushPowerShell.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushLua.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushMojo.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushWbt.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCpp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCss.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushCSharp.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushDart.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/syntaxhighlighter/shBrushRust.js"></script>
+<link type="text/css" rel="stylesheet" href="./../cmsimde/static/syntaxhighlighter/css/shCoreDefault.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+<!-- 暫時不用
+<script src="./../cmsimde/static/fengari-web.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/Cango-13v08-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/CangoAxes-4v01-min.js"></script>
+<script type="text/javascript" src="./../cmsimde/static/gearUtils-05.js"></script>
+-->
+<!-- for Brython 暫時不用
+<script src="https://scrum-3.github.io/web/brython/brython.js"></script>
+<script src="https://scrum-3.github.io/web/brython/brython_stdlib.js"></script>
+-->
+<style>
+img.add_border {
+    border: 3px solid blue;
+}
+</style>
+
+</head>
+<body>
+<div class='container'><nav>
+        
+    <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+    
+            <header class="site-navbar py-4 bg-white" role="banner">
+              <div class="container">
+                <div class="row align-items-center">
+                <h1>cp2025 計算機程式</h1>
+                <div class="pl-4">
+                    <form>
+                    <input type="text" placeholder="Search" name="q" id="tipue_search_input" pattern=".{2,}" title="At least 2 characters" required>
+                    </form>
+                </div>
+                  <!-- <div class="col-11 col-xl-2">
+                    <h1 class="mb-0 site-logo"><a href="index.html" class="text-black h2 mb-0">cp2025 計算機程式</a></h1> 
+                  </div>
+                  -->
+                  <div class="col-12 col-md-10 d-none d-xl-block">
+                    <nav class="site-navigation position-relative text-right" role="navigation">
+    <ul class='site-menu js-clone-nav mr-auto d-none d-lg-block'>
+                        <li class="active has-children"><a href="index.html">Home</a>
+                        <ul class="dropdown">
+                            <li><a href="sitemap.html">SMap</a></li>
+                            <li><a href="./../reveal/index.html">reveal</a></li>
+                            <li><a href="./../blog/index.html">blog</a></li>
+                        </ul>
+                      </li>
+                     <li class='has-children'><a href='About.html'>About</a><ul class='dropdown'><li><a href='cs101.html'>cs101</a><li class='has-children'><a href='Computer.html'>Computer</a><ul class='dropdown'><li><a href='llama.html'>llama</a><li><a href='nginx.html'>nginx</a></li></ul><li class='has-children'><a href='AI.html'>AI</a><ul class='dropdown'><li><a href='Learning.html'>Learning</a><li><a href='QandA.html'>QandA</a><li><a href='Teams.html'>Teams</a></li></ul><li><a href='Homework.html'>Homework</a></li></ul><li class='has-children'><a href='Topics.html'>Topics</a><ul class='dropdown'><li class='has-children'><a href='Git.html'>Git</a><ul class='dropdown'><li><a href='Git_ex1.html'>Git_ex1</a><li><a href='Git_ex2.html'>Git_ex2</a></li></ul><li class='has-children'><a href='Python.html'>Python</a><ul class='dropdown'><li><a href='SE.html'>SE</a><li><a href='CL.html'>CL</a><li><a href='Loops.html'>Loops</a><li><a href='Recursion.html'>Recursion</a><li><a href='SA.html'>SA</a><li><a href='SST.html'>SST</a><li><a href='Maze.html'>Maze</a><li><a href='Collect.html'>Collect</a><li><a href='GT.html'>GT</a><li><a href='Python_ex1.html'>Python_ex1</a></li></ul><li class='has-children'><a href='Javascript.html'>Javascript</a><ul class='dropdown'><li><a href='HTML and CSS.html'>HTML and CSS</a></li></ul><li class='has-children'><a href='Project.html'>Project</a><ul class='dropdown'><li><a href='Waitress.html'>Waitress</a><li><a href='API.html'>API</a></li></li></ul></ul><li class='has-children'><a href='Brython.html'>Brython</a><ul class='dropdown'><li><a href='Brython_ex.html'>Brython_ex</a><li><a href='Robot_ex.html'>Robot_ex</a></li></ul><li class='has-children'><a href='Ref.html'>Ref</a><ul class='dropdown'><li class='has-children'><a href='Reeborg.html'>Reeborg</a><ul class='dropdown'><li><a href='ex1.html'>ex1</a><li><a href='Otto_ninja.html'>Otto_ninja</a></li></ul><li><a href='tkinter.html'>tkinter</a><li><a href='Pyodide.html'>Pyodide</a><li><a href='Pyodide_ex.html'>Pyodide_ex</a><li class='has-children'><a href='Pyodide2.html'>Pyodide2</a><ul class='dropdown'><li><a href='robot.py.html'>robot.py</a><li><a href='Example2.html'>Example2</a></li></ul><li class='has-children'><a href='Pyodide3.html'>Pyodide3</a><ul class='dropdown'><li><a href='png_files.html'>png_files</a><li><a href='Harvest.html'>Harvest</a></li>
+                      </ul>
+                </nav>
+              </div>
+              <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a></div>
+              </div>
+
+            </div>
+          </div>
+          
+        </header>
+    <div id="tipue_search_content">Git_ex1 << <a href='Git_ex1.html'>Previous</a> <a href='Python.html'>Next</a> >> Python<br /><h1>Git_ex2</h1>
+<h4>三人協同開發 Reeborg 程式：Git/GitHub 詳細流程與指令</h4>
+<h4>專案設計演進與協作分工</h4>
+<ol>
+<li><b>階段一：初始設計（三人各自撰寫基本功能）</b>
+<ul>
+<li>Alice：負責機器人移動與左轉基本動作</li>
+<li>Bob：設計撿取物件的邏輯</li>
+<li>Carol：設計主程式流程與方向判斷</li>
+</ul>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># Alice
+move()
+move()
+turn_left()
+move()
+
+# Bob
+if object_here():
+    take()
+
+# Carol
+while not is_facing_north():
+    turn_left()
+    </pre>
+<p><b>git 指令：</b></p>
+<ul>
+<ul>
+<li>三人各自建立分支並上傳初步程式片段</li>
+</ul>
+</ul>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git checkout -b feature/move  # Alice
+git checkout -b feature/take  # Bob
+git checkout -b feature/dir   # Carol
+
+git add reeborg.py
+git commit -m "初步功能"
+git push -u origin feature/move  # Alice
+git push -u origin feature/take  # Bob
+git push -u origin feature/dir   # Carol</pre>
+</li>
+<li><b>階段二：重複迴圈設計（逐步將動作包裝為迴圈）</b>
+<ul>
+<li>Alice：將移動與轉向包裝進 for 迴圈</li>
+<li>Bob：將撿取物件行為放入 while 迴圈</li>
+</ul>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># Alice
+for i in range(3):
+    move()
+
+for i in range(2):
+    turn_left()
+
+# Bob
+while object_here():
+    take()
+    </pre>
+<p><b>git 指令：</b></p>
+<ul>
+<ul>
+<li>各自於分支更新程式並提交</li>
+</ul>
+</ul>
+<pre>git add reeborg.py
+git commit -m "加入重複迴圈"
+git push
+      </pre>
+</li>
+<li><b>階段三：Function 封裝設計（將重複邏輯抽象為函式）</b>
+<ul>
+<li>Alice：設計 <code>new_move</code>、<code>turn</code>、<code>turn_right</code></li>
+<li>Bob：設計 <code>harvest_one_row</code>，用 global 記錄物件數</li>
+<li>Carol：設計 <code>is_facing_east</code> 與主流程</li>
+</ul>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">def turn(n):
+    for i in range(n):
+        turn_left()
+
+def turn_right():
+    for i in range(3):
+        turn_left()
+
+def new_move(n):
+    for i in range(n):
+        move()
+
+def harvest_one_row():
+    global object_taken
+    while object_here() and object_taken &lt; 36:
+        take()
+        object_taken += 1
+    if object_taken &lt; 36:
+        move()
+
+def is_facing_east():
+    count = 0
+    while not is_facing_north():
+        turn_left()
+        count += 1
+        if count == 4:
+            break
+    turn(3)
+    return True
+    </pre>
+<p><b>git 指令：</b></p>
+<ul>
+<ul>
+<li>各自於分支完成函式開發</li>
+</ul>
+</ul>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git add reeborg.py
+git commit -m "完成 function 封裝"
+git push</pre>
+</li>
+<li><b>階段四：導入 class-based 設計（最終彈性架構）</b>
+<ul>
+<li>Alice、Bob、Carol 協作將函式整合為 class，提升可維護性</li>
+</ul>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false">class ReeborgBot:
+    def __init__(self):
+        self.object_taken = 0
+
+    def turn(self, n):
+        for i in range(n):
+            turn_left()
+    
+    def turn_right(self):
+        for i in range(3):
+            turn_left()
+
+    def new_move(self, n):
+        for i in range(n):
+            move()
+    
+    def harvest_one_row(self):
+        while object_here() and self.object_taken &lt; 36:
+            take()
+            self.object_taken += 1
+        if self.object_taken &lt; 36:
+            move()
+    
+    def is_facing_east(self):
+        count = 0
+        while not is_facing_north():
+            turn_left()
+            count += 1
+            if count == 4:
+                break
+        self.turn(3)
+        return True
+
+    def harvest_field(self):
+        self.new_move(2)
+        self.turn(1)
+        self.new_move(2)
+        done = False
+        while self.is_facing_east() and not done:
+            for _ in range(2):
+                for _ in range(6):
+                    self.harvest_one_row()
+                    if self.object_taken &gt;= 36:
+                        done = True
+                        break
+                if done: break
+                for _ in range(2):
+                    self.turn(1)
+                    move()
+                for _ in range(6):
+                    self.harvest_one_row()
+                    if self.object_taken &gt;= 36:
+                        done = True
+                        break
+                if done: break
+                for _ in range(2):
+                    self.turn_right()
+                    move()
+            if self.object_taken &gt;= 36:
+                print("task completed!")
+                break
+
+# 使用範例
+bot = ReeborgBot()
+bot.harvest_field()
+    </pre>
+<p><b>git 指令：</b></p>
+<ul>
+<ul>
+<li>協作於 feature/class-based 分支整合 class 架構</li>
+</ul>
+</ul>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git checkout -b feature/class-based
+# 合併 Alice/Bob/Carol 分支或直接在此分支重構
+git add reeborg.py
+git commit -m "整合 class-based 架構"
+git push -u origin feature/class-based</pre>
+</li>
+</ol>
+<h4>專案開發分工摘要表</h4>
+<table>
+<tbody>
+<tr>
+<th>組員</th>
+<th>負責內容</th>
+<th>Git 分支名稱</th>
+</tr>
+<tr>
+<td>Alice</td>
+<td>基本移動與轉向（<code>new_move</code>、<code>turn</code>、<code>turn_right</code>）</td>
+<td>feature/move-turn</td>
+</tr>
+<tr>
+<td>Bob</td>
+<td>收成邏輯（<code>harvest_one_row</code>、<code>object_taken</code>）</td>
+<td>feature/harvest</td>
+</tr>
+<tr>
+<td>Carol</td>
+<td>方向判斷與主流程（<code>is_facing_east</code>、主執行流程）</td>
+<td>feature/main-loop</td>
+</tr>
+</tbody>
+</table>
+<h4>GitHub 操作 Step by Step</h4>
+<ol>
+<li><b>由一位組員（如 Alice）新建 repo</b>（如 <code>reeborg-harvest</code>）</li>
+<li><b>本地初始化：</b>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git clone https://github.com/your-org/reeborg-harvest.git
+cd reeborg-harvest</pre>
+</li>
+<li><b>建立主分支 main：</b>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git checkout -b main
+git push -u origin main</pre>
+</li>
+<li><b>三位組員各自分出功能分支：</b>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git checkout -b feature/move-turn      # Alice
+git checkout -b feature/harvest        # Bob
+git checkout -b feature/main-loop      # Carol</pre>
+</li>
+<li><b>推送分支到遠端：</b>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git push -u origin feature/move-turn      # Alice
+git push -u origin feature/harvest        # Bob
+git push -u origin feature/main-loop      # Carol</pre>
+</li>
+<li><b>組員於各自分支開發程式並提交：</b>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git add reeborg.py
+git commit -m "功能/重構/修正說明"
+git push</pre>
+</li>
+<li><b>建立 Pull Request（PR）並 Code Review：</b>
+<ul>
+<li>於 GitHub 建立 PR，標明合併分支、審查人員、功能說明</li>
+<li>進行 code review，提出建議與修正</li>
+<li>審查通過後合併 PR（Merge pull request）</li>
+</ul>
+</li>
+<li><b>main 分支同步至本地：</b>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git checkout main
+git pull</pre>
+</li>
+</ol>
+<h4>後續協作建議</h4>
+<ul>
+<ul>
+<li>每次新增功能或修正前，請先拉新分支，勿直接在 main 分支作業：</li>
+</ul>
+</ul>
+<pre>git checkout -b feature/新功能</pre>
+<ul>
+<ul>
+<li>合併前先同步主分支，解決衝突後再 push：</li>
+</ul>
+</ul>
+<pre class="brush:js;auto-links:false;toolbar:false" contenteditable="false">git pull origin main
+# 如有衝突，解決後再
+git add .
+git commit -m "解決衝突"
+git push</pre>
+<ul>
+<li>在 Pull Request 詳細描述修改內容與測試方式，方便審查。</li>
+<li>善用 <code>git log</code>、<code>git status</code>、<code>git diff</code> 檢查歷史與變更。</li>
+</ul>
+<h4>常用 Git 指令說明</h4>
+<ul>
+<li><code>git checkout -b 分支名</code>：從目前分支新建並切換到分支</li>
+<li><code>git add 檔名</code>：加入暫存區，準備提交</li>
+<li><code>git commit -m "訊息"</code>：提交更動，寫下本次修改說明</li>
+<li><code>git push -u origin 分支名</code>：推送分支到遠端</li>
+<li><code>git pull</code>：拉下遠端最新更動並合併</li>
+<li><code>git merge 分支名</code>：將指定分支合併到目前分支</li>
+<li><code>git status</code>：顯示目前狀態、尚未提交的變更</li>
+<li><code>git log</code>：查詢提交歷史</li>
+<li><code>git diff</code>：顯示檔案內容變更差異</li>
+</ul>
+<h4>結論</h4>
+<p>本範例展現 Reeborg 機器人從最簡單設計、逐步進化至 class-based 架構的過程，以及三人協同開發的 Git/GitHub 分支工作流。遵循此流程能大幅提升團隊協作、程式碼品質與可維護性。</p>
+<br />Git_ex1 << <a href='Git_ex1.html'>Previous</a> <a href='Python.html'>Next</a> >> Python</div>
+        
+    <!-- footer -->
+      <div class="container">
+        <div class="row pt-3 mx-auto">
+            <p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+        </div>
+      </div>
+    <!-- for footer -->
+    
+        </div> <!-- for site wrap -->
+            <!-- <script src="../cmsimde/static/chimper/js/jquery-3.3.1.min.js"></script> -->
+            <script src="../cmsimde/static/chimper/js/jquery-migrate-3.0.1.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery-ui.js"></script>
+            <script src="../cmsimde/static/chimper/js/popper.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/owl.carousel.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.stellar.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.countdown.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/jquery.magnific-popup.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/bootstrap-datepicker.min.js"></script>
+            <script src="../cmsimde/static/chimper/js/aos.js"></script>
+            <!--
+            <script src="../cmsimde/static/chimper/js/typed.js"></script>
+                    <script>
+                    var typed = new Typed('.typed-words', {
+                    strings: ["Web Apps"," WordPress"," Mobile Apps"],
+                    typeSpeed: 80,
+                    backSpeed: 80,
+                    backDelay: 4000,
+                    startDelay: 1000,
+                    loop: true,
+                    showCursor: true
+                    });
+                    </script>
+            -->
+            <script src="../cmsimde/static/chimper/js/main.js"></script>
+        
+<!-- 啟用 LaTeX equations 編輯 -->
+  <!-- <script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\(', '\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
+    </body></html>
+        

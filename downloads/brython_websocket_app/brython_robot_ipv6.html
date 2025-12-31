@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reeborg 遠端控制機器人</title>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f5f7fa; padding: 20px; }
+    #container {
+      max-width: 720px; margin: 20px auto; background: white;
+      padding: 25px; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; color: #2c3e50; margin-bottom: 10px; }
+    #status { margin: 15px 0; font-weight: bold; font-size: 1.1em; text-align: center; }
+    #messages {
+      height: 140px; overflow-y: auto; background: #f8f9fa; padding: 12px;
+      border-radius: 8px; font-family: Consolas, monospace; font-size: 0.9em;
+      border: 1px solid #dee2e6; margin-top: 10px;
+    }
+    .btn-group { text-align: center; margin: 15px 0; }
+    button {
+      margin: 6px; padding: 11px 20px; font-size: 15px; border: none;
+      border-radius: 8px; cursor: pointer; transition: all 0.2s;
+      font-weight: bold;
+    }
+    #reconnect {
+      background: #007bff; color: white;
+    }
+    #reconnect:hover { background: #0056b3; transform: translateY(-1px); }
+    .btn-control {
+      background: #28a745; color: white;
+    }
+    .btn-control:hover { background: #1e7e34; transform: translateY(-1px); }
+    .info { font-size: 0.9em; color: #6c757d; text-align: center; margin-top: 20px; }
+  </style>
+</head>
+<body onload="brython()">
+
+<div id="container">
+  <h2>Reeborg 遠端控制機器人</h2>
+  <div id="brython_div1"></div>
+  <div id="status">狀態: <span id="connection-status" style="color:red">初始化中...</span></div>
+  
+  <div class="btn-group">
+    <button id="reconnect">重新連線</button>
+    <button class="btn-control" id="btn_move">前進 (j)</button>
+    <button class="btn-control" id="btn_move2">前進無軌跡 (k)</button>
+    <button class="btn-control" id="btn_turn">左轉 (i)</button>
+  </div>
+  
+  <div id="messages"></div>
+  <div class="info">
+    提示：請先在伺服器電腦執行 <code>python server.py</code>，<br>
+    並在瀏覽器開 <code>https://你的IP:8765</code> 點「進階」→「繼續」信任憑證。
+  </div>
+</div>
+
+<!-- JavaScript：穩定偵測內網 IP -->
+<script>
+  // 儲存最終 IP
+  window.SERVER_IP = null;
+
+  async function detectIP() {
+    return new Promise(resolve => {
+      let resolved = false;
+      const rtc = new RTCPeerConnection({ iceServers: [] });
+      rtc.createDataChannel('');
+      rtc.createOffer().then(offer => rtc.setLocalDescription(offer)).catch(() => {});
+
+      rtc.onicecandidate = e => {
+        if (resolved || !e.candidate || !e.candidate.candidate) return;
+        const match = e.candidate.candidate.match(/(\d+\.\d+\.\d+\.\d+)/);
+        if (match) {
+          const ip = match[1];
+          // 過濾本地與虛擬 IP
+          if (!ip.startsWith("192.168.127") && !ip.startsWith("172.16") && !ip.startsWith("10.") && ip !== "127.0.0.1") {
+            resolved = true;
+            window.SERVER_IP = ip;
+            console.log("偵測到內網 IP:", ip);
+            rtc.close();
+            resolve(ip);
+          }
+        }
+      };
+
+      // Fallback: 3 秒後用 127.0.0.1
+      setTimeout(() => {
+        if (!resolved) {
+          resolved = true;
+          rtc.close();
+          window1.SERVER_IP = "127.0.0.1";
+          console.log("使用 fallback IP: 127.0.0.1");
+          resolve("127.0.0.1");
+        }
+      }, 3000);
+    });
+  }
+
+  // 啟動偵測
+  detectIP().then(ip => {
+    window.SERVER_IP = ip;
+    // 觸發 Brython 重連
+    setTimeout(() => {
+      if (window.connect_ws) window.connect_ws();
+    }, 500);
+  });
+</script>
+
+<script type="text/python">
+from browser import document, window, html, timer, bind, alert
+import json
+
+# 全域變數
+ws = None
+status_span = document["connection-status"]
+messages_area = document["messages"]
+world = None
+robot = None
+
+# === World 與 Robot 類別 ===
+CELL_SIZE = 40
+IMG_PATH = "https://mde.tw/cp2025/reeborg/src/images/"
+
+class World:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.layers = {k: html.CANVAS(width=width*CELL_SIZE, height=height*CELL_SIZE) for k in ["grid", "walls", "objects", "robots"]}
+        self._init_html()
+        self._draw_grid()
+        self._draw_walls()
+
+    def _init_html(self):
+        container = html.DIV(style={
+            "position": "relative",
+            "width": f"{self.width*CELL_SIZE}px",
+            "height": f"{self.height*CELL_SIZE}px",
+            "margin": "15px auto",
+            "border": "3px solid #2c3e50",
+            "border-radius": "10px",
+            "overflow": "hidden",
+            "background": "#fff"
+        })
+        for z, canvas in enumerate(self.layers.values()):
+            canvas.style = {"position": "absolute", "top": 0, "left": 0, "zIndex": str(z)}
+            container <= canvas
+        document["brython_div1"].clear()
+        document["brython_div1"] <= container
+
+    def _draw_grid(self):
+        ctx = self.layers["grid"].getContext("2d")
+        ctx.strokeStyle = "#bdc3c7"
+        ctx.lineWidth = 1
+        for i in range(self.width + 1):
+            ctx.beginPath(); ctx.moveTo(i*CELL_SIZE, 0); ctx.lineTo(i*CELL_SIZE, self.height*CELL_SIZE); ctx.stroke()
+        for j in range(self.height + 1):
+            ctx.beginPath(); ctx.moveTo(0, j*CELL_SIZE); ctx.lineTo(self.width*CELL_SIZE, j*CELL_SIZE); ctx.stroke()
+
+    def _draw_walls(self):
+        ctx = self.layers["walls"].getContext("2d")
+        for x in range(self.width):
+            self._draw_image(ctx, "north.png", x, self.height-1, CELL_SIZE, 6)
+            self._draw_image(ctx, "north.png", x, 0, CELL_SIZE, 6, offset_y=CELL_SIZE-6)
+        for y in range(self.height):
+            self._draw_image(ctx, "east.png", 0, y, 6, CELL_SIZE)
+            self._draw_image(ctx, "east.png", self.width-1, y, 6, CELL_SIZE, offset_x=CELL_SIZE-6)
+
+    def _draw_image(self, ctx, name, x, y, w, h, offset_x=0, offset_y=0):
+        img = html.IMG(src=IMG_PATH + name)
+        def onload(evt):
+            px = x * CELL_SIZE + offset_x
+            py = (self.height - 1 - y) * CELL_SIZE + offset_y
+            ctx.drawImage(img, px, py, w, h)
+        img.bind("load", onload)
+
+class AnimatedRobot:
+    def __init__(self, world, x, y):
+        self.world = world
+        self.x = x - 1
+        self.y = y - 1
+        self.facing = "E"
+        self.order = ["E", "N", "W", "S"]
+        self.ctx = world.layers["robots"].getContext("2d")
+        self.trace_ctx = world.layers["objects"].getContext("2d")
+        self.images = {}
+        self._preload()
+        timer.set_timeout(self._draw, 200)
+
+    def _preload(self):
+        for d in self.order:
+            img = html.IMG(src=IMG_PATH + f"blue_robot_{d.lower()}.png")
+            self.images[d] = img
+
+    def _draw(self):
+        self.ctx.clearRect(0, 0, self.world.width * CELL_SIZE, self.world.height * CELL_SIZE)
+        img = self.images[self.facing]
+        px = self.x * CELL_SIZE
+        py = (self.world.height - 1 - self.y) * CELL_SIZE
+        if img.complete:
+            self.ctx.drawImage(img, px, py, CELL_SIZE, CELL_SIZE)
+
+    def move(self, trace=True):
+        dx = {"E":1, "W":-1}.get(self.facing, 0)
+        dy = {"N":1, "S":-1}.get(self.facing, 0)
+        nx, ny = self.x + dx, self.y + dy
+        if 0 <= nx < self.world.width and 0 <= ny < self.world.height:
+            if trace:
+                fx = self.x * CELL_SIZE + 20
+                fy = (self.world.height - 1 - self.y) * CELL_SIZE + 20
+                tx = nx * CELL_SIZE + 20
+                ty = (self.world.height - 1 - ny) * CELL_SIZE + 20
+                self.trace_ctx.strokeStyle = "#e74c3c"
+                self.trace_ctx.lineWidth = 3
+                self.trace_ctx.beginPath()
+                self.trace_ctx.moveTo(fx, fy)
+                self.trace_ctx.lineTo(tx, ty)
+                self.trace_ctx.stroke()
+            self.x, self.y = nx, ny
+            self._draw()
+
+    def turn_left(self):
+        i = self.order.index(self.facing)
+        self.facing = self.order[(i + 1) % 4]
+        self._draw()
+
+# === 初始化 ===
+world = World(8, 6)
+robot = AnimatedRobot(world, 1, 1)
+
+# === WebSocket 穩定連線 ===
+def get_ws_url():
+    # 優先用 JS 偵測的 IP
+    if hasattr(window, "SERVER_IP") and window.SERVER_IP and str(window.SERVER_IP) != "null":
+        ip = str(window.SERVER_IP).strip()
+        if ip and "." in ip and not ip.startswith("0."):
+            return f"wss://{ip}:8765"
+    # Fallback
+    return "wss://127.0.0.1:8765"
+
+def connect_ws():
+    global ws
+    url = get_ws_url()
+    add_msg(f"正在連線: {url}")
+    try:
+        ws = window.WebSocket.new(url)
+        ws.bind("open", on_open)
+        ws.bind("message", on_message)
+        ws.bind("close", on_close)
+        ws.bind("error", on_error)
+    except Exception as e:
+        add_msg(f"連線失敗: {e}")
+        status_span.text = "連線錯誤"
+        status_span.style.color = "red"
+
+def on_open(evt):
+    status_span.text = "已連線"
+    status_span.style.color = "green"
+    add_msg("連線成功！可接收控制指令")
+
+def on_message(evt):
+    try:
+        data = json.loads(evt.data)
+        cmd = data.get("cmd")
+        if cmd == "move":
+            robot.move(True)
+            add_msg("前進（留軌跡）")
+        elif cmd == "move2":
+            robot.move(False)
+            add_msg("前進（無軌跡）")
+        elif cmd == "turn_left":
+            robot.turn_left()
+            add_msg("左轉")
+    except Exception as e:
+        add_msg(f"指令錯誤: {e}")
+
+def on_close(evt):
+    status_span.text = "已斷線"
+    status_span.style.color = "red"
+    add_msg("連線中斷，3秒後自動重連...")
+    timer.set_timeout(auto_reconnect, 3000)
+
+def on_error(evt):
+    status_span.text = "連線錯誤"
+    status_span.style.color = "red"
+    error_msg = "連線失敗！\n\n請確認：\n"
+    error_msg += "1. 伺服器已啟動（python server.py）\n"
+    error_msg += "2. 已手動信任憑證：\n"
+    error_msg += "   → 開 https://你的IP:8765 → 點「進階」→「繼續」\n"
+    error_msg += "3. 防火牆已開 8765 端口\n"
+    add_msg(error_msg)
+    alert(error_msg)
+
+def add_msg(msg):
+    messages_area.text += msg + "\n"
+    messages_area.scrollTop = messages_area.scrollHeight
+
+def auto_reconnect():
+    global ws
+    if ws: 
+        try: ws.close()
+        except: pass
+    add_msg("正在自動重連...")
+    status_span.text = "重新連線中..."
+    status_span.style.color = "orange"
+    timer.set_timeout(connect_ws, 1500)
+
+# === 按鈕事件 ===
+@bind(document["reconnect"], "click")
+def reconnect_click(evt):
+    auto_reconnect()
+
+@bind(document["btn_move"], "click")
+def btn_move_click(evt): robot.move(True)
+@bind(document["btn_move2"], "click")
+def btn_move2_click(evt): robot.move(False)
+@bind(document["btn_turn"], "click")
+def btn_turn_click(evt): robot.turn_left()
+
+# === 鍵盤控制 ===
+@bind(document, "keydown")
+def keydown(evt):
+    if evt.key == "j": robot.move(True)
+    elif evt.key == "k": robot.move(False)
+    elif evt.key == "i": robot.turn_left()
+
+# === 啟動 ===
+status_span.text = "等待 IP 偵測..."
+add_msg("正在偵測伺服器 IP...")
+timer.set_timeout(connect_ws, 1000)  # 初次嘗試
+</script>
+
+</body>
+</html>
